@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* topography */
+
+@font-face {
+  font-family:montserrrat;
+  src: url('./assets/fonts/static/Montserrat-Regular.ttf');
+}
+@font-face {
+  font-family:montserrratMedium;
+  src: url('./assets/fonts/static/Montserrat-Medium.ttf');
+}
+@font-face {
+  font-family:montserrratSemi;
+  src: url('./assets/fonts/static/Montserrat-SemiBold.ttf');
+}
+@font-face {
+  font-family:montserrratBold;
+  src: url('./assets/fonts/static/Montserrat-Bold.ttf');
+}
+@font-face {
+  font-family:poppins;
+  src: url('./assets/fonts/Poppins-Regular.ttf');
+}
+@font-face {
+  font-family:poppinsMedium;
+  src: url('./assets/fonts/Poppins-Medium.ttf');
+}
+@font-face {
+  font-family:poppinsSemi;
+  src: url('./assets/fonts/Poppins-SemiBold.ttf');
+}
+@font-face {
+  font-family:poppinsBold;
+  src: url('./assets/fonts/Poppins-Bold.ttf');
+}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  outline:none;
+   /* border:1px solid red; */
+}
+a{
+  text-decoration: none;
+  color:#01315B;
+}
+html, body{
+  margin: 0;
+  font-family:poppins;
+  width:100vw;
+min-height:100vh;
+display:flex;
+    flex-direction:column;
+    align-items: center;
+    justify-items: center;
+}
+#root{
+    width:100%;
+    max-width:1440px;
+    min-height:100%;
+}
+@media (max-width: 500px) {
+    html, body {
+      font-size: 10px;
+    }
+  }
+@media (max-width: 768px) {
+    html, body {
+      font-size: 12px;
+    }
+  }
+@media (min-width: 768px) {
+    html, body {
+      font-size: 13px;
+    }
+  }
+@media (min-width: 1024px) {
+    html, body {
+      font-size: 16px;
+    }
+  }
