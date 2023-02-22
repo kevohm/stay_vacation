@@ -2,8 +2,8 @@ import React from 'react'
 import styled from "styled-components"
 import tw from "twin.macro"
 import { ListFooter } from '../smaller/list/ListFooter'
-import { footerData } from "../utils/footer"
-import { contactData } from "../utils/contact";
+import { footerData } from "../utils/landing/footer"
+import { contactData } from "../utils/landing/contact";
 import { Contact } from "./Contact";
 import {Email} from "./Email"
 import { useLocation } from 'react-router-dom'

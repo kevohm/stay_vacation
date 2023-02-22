@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import tw from "twin.macro"
 import { Header } from '../smaller/header/Header'
-import { popularData } from "../utils/popular";
+import { popularData } from "../utils/landing/popular";
 import { PopularCard } from '../smaller/cards/PopularCard';
 import { BtnLinkOutline } from '../smaller/links/BtnLinkOutline';
 const Popular = () => {

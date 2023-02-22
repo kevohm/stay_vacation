@@ -3,7 +3,7 @@ import styled from "styled-components";
 import tw from "twin.macro";
 import { InputBtnRounded } from "../smaller/input/InputBtnRounded";
 import { Input } from "../smaller/input/Input"
-import {inputData} from "../utils/services"
+import {inputData} from "../utils/landing/services"
 import { useState } from 'react';
 const InputData = () => {
     const [data, setData] = useState(inputData);

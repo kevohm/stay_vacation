@@ -4,10 +4,7 @@ const { StatusCodes } = require("http-status-codes");
 
 const getUser = async (req, res) => {
   const { id } = req.params;
-  const user = await User.findOne({ _id: id }).select("-password").populate({
-    path: "events",
-    select: "-password",
-  });
+  const user = await User.findOne({ _id: id }).select("-password")
   if (!user) {
     throw new NotFound("User doesn't exist");
   }

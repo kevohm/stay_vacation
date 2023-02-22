@@ -9,7 +9,7 @@ import {One,
     Nine,
     Ten,
     Eleven,
-  Twelve} from "../../assets/img/index"
+  Twelve} from "../../../assets/img/index"
 export const eventData = [
   {
     img: One,

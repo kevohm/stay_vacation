@@ -7,7 +7,7 @@ import {
   six,
   seven,
   eight,
-} from "../../assets/img/index";
+} from "../../../assets/img/index";
 export const popularData = [
   {
     url: one,

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 import {Header} from "../smaller/header/Header"
 import {Service} from "../smaller/cards/Service"
-import { servicesData } from "../utils/services"
+import { servicesData } from "../utils/landing/services"
 import InputData from "./InputData" 
 const Services = () => {
   return (

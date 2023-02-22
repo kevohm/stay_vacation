@@ -4,7 +4,7 @@ import { Main } from "./css/Navbar"
 import logo from "../../assets/img/logo.png"
 import {BtnTextLink} from "../smaller/links/BtnTextLink";
 import {LinkList} from "../smaller/list/LinkList";
-import { data } from "../utils/links"
+import { data } from "../utils/landing/links"
 import {FaBars, FaTimes} from "react-icons/fa"
 const Navbar = () => {
   const [menu, setMenu] = useState(false)

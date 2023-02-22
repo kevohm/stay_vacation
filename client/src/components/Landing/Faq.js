@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 import { Header } from '../smaller/header/Header'
 import { SingleFag } from "../smaller/faq/SingleFag"
-import {faqData} from "../utils/faq"
+import {faqData} from "../utils/landing/faq"
 const Faq = () => {
   return (
     <Main>

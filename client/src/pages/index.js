@@ -9,6 +9,9 @@ import Error from "./Error/Error"
 import Wrapper from "./Wrapper/Wrapper"
 import Register from "./Register/Register"
 import DashboardWrapper from "./DashboardWrapper/DashboardWrapper"
+import Report from "./ReportDashboard/Report"
+import Payment from "./PaymentDashboard/Payment"
+import Profile from "./Profile/Profile"
 export {
   Landing,
   Booking,
@@ -21,4 +24,7 @@ export {
   Wrapper,
   Register,
   DashboardWrapper,
+  Report,
+  Payment,
+  Profile,
 };

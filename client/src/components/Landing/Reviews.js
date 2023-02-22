@@ -1,7 +1,7 @@
 import React from 'react'
 import { HeaderIcon } from '../smaller/header/HeaderIcon'
 import { Review } from '../smaller/cards/Review'
-import {reviewData} from "../utils/review"
+import {reviewData} from "../utils/landing/review"
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import { useRef } from 'react'

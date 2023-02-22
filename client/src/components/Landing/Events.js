@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import { Header } from "../smaller/header/Header"
-import { eventData } from "../utils/events"
+import { eventData } from "../utils/landing/events"
 import {PrevEvent} from "../smaller/cards/PrevEvent"
 import {BtnLinkOutline} from "../smaller/links/BtnLinkOutline"
 const Events = () => {
