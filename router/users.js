@@ -8,9 +8,9 @@ const {
   logout
 } = require("../controllers/users");
 const {authAdmin,checkAdmin} =  require("../middleware/index")
-Router.route("/").get(authAdmin, getAll);
+Router.route("/").get(authAdmin, getAll)
+Router.route("/user").get(getUser);
 Router.route("/:id")
-  .get(getUser)
   .delete(checkAdmin, deleteUser)
   .patch(checkAdmin, updateUser);
 Router.route("/logout").post(logout);

@@ -107,7 +107,7 @@ const Form = () => {
 export default Form
 
 const Main = styled.form`
-  ${tw`w-full max-w-[400px] min-w-[300px] py-7 px-12 space-y-9 bg-white rounded-lg`}
+  ${tw`w-full max-w-[300px] md:max-w-[350px] lg:max-w-[400px] min-w-[250px] sm:min-w-[300px] py-7 px-12 space-y-9 bg-white rounded-lg`}
   box-shadow:0px 4px 12px 0px  rgba(138, 154, 234, .25);
   border-top: 6px solid #8a9aea;
   > div {

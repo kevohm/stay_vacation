@@ -8,11 +8,7 @@ const appContext = createContext();
 const AppContext = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
   const client = axios.create({
-    baseURL: "https://stay-vacations.onrender.com/v1/",
-    headers: {
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2M2RiYjRmMDNlMGFmNDJjOTgzZDgwOWQiLCJyb2xlIjoiMTE2MTE2IiwidXNlcm5hbWUiOiJBZG1pbiIsImlhdCI6MTY3NzA1OTYxOSwiZXhwIjoxNjc3MTQ2MDE5fQ.O-gNOHl9vi9-t9MDvtvaDXwpTDDi23aWw79okdZrJ6s",
-    },
+    baseURL: "https://tough-teal-cod.cyclic.app/v1/",
   });
   const getUser = async (userID) => {
     try {
@@ -29,8 +25,6 @@ const AppContext = ({ children }) => {
     try {
       const { data } = await client.post(url, body);
       if (login) {
-        const { id } = data
-        getUser(id)
       } else {
         dispatch({ type: actions.REGISTER});
       }

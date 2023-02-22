@@ -3,8 +3,8 @@ const { NotFound, BadRequest, NotAuthorized } = require("../errors/index");
 const { StatusCodes } = require("http-status-codes");
 const cookieSet = require("../utils/cookie")
 const getUser = async (req, res) => {
-  const { id } = req.params;
-  const user = await User.findOne({ _id: id }).select("-password")
+  const { userId } = req.user;
+  const user = await User.findOne({ _id: userId }).select("-password");
   if (!user) {
     throw new NotFound("User doesn't exist");
   }
