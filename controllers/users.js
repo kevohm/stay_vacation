@@ -2,16 +2,18 @@ const User = require("../models/User")
 const { NotFound, BadRequest, NotAuthorized } = require("../errors/index");
 const { StatusCodes } = require("http-status-codes");
 const cookieSet = require("../utils/cookie")
+//get current
 const getUser = async (req, res) => {
   const { userId } = req.user;
   const user = await User.findOne({ _id: userId }).select("-password");
   if (!user) {
     throw new NotFound("User doesn't exist");
   }
-
+  const { _id, role } = user
+  let newRole = role === "116116" ? "admin" : "member"
   res.status(StatusCodes.OK).json({
     msg: "User Found",
-    user
+    user: { id: _id, role:newRole },
   });
 };
 const getAll = async (req,res) => {
