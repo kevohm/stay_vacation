@@ -1,10 +1,21 @@
 const User = require("../models/User")
 const { NotFound,BadRequest, NotAuthorized } = require("../errors/index");
 const { StatusCodes } = require("http-status-codes");
+const cookieSet = require("../utils/cookie")
 
 const register = async (req, res) => {
-  const { email, password, username, phone_number } = req.body;
-  const user = await User.create({ email, password, username, phone_number });
+  const { email, password, username, phone_number, createdAt } = req.body;
+  if (!email || !password || !username || !phone_number || !createdAt) {
+    throw new BadRequest("Please provide all information");
+  }
+  const user = await User.create({
+    email,
+    password,
+    username,
+    phone_number,
+    createdAt,
+    updatedAt: createdAt
+  });
   if (!user)
   {
     throw new BadRequest("Failed to register user");
@@ -23,13 +34,11 @@ const login = async (req, res) => {
   const isMatch = await user.comparePass(password)
   if (isMatch) {
     const token = user.createJWT();
-    const {_id} = user
+    cookieSet({res, token})
     res
       .status(StatusCodes.OK)
       .json({
         msg: "You are logged in",
-        token,
-        id:_id
       });
   } else {
     throw new NotAuthorized("Invalid password provided")

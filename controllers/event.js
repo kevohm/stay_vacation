@@ -37,15 +37,14 @@ const createEvent = async (req, res) => {
     max_people,
     price_choices,
     validity,
-    createdAt,
-    updatedAt
+    createdAt
   } = req.body;
   if (
     (!category || !city || !country || !description || !image || !name,
-    !max_people || !price_choices || !validity || !createdAt || !updatedAt)
+    !max_people || !price_choices || !validity || !createdAt)
   ) {
     throw new BadRequest(
-      "please provide city, country, image, name, price_choices, image, createdAt, updatedAt, max_people and description"
+      "please provide city, country, image, name, price_choices, image, createdAt, max_people and description"
     );
   }
   checkValidity({
@@ -64,7 +63,7 @@ const createEvent = async (req, res) => {
     price_choices,
     validity,
     createdAt,
-    updatedAt,
+    updatedAt: createdAt,
   };
     const event = await Event.create(body); 
     if (!event) {
@@ -122,9 +121,13 @@ const updateEvent = async (req, res) => {
       max_people,
       category,
       price_choices,
-      validity
+      validity,
+      updatedAt
     } = req.body;
   const { eventId } = req.params;
+  if (!updatedAt) {
+    throw new BadRequest("Please provide date of update");
+  }
     const event = await Event.findOneAndUpdate(
       { _id: eventId },
       {
@@ -137,6 +140,7 @@ const updateEvent = async (req, res) => {
         category,
         price_choices,
         validity,
+        updatedAt,
       },
       {
         runValidators: true,

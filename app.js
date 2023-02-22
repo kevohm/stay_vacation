@@ -1,8 +1,14 @@
 
 require("dotenv").config()
 require("express-async-errors");
+const cookieParser = require("cookie-parser");
+const mongoSanitize = require("express-mongo-sanitize");
 const express = require("express")
+const helmet = require("helmet");
+const xss = require("xss-clean")
+var morgan = require("morgan");
 const app = express();
+const fs = require("fs")
 const {
   authRouter,
   eventRouter,
@@ -22,6 +28,15 @@ const cors = require("cors")
 
 app.disable("x-powered-by"); 
 
+//logs
+ if (process.env.NODE_ENV === "production") {
+   const accessLogStream = fs.createWriteStream( 
+     __dirname + "/logs/" + "access.log",
+     { flags: "a" }
+   );
+   app.use(morgan("combined", { stream: accessLogStream }));
+ }
+
 const corOpt = {
   origin: ["http://localhost:3000", "https://tyrantx-blog-app.netlify.app"],
   credentials: true,
@@ -31,6 +46,9 @@ const corOpt = {
 //utils
 app.use(express.json()); 
 app.use(cors(corOpt));
+app.use(cookieParser());
+app.use(mongoSanitize());
+app.use(xss())
 //routes
 app.use("/v1/auth", authRouter)
 app.use("/v1/event", eventRouter);

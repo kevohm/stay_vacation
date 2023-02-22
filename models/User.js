@@ -3,56 +3,62 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const Report = require("./Report")
 const Payments = require("./Payments")
+const validator = require("validator")
 
-const UserSchema = new mongoose.Schema(
-  {
-    phone_number: {
-      type: String,
-      required: [true, "Please provide Phone Number"],
-      minLength: [13, "Phone Number length must be at least 13"],
-      match: [/^([0-9+]+)$/, "Phone Number must be numbers only including +"],
-      unique: true,
-    },
-    username: {
-      type: String,
-      required: [true, "Please provide name"],
-      minLength: [3, "Username length must be at least 3"],
-      maxLength: [40, "Username length must be at most 40"],
-      match: [
-        /^([a-zA-Z0-9\s\u0600-\u06FF\u0660-\u0669\u06F0-\u06F9 _.-]+)$/,
-        "Username must be letters and numbers only",
-      ],
-      unique: true,
-    },
-    email: {
-      type: String,
-      required: [true, "Please provide email"],
-      match: [
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-        "Please fill a valid email address",
-      ],
-      unique: true,
-    },
-    password: {
-      type: String,
-      required: [true, "Please provide password"],
-      minLength: [6, "Password length must be at least 6"],
-    },
-
-    role: {
-      //115115 member
-      //116116 admin
-      type: String,
-      enum: {
-        values: ["115115", "116116"],
-        message: "{VALUE} is not supported",
-      },
-      required: [true, "Please provide role"],
-      default: "115115",
-    },
+const UserSchema = new mongoose.Schema({
+  phone_number: {
+    type: String,
+    required: [true, "Please provide Phone Number"],
+    minLength: [13, "Phone Number length must be at least 13"],
+    match: [/^([0-9+]+)$/, "Phone Number must be numbers only including +"],
+    unique: true,
   },
-  { timestamps: true }
-);
+  username: {
+    type: String,
+    required: [true, "Please provide name"],
+    minLength: [3, "Username length must be at least 3"],
+    maxLength: [40, "Username length must be at most 40"],
+    match: [
+      /^([a-zA-Z0-9\s\u0600-\u06FF\u0660-\u0669\u06F0-\u06F9 _.-]+)$/,
+      "Username must be letters and numbers only",
+    ],
+    unique: true,
+  },
+  email: {
+    type: String,
+    required: [true, "Please provide email"],
+    validate: {
+      validator: validator.isEmail,
+      message: "Please provide a valid email",
+    },
+    unique: true,
+  },
+  password: {
+    type: String,
+    required: [true, "Please provide password"],
+    minLength: [6, "Password length must be at least 6"],
+  },
+
+  role: {
+    //115115 member
+    //116116 admin
+    type: String,
+    enum: {
+      values: ["115115", "116116"],
+      message: "{VALUE} is not supported",
+    },
+    required: [true, "Please provide role"],
+    default: "115115",
+  },
+  createdAt: {
+    type: Date,
+    required: [true, "Please provide createdAt"],
+  },
+  updatedAt: {
+    type: Date,
+    required: [true, "Please provide updatedAt"],
+  },
+});
  
 UserSchema.post("findOneAndDelete", async function (doc) {
   const user = doc._id;

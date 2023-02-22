@@ -1,7 +1,7 @@
 const User = require("../models/User")
 const { NotFound, BadRequest, NotAuthorized } = require("../errors/index");
 const { StatusCodes } = require("http-status-codes");
-
+const cookieSet = require("../utils/cookie")
 const getUser = async (req, res) => {
   const { id } = req.params;
   const user = await User.findOne({ _id: id }).select("-password")
@@ -22,16 +22,22 @@ const getAll = async (req,res) => {
     });
 }
 const updateUser = async (req, res) => {
-    const { body} = req
-    const {role} = req.user
-    const { id } = req.params
-    if (role !== "admin") {
-        delete body.role
-    }
-    const user = await User.findByIdAndUpdate(id, body, { new: true, runValidators: true });
-    if (!user) {
-        throw new NotFound("User not found")
-    }
+  const { email, username, phone_number, updatedAt } = req.body;
+  const { id } = req.params
+  const body = { email, username, phone_number, updatedAt };
+  const user = await User.findOne({_id:id})
+  if (!user) {
+    throw new NotFound("User not found")
+  }
+  if (!updatedAt) {
+    throw new BadRequest("Please provide date of update");
+  }
+  const updatedData = await User.findByIdAndUpdate(id, body, { new: true, runValidators: true });
+  if (!updatedData) {
+    throw new BadRequest("Update failed");
+  }
+  const token = user.createJWT();
+  cookieSet({ res, token });
     res.status(StatusCodes.OK).json({msg:"Updated User"})
 }
 const deleteUser = async (req, res) => {
@@ -42,4 +48,13 @@ const deleteUser = async (req, res) => {
   }
   res.status(StatusCodes.OK).json({ msg: "Deleted User" });
 };
-module.exports = { getUser, getAll, updateUser, deleteUser };
+
+const logout = async (req, res) => {
+  res.cookie("token", "logout", {
+    httpOnly: true,
+    expires: new Date(Date.now() + 1000),
+  });
+  res.status(StatusCodes.OK).json({ msg: "user logged out!" });
+};
+
+module.exports = { getUser, getAll, updateUser, deleteUser, logout };
