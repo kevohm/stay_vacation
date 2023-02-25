@@ -13,5 +13,5 @@ Router.route("/user").get(getUser);
 Router.route("/:id")
   .delete(checkAdmin, deleteUser)
   .patch(checkAdmin, updateUser);
-Router.route("/logout").post(logout);
+
 module.exports = Router

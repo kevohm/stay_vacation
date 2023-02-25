@@ -77,7 +77,7 @@ export const usersData = {
   },
   series: [
     {
-      name: "Series 1",
+      name: "Users",
       data: [45, 52, 38, 45, 19, 23, 2],
     },
   ],

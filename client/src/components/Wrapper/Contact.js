@@ -11,6 +11,7 @@ export const Contact = ({data}) => {
           <a
             href={item.to}
             target="_blank"
+            key={item.to}
             style={{ color: item.color }}
             rel="noopener noreferrer"
           >

@@ -81,7 +81,9 @@ const getSingleEvent = async (req, res) => {
 }
 const getEvents = async (req, res) => {
   const { sort, arrange, page, limit, category, price_start, price_end } = req.query
-  const sortData = { [sort || "createdAt"]: (arrange === "DES") ? -1 : 1 }
+  const sortData = {
+    [sort || "createdAt"]: arrange || "desc",
+  };
   const currentPage = Number(page) || 1
   const currentLimit = Number(limit) || 5;
   const skip = (page - 1) * currentLimit;

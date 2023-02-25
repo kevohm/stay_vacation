@@ -16,7 +16,7 @@ export const BtnText = ({
 
 
 const Button = styled.button`
-  ${tw`px-[12px] py-[8px] text-lg rounded-[8px]`}
+  ${tw`px-[12px] py-[8px] text-lg rounded-[8px] border-none`}
   background: ${(props) => props.bg};
   color: ${(props) => props.color};
   :hover {

@@ -9,21 +9,25 @@ import {Email} from "./Email"
 import { useLocation } from 'react-router-dom'
 const Footer = () => {
   const location = useLocation()
+  
   return (
-      <Main>
-          <div className="top">
-      </div>
-          <div className="bottom">
-        {(location.pathname === "/") ? <Email /> : <></>}
-              <div className='links'>
-                  <div className='list-links'>
-                  {
-                      footerData.map((item)=><ListFooter header={item.title} data={item.data}/>)
-                  }
-                  </div>
-                  <Contact data={contactData} />
-              </div>
-        <div className='copyright'>
+    <Main>
+      <div className="top"></div>
+      <div className="bottom">
+        {location.pathname === "/" ? <Email /> : <></>}
+        <div className="links">
+          <div className="list-links">
+            {footerData.map((item) => (
+              <ListFooter
+                key={item.title}
+                header={item.title}
+                data={item.data}
+              />
+            ))}
+          </div>
+          <Contact data={contactData} />
+        </div>
+        <div className="copyright">
           <p>&copy; 2018-2022 Stay Vacations - All Rights Reserved.</p>
         </div>
       </div>

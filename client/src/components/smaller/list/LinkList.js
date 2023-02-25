@@ -2,7 +2,9 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import tw from 'twin.macro';
-export const LinkList = ({ data = [], menu=false }) => {
+import { useGlobal } from '../../../context/AppContext';
+export const LinkList = ({ data = [], menu = false }) => {
+  const {state} = useGlobal()
     if (data.length === 0) {
         return <p>provide data prop</p>
     }
@@ -11,7 +13,22 @@ export const LinkList = ({ data = [], menu=false }) => {
           {
               data.map(
                   (item) => {
-                      const {link, text} = item
+                  const { link, text } = item
+                  if (text === "Contacts" && state.user.id) {
+                    if (state.user.role === "admin") {
+                      return (
+                        <Link to={"/admin/"} key="admin">
+                          <li>admin</li>
+                        </Link>
+                      );
+                    }
+                    return (
+                      <Link to={"/profile"} key="profile">
+                        <li>profile</li>
+                      </Link>
+                    );
+                    
+                  }
                       return (
                         <Link to={link} key={text}>
                           <li>{text}</li>

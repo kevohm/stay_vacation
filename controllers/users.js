@@ -17,11 +17,36 @@ const getUser = async (req, res) => {
   });
 };
 const getAll = async (req,res) => {
-    const users = await User.find({}).select("-password")
-    res.status(StatusCodes.OK).json({
-      msg: "All Users Found",
-      users,
-    });
+    const { sort, arrange, page, limit, username, email, phone, userId } = req.query
+  const sortData = {
+    [sort || "createdAt"]: arrange || "desc",
+  };
+  const currentPage = Number(page) || 1
+  const currentLimit = Number(limit) || 5;
+  const skip = (page - 1) * currentLimit;
+  let filter = {}
+  if (username) {
+    filter["username"] = username
+  }
+  if (email) {
+    filter["email"] = email
+  }
+  if (phone) {
+    filter["phone_number"] = phone
+  }
+  if (userId) {
+    filter["_id"] = userId
+  }
+  const users = await User.find(filter)
+    .select("-password -__v")
+    .sort(sortData)
+    .skip(skip)
+    .limit(currentLimit);
+  const count = await User.find(filter).count();
+  const pages = Math.ceil(count / currentLimit)
+    res
+      .status(StatusCodes.OK)
+      .json({ msg: "All Users found", users, pages: { currentPage, pages } });
 }
 const updateUser = async (req, res) => {
   const { email, username, phone_number, updatedAt } = req.body;
@@ -51,12 +76,5 @@ const deleteUser = async (req, res) => {
   res.status(StatusCodes.OK).json({ msg: "Deleted User" });
 };
 
-const logout = async (req, res) => {
-  res.cookie("token", "logout", {
-    httpOnly: true,
-    expires: new Date(Date.now() + 1000),
-  });
-  res.status(StatusCodes.OK).json({ msg: "user logged out!" });
-};
 
-module.exports = { getUser, getAll, updateUser, deleteUser, logout };
+module.exports = { getUser, getAll, updateUser, deleteUser };

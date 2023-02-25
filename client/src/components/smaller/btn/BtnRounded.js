@@ -1,9 +1,14 @@
 import React from 'react'
 import tw from "twin.macro"
 import styled from 'styled-components'
-export const BtnRounded = ({ text, color = "white", bg = "rgba(1, 49, 91, 1)" }) => {
+export const BtnRounded = ({
+  text,
+  color = "white",
+  bg = "rgba(1, 49, 91, 1)",
+  hover = "rgba(1, 49, 91, .8)",
+}) => {
   return (
-    <Button color={color} bg={bg}>
+    <Button color={color} bg={bg} hover={hover}>
       {text}
     </Button>
   );

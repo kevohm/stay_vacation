@@ -28,7 +28,7 @@ export const footerData = [
       },
       {
         text: "join us",
-        url: "/login",
+        url: "/register",
       },
     ],
     title: "HELPFUL LINKS",

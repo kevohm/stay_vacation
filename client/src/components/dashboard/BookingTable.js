@@ -10,18 +10,16 @@ const BookingTable = () => {
   useEffect(() => {
     getEvents()
   }, [])
-  if (state.events.length === 0) {
-    return <div>fetching data...</div>;
-  }
+  
   return (
     <StatsHolder text="recent booking">
       <Main>
-
-      <Table
-        data={state.events}
-        title={["name", "image", "description", "max_people", "city", "country"]}
-        type="events"
-      />
+        {(state.events.length === 0) ? <div>fetching data...</div> :
+          <Table
+            data={state.events}
+            title={["name", "image", "description", "max_people", "city", "country"]}
+            type="events"
+          />}
       </Main>
     </StatsHolder>
   );

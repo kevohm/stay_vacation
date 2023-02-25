@@ -4,7 +4,9 @@ const { NotFound, BadRequest} = require("../errors/index")
 const {StatusCodes} = require("http-status-codes")
 const getAll = async (req, res) => {
   const { sort, arrange, page, limit, eventId, state } = req.query
-  const sortData = { [sort]: arrange === "DES" ? "desc" : "asc" };
+  const sortData = {
+    [sort || "createdAt"]: arrange || "desc",
+  };
   const filter = {};
   if (eventId) {
     filter["event"] = eventId

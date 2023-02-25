@@ -15,7 +15,9 @@ const getAll = async (req, res) => {
     price_start,
     price_end
   } = req.query;
-  const sortData = {[sort]: (arrange === "DES"?"desc":"asc")}
+  const sortData = {
+    [sort || "createdAt"]: arrange || "desc",
+  }
   const filter = {}
   const skip = (page - 1) * limit
   const currentLimit = Number(limit) || 5

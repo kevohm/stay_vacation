@@ -11,7 +11,7 @@ const Events = () => {
       <Header text="here are some previous events" />
       <div className="events">
         {eventData.map((item) => (
-          <PrevEvent {...item} />
+          <PrevEvent {...item} key={item.img} />
         ))}
       </div>
       <BtnLinkOutline

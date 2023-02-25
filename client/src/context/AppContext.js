@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, {useContext, createContext} from "react"
+import { useEffect } from "react";
 import { useReducer } from "react";
 import { actions, initialState } from "./appActions";
 import {reducer} from "./appReducer"
@@ -7,14 +8,37 @@ const appContext = createContext();
 
 const AppContext = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
-  const client = axios.create({
-    baseURL: "https://tough-teal-cod.cyclic.app/v1/",
+  const client = axios.create({ 
+    baseURL: "http://localhost:5000/v1",
+    withCredentials: true,
   });
-  const getUser = async (userID) => {
+  client.interceptors.response.use(
+    function (response) {
+      return response;
+    },
+    function (error) {
+      if (error.response.status === 401) {
+        logout()
+      }
+      return Promise.reject(error);
+    }
+  );
+  const getUser = async () => {
     try {
-      const { data } = client.get(`users/${userID}`);
-      const { id, role } = data
+      const { data } = await client.get(`users/user`);
+      const {id, role} = data.user
       dispatch({type:actions.UPDATE_USER, payload:{userData:{id,role}}})
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  const logout = async () => {
+    try {
+      await client.post("auth/logout");
+      dispatch({
+        type: actions.LOGOUT,
+        payload: { userD: { id: null, role: null } },
+      });
     } catch (error) {
       console.log(error)
     }
@@ -25,6 +49,7 @@ const AppContext = ({ children }) => {
     try {
       const { data } = await client.post(url, body);
       if (login) {
+        getUser()
       } else {
         dispatch({ type: actions.REGISTER});
       }
@@ -59,7 +84,20 @@ const AppContext = ({ children }) => {
   }
   const getTableStats = async (type="events", time="day") => {
     try {
+      const date = [{ "1": "Mon" }, { "2": "Tue" }, {"3": "Wed"}, {"4": "Thu"}, {"5": "Fri"}, {"6": "Sat"}, {"0":"Sun"}]
       const { data } = await client.get(`stats/all/${type}?time=${time}`);
+      let table = {category:[], series:[]}
+      const newData = data[type].map((elem) => {
+          if (time === "day") {
+            const { _id: { day }, count } = elem
+            console.log(day, count);
+            for (let i in date) {
+              console.log(i)
+            }
+          }
+          return elem
+        })
+      console.log(table);
       dispatch({
         type: actions[`GET_TABLE_${type.toUpperCase()}`],
         payload:{[type]:data[type]}
@@ -88,6 +126,9 @@ const AppContext = ({ children }) => {
     }
     
   }
+  useEffect(() => {
+    getUser()
+  },[])
   return (
     <appContext.Provider
       value={{
@@ -97,6 +138,8 @@ const AppContext = ({ children }) => {
         getUsers,
         getEvents,
         handleUser,
+        logout,
+        getUser,
       }}
     >
       {children}

@@ -22,6 +22,9 @@ export const reducer = (state, action)=>{
       case actions.UPDATE_USER:
         const { userData } = action.payload;
         return { ...state, user: userData };
+      case actions.LOGOUT:
+        const { userD } = action.payload;
+        return { ...state, user: userD };
       default:
         return state;
     }

@@ -16,6 +16,10 @@ const Main = styled.div`
       ${tw`text-2xl`}
     }
   }
+  .logged-in {
+    ${tw`items-center hidden md:flex`}
+    display: ${(props) => (props.menu ? "flex" : "hidden")};
+  }
   .register {
     ${tw`items-center space-x-10 hidden md:flex`}
     display: ${(props) => (props.menu ? "flex" : "hidden")};

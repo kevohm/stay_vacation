@@ -12,27 +12,26 @@ const getStats = async (req,res) => {
     res.status(StatusCodes.CREATED).json({events:{total:events, success, fail}, payments, users})
 }
 const timing = {
-day: {
-        day: { "$dayOfWeek":{date:"$createdAt"}},
-        month: "$date.month",
-        year: "$date.year",
-    },month: {
-        month: "$date.month",
-        year: "$date.year",
-    },year: {
-        year: "$date.year",
-    }
-}
+  day: {
+    day: { $dayOfWeek: { date: "$createdAt" } },
+  },
+  month: {
+    month: "$date.month",
+  },
+  week: {
+    week: { $floor: { $divide: [{ $dayOfMonth: "$createdAt" }, 7] } },
+  },
+};
 const getFull = async (req, res) => {
     const time = req.query.time || "day"
     const { type } = req.params
     const time_changer = (time)=> {
     if (time === "day") {
         return timing.day
-    } else if (time === "month") {
-        return timing.month
+    } else if (time === "week") {
+      return timing.week
     } else {
-        return timing.year
+      return timing.month
     }
     }
     const data = [

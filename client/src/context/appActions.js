@@ -21,4 +21,5 @@ export const actions = {
   GET_EVENTS: "GET_EVENTS",
   REGISTER: "REGISTER",
   UPDATE_USER: "UPDATE_USER",
+  LOGOUT:"LOGOUT"
 };

@@ -2,15 +2,32 @@ import React from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import { Link } from "react-router-dom"
-export const ListFooter = ({data, header}) => {
+import { useGlobal } from '../../../context/AppContext'
+export const ListFooter = ({ data, header }) => {
+  const {state} = useGlobal()
   return (
     <Main>
       <li className="title">{header}</li>
-      {data.map((item) => (
-        <Link to={item.url}>
+      {data.map((item) => {
+        if (item.text === "join us" && state.user.role) {
+          if (state.user.role === "admin") {
+            return (
+              <Link to="/admin/" key="admin">
+                <li>admin</li>
+              </Link>
+            );
+          }
+          return (
+            <Link to="/profile" key="profile">
+              <li>profile</li>
+            </Link>
+          );
+        }
+        return <Link to={item.url} key={item.text}>
           <li>{item.text}</li>
         </Link>
-      ))}
+      } 
+      )}
     </Main>
   );
 }

@@ -35,7 +35,8 @@ const Form = () => {
   }
   useEffect(() => {
     if (state.user.id) {
-      setTimeout(navigate("/"), 3000);
+      let current = setTimeout(navigate("/"), 3000);
+      return clearTimeout(current)
     }
   }, [state.user.id]);
   return (

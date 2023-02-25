@@ -9,6 +9,7 @@ const xss = require("xss-clean")
 var morgan = require("morgan");
 const app = express();
 const fs = require("fs")
+const path =  require("path");
 const {
   authRouter,
   eventRouter,
@@ -56,6 +57,11 @@ app.use("/v1/users", authenticate, usersRouter);
 app.use("/v1/payments", authenticate, paymentRouter);
 app.use("/v1/stats", authenticate, authAdmin, statsRouter);
 app.use("/v1/reports", authenticate, authAdmin, reportRouter);
+
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
+});
+
 //middleware
 app.use(notFound)
 app.use(errorHandler)
