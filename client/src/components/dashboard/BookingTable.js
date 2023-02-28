@@ -14,9 +14,9 @@ const BookingTable = () => {
   return (
     <StatsHolder text="recent booking">
       <Main>
-        {(state.events.length === 0) ? <div>fetching data...</div> :
+        {(state.events.data.length === 0) ? <div>fetching data...</div> :
           <Table
-            data={state.events}
+            data={state.events.data}
             title={["name", "image", "description", "max_people", "city", "country"]}
             type="events"
           />}

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import tw from 'twin.macro';
 import { useGlobal } from '../../../context/AppContext';
+import {env} from "../../../context/appActions"
 export const LinkList = ({ data = [], menu = false }) => {
   const {state} = useGlobal()
     if (data.length === 0) {
@@ -15,16 +16,18 @@ export const LinkList = ({ data = [], menu = false }) => {
                   (item) => {
                   const { link, text } = item
                   if (text === "Contacts" && state.user.id) {
-                    if (state.user.role === "admin") {
+                    if (
+                      state.user.role === env.ADMIN
+                    ) {
                       return (
                         <Link to={"/admin/"} key="admin">
-                          <li>admin</li>
+                          <li>Admin</li>
                         </Link>
                       );
                     }
                     return (
                       <Link to={"/profile"} key="profile">
-                        <li>profile</li>
+                        <li>Profile</li>
                       </Link>
                     );
                     

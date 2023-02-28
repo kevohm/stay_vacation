@@ -86,7 +86,7 @@ export const bookingData = {
   series: [
     {
       name: "Bookings",
-      data: [45, 52, 38, 45, 19, 23, 2],
+      data: [0, 0, 0, 0, 0, 0, 0],
     },
   ],
 };

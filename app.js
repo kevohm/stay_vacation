@@ -39,7 +39,7 @@ app.disable("x-powered-by");
  }
 
 const corOpt = {
-  origin: ["http://localhost:3000", "https://tyrantx-blog-app.netlify.app"],
+  origin: ["http://localhost:3000", "http://localhost:3007"],
   credentials: true,
 };
 

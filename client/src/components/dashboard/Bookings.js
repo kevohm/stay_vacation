@@ -5,22 +5,31 @@ import {bookingData as data} from "../utils/DashboardWrapper/bookings"
 import { useGlobal } from '../../context/AppContext'
 const Bookings = () => {
   const { state, getTableStats } = useGlobal();
-  const [series, setSeries] = useState(data.series);
-  const changeSeries = () => {
-    const newData = series.map((item) => {
-      return item
-    })
-    setSeries(newData)
-  }
+  const [type, setType] = useState("day");
+  const changeType = (e) => {
+    const { value } = e.target;
+    setType(value);
+    getTableStats("events", value);
+  };
   useEffect(() => {
-    getTableStats("events");
-    changeSeries()
+    getTableStats("events", type);
   }, []);
   return (
-    <StatsHolder text="bookings overview">
-          <Chart
-              options={data.options}
-        series={series}
+    <StatsHolder
+      text="bookings overview"
+      button={true}
+      type={type}
+      changeType={changeType}
+    >
+      <Chart
+        options={{
+          ...data.options,
+          xaxis: {
+            ...data.options.xaxis,
+            categories: state.table.events.category,
+          },
+        }}
+        series={[{ ...data.series[0], data: state.table.events.series }]}
         type="bar"
       />
     </StatsHolder>

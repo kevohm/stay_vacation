@@ -14,9 +14,9 @@ const UserTable = () => {
   return (
     <StatsHolder text="recent users">
       <Main>
-        {(state.users.length === 0) ? <div>fetching data...</div> :
+        {(state.users.data.length === 0) ? <div>fetching data...</div> :
           <Table
-            data={state.users}
+            data={state.users.data}
             title={["index", "username", "email", "phone_number"]}
             type="users"
           />}

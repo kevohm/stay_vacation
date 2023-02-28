@@ -10,7 +10,7 @@ const getUser = async (req, res) => {
     throw new NotFound("User doesn't exist");
   }
   const { _id, role } = user
-  let newRole = role === "116116" ? "admin" : "member"
+  let newRole = role === "116116" ? process.env.ADMIN : process.env.ADMIN;
   res.status(StatusCodes.OK).json({
     msg: "User Found",
     user: { id: _id, role:newRole },
@@ -69,6 +69,9 @@ const updateUser = async (req, res) => {
 }
 const deleteUser = async (req, res) => {
   const { id } = req.params;
+  if (!id) {
+    throw new BadRequest("invalid details provided");
+  }
   const user = await User.findOneAndDelete({ _id: id });
   if (!user) {
     throw new NotFound("User not found");

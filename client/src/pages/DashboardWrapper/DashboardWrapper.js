@@ -3,11 +3,11 @@ import { Outlet, Navigate } from 'react-router-dom'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import { Navbar, Sidebar } from "../../components/DashboardWrapper/index" 
-import {useGlobal} from "../../context/AppContext"
-const DashboardWrapper = () => {
+import { useGlobal } from "../../context/AppContext"
+import {env} from "../../context/appActions"
+const DashboardWrapper = () => { 
   const { state } = useGlobal()
-
-  if (state.user.role !== "admin") {
+  if (state.user.role !== env.ADMIN) {
     return <Navigate to="/" />
   }
   return (
