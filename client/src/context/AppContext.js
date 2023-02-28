@@ -8,7 +8,7 @@ const appContext = createContext();
 
 const AppContext = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
-  const client = axios.create({ 
+  const client = axios.create({
     baseURL: "http://localhost:5000/v1",
     withCredentials: true,
   });
@@ -47,10 +47,11 @@ const AppContext = ({ children }) => {
     }
   }
   const handleUser = async (body, type) => {
+    const createdAt = new Date().toISOString();
     const login = type === "login"
     let url = (login) ? "auth/login":"auth"
     try {
-      const { data } = await client.post(url, body);
+      const { data } = await client.post(url, { ...body, createdAt });
       if (login) {
         getUser()
       } else {

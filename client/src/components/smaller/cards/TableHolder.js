@@ -2,14 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
 import { useGlobal } from "../../../context/AppContext";
-
+import {Error} from "../error/Error"
 export const TableHolder = ({ text, type, children, sort="createdAt", changeArrange, changeSort, data, arrange="desc" }) => {
   const {state} = useGlobal()
   return (
     <Main>
-      {state[`${type}_error`].status && <div className={`error ${state[`${type}_error`].state}`}>
-        <p>{state[`${type}_error`].msg}</p>
-      </div>}
+      {state[`${type}_error`].status && <Error type={type} />}
       <div className="select">
         <header>{text}</header>
         <div>
@@ -32,13 +30,7 @@ export const TableHolder = ({ text, type, children, sort="createdAt", changeArra
 };
 const Main = styled.div`
   ${tw`relative h-max bg-white flex flex-col items-start space-y-5 p-5 rounded-lg `}
-  .error {
-    ${tw`absolute left-1/2 top-[7%] px-2.5 py-1 bg-red-200 text-red-400 z-50 rounded-lg`}
-    transform:translate(-50%, -50%);
-  }
-  .success {
-    ${tw`text-darkBlue bg-green`}
-  }
+  
   header {
     ${tw`capitalize text-lg text-[rgba(0,0,0,.7)]`}
     font-family:poppinsSemi;

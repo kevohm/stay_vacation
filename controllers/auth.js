@@ -4,6 +4,7 @@ const { StatusCodes } = require("http-status-codes");
 const cookieSet = require("../utils/cookie")
 
 const register = async (req, res) => {
+  console.log(req.body)
   const { email, password, username, phone_number, createdAt } = req.body;
   if (!email || !password || !username || !phone_number || !createdAt) {
     throw new BadRequest("Please provide all information");

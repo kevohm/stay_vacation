@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
+import { useGlobal } from '../../context/AppContext'
+import { verify } from '../utils/userDashboard/verifyForm'
+import { FormError } from '../smaller/error/FormError'
 const body = {
   "email": "",
   "username": "",
@@ -10,20 +13,32 @@ const body = {
 }
 export const UserForm = () => {
   const [data, setData] = useState(body)
-  const handleChange = (e) => {
+  const [err, setErr] = useState({ msg: "", state: "", show: false });
+  const { handleUser } = useGlobal();
+  const handleChange = (e) => {  
     e.preventDefault()
     const { name, value } = e.target 
-    setData({...data, [name]:[value]})
+    setData({...data, [name]:value})
   }
   const handleSubmit = (e)=>{
     e.preventDefault();
+    const { username, email, phone_number, password } = data
+    if (verify(data, changeErr)) {
+      handleUser({ username, email, phone_number, password }, "register");
+    }
+  }
+  const changeErr = (err) => {
+    const reset = { msg: "", state: "", show: false }
+    setErr(err)
+    setTimeout(() => setErr(reset), 3000);
   }
   return (
-    <Main onSubmit={(e)=>handleSubmit(e)}>
+    <Main onSubmit={(e) => handleSubmit(e)}>
+      {err.show && <FormError err={err} />}
       <div>
         <input
           type="text"
-          placeholder="Username"
+          placeholder="Username" 
           name="username"
           value={data.username}
           onChange={(e) => handleChange(e)}
@@ -86,7 +101,7 @@ const Main = styled.form`
   .submit {
     ${tw`flex items-center justify-end`}
     input {
-      ${tw`bg-green border-none text-darkBlue w-max hover:bg-[rgba(113, 242, 139, .9)]`}
+      ${tw`cursor-pointer bg-green border-none text-darkBlue w-max hover:bg-[rgba(113, 242, 139, .9)]`}
     }
   }
-`;
+`; 

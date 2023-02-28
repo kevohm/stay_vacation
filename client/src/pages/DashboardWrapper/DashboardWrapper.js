@@ -28,9 +28,9 @@ export default DashboardWrapper
 const Main = styled.main`
   ${tw`w-full h-screen flex flex-col items-center`}
   .body {
-    ${tw`w-full h-full flex items-start`}
+    ${tw`w-full h-full`}
   }
   .inner-body {
-    ${tw`w-full h-full bg-[rgba(255, 164, 2, .1)] pr-5`}
+    ${tw`w-[100vw - 200px] h-full bg-[rgba(255, 164, 2, .1)] pr-5`}
   }
 `;

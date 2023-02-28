@@ -25,7 +25,7 @@ const UsersTable = () => {
   useEffect(
     () => {
       getUsers(page, 10, sort, arrange)
-    },[state.users, page, sort, arrange]
+    },[page, sort, arrange]
   )
   return (
     <TableHolder
