@@ -7,10 +7,9 @@ import { FaEdit, FaArrowLeft, FaArrowRight} from "react-icons/fa";
 import moment from "moment";
 import { useGlobal } from "../../../context/AppContext";
 
-export const Table = ({ handleChange, type, headings}) => {
-  const { state, setLoading, deleteUser } = useGlobal();
+export const Table = ({ handleChange, type, headings, element}) => {
+  const { state, setLoading, deleteUser, toggleUpdate } = useGlobal();
   const [page, setPage] = useState(state[type].currentPage);
-  const [showError, setShowError] = useState(false)
   const handleInput = (e) => {
     e.preventDefault();
     const { value } = e.target;
@@ -25,6 +24,9 @@ export const Table = ({ handleChange, type, headings}) => {
     if (type === "users") {
       deleteUser(id);
     }
+  }
+  const handleUpdate = (data) => {
+    toggleUpdate('user', data)
   }
     const handleDir = (mov) => {
         const total = Number(state[type].pages);
@@ -57,6 +59,11 @@ export const Table = ({ handleChange, type, headings}) => {
   }
   return (
     <Main>
+      {state.user_startUpdate.start && (
+        <div className="update">
+          {element}
+        </div>
+      )}
       <thead>
         <tr>
           {headings.map((i) => (
@@ -80,7 +87,7 @@ export const Table = ({ handleChange, type, headings}) => {
               createdAt,
               updatedAt,
               role,
-              _id
+              _id,
             } = i;
             const count = index + 1;
             return (
@@ -101,8 +108,18 @@ export const Table = ({ handleChange, type, headings}) => {
                 <td>{role === "116116" ? "Admin" : "Member"}</td>
                 <td>
                   <div className="edit">
-                    <FaEdit className="edit" title="edit" />
-                    <ImBin className="delete" title="delete" onClick={()=>handleDelete(_id)} />
+                    <FaEdit
+                      className="edit"
+                      title="edit"
+                      onClick={() =>
+                        handleUpdate(i)
+                      }
+                    />
+                    <ImBin
+                      className="delete"
+                      title="delete"
+                      onClick={() => handleDelete(_id)}
+                    />
                   </div>
                 </td>
               </tr>
@@ -113,7 +130,7 @@ export const Table = ({ handleChange, type, headings}) => {
       <tfoot>
         <tr>
           <td>
-            <div className="control" onClick={()=>handleDir("prev")}>
+            <div className="control" onClick={() => handleDir("prev")}>
               <FaArrowLeft className="icon" />
               <p>previous</p>
             </div>
@@ -130,7 +147,7 @@ export const Table = ({ handleChange, type, headings}) => {
             </div>
           </td>
           <td>
-            <div className="control" onClick={()=>handleDir("next")}>
+            <div className="control" onClick={() => handleDir("next")}>
               <p>next</p>
               <FaArrowRight className="icon" />
             </div>
@@ -143,7 +160,9 @@ export const Table = ({ handleChange, type, headings}) => {
 
 const Main = styled.table`
   ${tw`relative min-w-full w-max text-sm`}
-  
+  .update{
+    ${tw`flex items-start justify-end lg:justify-center absolute left-0 top-0 bg-[rgba(0,0,0,.2)] w-full h-full`}
+  }
   border-collapse:collapse;
   thead,
   tbody > tr {

@@ -23,7 +23,7 @@ export const StatsHolder = ({ text, children, button=false, type, changeType }) 
   );
 };
 const Main = styled.div`
-  ${tw`h-max bg-white flex flex-col items-start space-y-5 p-5 rounded-lg `}
+  ${tw`w-full h-max bg-white flex flex-col items-start space-y-5 p-5 rounded-lg `}
   header {
     ${tw`capitalize text-lg text-[rgba(0,0,0,.7)]`}
     font-family:poppinsSemi;

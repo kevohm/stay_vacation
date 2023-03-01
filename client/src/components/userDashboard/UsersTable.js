@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import tw from 'twin.macro';
 import { TableHolder } from "../smaller/cards/TableHolder";
 import { Table } from '../smaller/table/Table';
-import {useGlobal} from "../../context/AppContext"
+import { useGlobal } from "../../context/AppContext"
+import UpdateUser from "./UpdateUser"
 const UsersTable = () => {
   const { state,getUsers, setLoading } = useGlobal()
   const [page, setPage] = useState(1)
@@ -19,14 +20,12 @@ const UsersTable = () => {
   } 
   const changeSort = (e) => {
     const { value } = e.target;
-    setSort(value)
+    setSort(value) 
     setLoading("users", true)
   }
-  useEffect(
-    () => {
-      getUsers(page, 10, sort, arrange)
-    },[page, sort, arrange]
-  )
+  useEffect(() => {
+    getUsers(page, 10, sort, arrange);
+  }, [page, sort, arrange]);
   return (
     <TableHolder
       text="Users"
@@ -45,6 +44,7 @@ const UsersTable = () => {
           total={state.users.pages}
           handleChange={handleChange}
           type="users"
+          element={<UpdateUser/>}
           headings={[
             "#",
             "email",

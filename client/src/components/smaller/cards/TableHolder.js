@@ -41,9 +41,9 @@ const Main = styled.div`
       ${tw``}
       select {
         font-family: poppinsMedium;
-        ${tw`capitalize border-none bg-none text-darkBlue px-2`}
+        ${tw`capitalize border-none bg-none text-sm text-darkBlue px-2`}
         option {
-          ${tw`capitalize text-white bg-darkBlue`}
+          ${tw`capitalize text-white text-sm bg-darkBlue`}
         }
       }
     }

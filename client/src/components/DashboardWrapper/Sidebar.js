@@ -17,6 +17,6 @@ const Sidebar = () => {
 export default Sidebar
 
 const Main = styled.aside`
-  ${tw`w-[300px] h-full px-2.5 pt-8 space-y-5 flex flex-col items-center`}
+  ${tw`w-[60px] sm:w-[160px] md:w-[200px] h-full px-2.5 pt-8 space-y-5 flex flex-col items-center`}
   overflow-y:scroll;
 `;

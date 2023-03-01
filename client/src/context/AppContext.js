@@ -54,11 +54,27 @@ const AppContext = ({ children }) => {
       const { data } = await client.post(url, { ...body, createdAt });
       if (login) {
         getUser()
+        setForm("user", {
+          msg: "You are logged in. Redirecting...",
+          state: "success",
+          show: true,
+        });
       } else {
-        dispatch({ type: actions.REGISTER});
+        setForm("user", {
+          msg: data.msg,
+          state: "success",
+          show: true,
+        });
       }
       console.log(data)
     } catch (error) {
+      if (error.response.data) {
+        setForm("user", {
+          msg: error.response.data.msg,
+          state: "",
+          show: true,
+        });
+      }
       console.log(error);
     }
   }
@@ -95,8 +111,31 @@ const AppContext = ({ children }) => {
     setError(type, err);
     setDefaults()
   };
+  const setForm = (type, err) => {
+     dispatch({
+       type: actions.FORM_ERROR,
+       payload: { currentErr: err, currentType: type },
+     });
+    setDefaults();
+  }
+  const toggleUpdate = (type, current) => {
+    dispatch({
+      type: actions.START_UPDATE,
+      payload: { start: !state.user_startUpdate.start, current, typeC:type },
+    });
+  };
+  const updateError = (type, newErr) => {
+    dispatch({
+      type: actions.START_UPDATE_ERR,
+      payload: {
+        newErr,
+        t: type,
+      },
+    });
+    setDefaults();
+  }
 // users
-  const getUsers = async (page = 1, limit = 5, sort = "createdAt", arrange = "desc") => {
+  const getUsers = async (page = 1, limit = 5, sort = "created at", arrange = "desc") => {
     const mapSort = {
       "email": "email",
       "Phone number": "phone_number",
@@ -125,12 +164,11 @@ const AppContext = ({ children }) => {
     try {
       await client.delete(`users/${id}`);
       setLoading("users", false);
-      startError("users", {
-        msg: "Successfully deleted user",
+      setTimeout( ()=>startError("users", {
+        msg: "User deleted. Reload to see changes",
         state: "success",
         status: true,
-      });
-      getUsers(1,10)
+      }),3000)
     } catch (error) {
       setLoading("users", false);
       if (error.response.data) {
@@ -140,6 +178,33 @@ const AppContext = ({ children }) => {
           status: true,
         });
       }
+      console.log(error)
+    }
+  }
+  const updateUser = async (id, body) => {
+    const date = new Date().toISOString()
+    try {
+      await client.patch(`users/${id}`, {...body, updatedAt:date })
+      updateError("user", {
+        msg: "User updated. Reload to see changes",
+        state: "success",
+        show: true,
+      });
+      setTimeout(()=>toggleUpdate("user", { email: "", phone_number: "", username: "" }), 3000)
+    } catch (error) {
+      if (error.response.data) {
+        updateError("user", {
+          msg: error.response.data.msg,
+          state: "",
+          show: true,
+        });
+        setTimeout(
+          () =>
+            toggleUpdate("user", { email: "", phone_number: "", username: "" }),
+          3000
+        );
+      }
+      
       console.log(error)
     }
   }
@@ -226,6 +291,10 @@ const AppContext = ({ children }) => {
         setLoading,
         deleteUser,
         startError,
+        setForm,
+        toggleUpdate,
+        updateError,
+        updateUser,
       }}
     >
       {children}

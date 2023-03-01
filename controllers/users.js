@@ -52,10 +52,7 @@ const updateUser = async (req, res) => {
   const { email, username, phone_number, updatedAt } = req.body;
   const { id } = req.params
   const body = { email, username, phone_number, updatedAt };
-  const user = await User.findOne({_id:id})
-  if (!user) {
-    throw new NotFound("User not found")
-  }
+
   if (!updatedAt) {
     throw new BadRequest("Please provide date of update");
   }
@@ -63,9 +60,8 @@ const updateUser = async (req, res) => {
   if (!updatedData) {
     throw new BadRequest("Update failed");
   }
-  const token = user.createJWT();
-  cookieSet({ res, token });
-    res.status(StatusCodes.OK).json({msg:"Updated User"})
+
+  res.status(StatusCodes.OK).json({msg:"Updated User"})
 }
 const deleteUser = async (req, res) => {
   const { id } = req.params;

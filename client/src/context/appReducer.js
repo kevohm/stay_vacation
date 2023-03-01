@@ -38,8 +38,19 @@ export const reducer = (state, action)=>{
             loading: load,
           },
         };
-      case actions.REGISTER:
-        return { ...state };
+      case actions.START_UPDATE:
+        const { start,current, typeC } = action.payload;
+        return {
+          ...state,
+          [`${typeC}_startUpdate`]: {
+            ...state[`${typeC}_startUpdate`],
+            start,
+            current,
+          },
+        };
+      case actions.FORM_ERROR:
+        const { currentErr, currentType } = action.payload;
+        return { ...state, [`${currentType}_form`]: currentErr };
       case actions.UPDATE_USER:
         const { userData } = action.payload;
         return { ...state, user: userData };
@@ -47,11 +58,21 @@ export const reducer = (state, action)=>{
         const { userD } = action.payload;
         return { ...state, user: userD };
       case actions.ERROR_DEFAULT:
-        const errorState = { msg: "", state: "", status: false }; 
-        return { ...state, users_error: errorState, events_error: errorState };
+        const errorState = { msg: "", state: "", status: false };
+        let error = { msg: "", state: "", show: false };
+        return {
+          ...state,
+          user_startUpdate: { ...state.user_startUpdate ,err:error},
+          user_form: error,
+          users_error: errorState,
+          events_error: errorState,
+        };
       case actions.SET_ERROR:
         const { typeData, err } = action.payload;
         return { ...state, [`${typeData}_error`]: err };
+      case actions.START_UPDATE_ERR:
+        const { t, newErr } = action.payload;
+        return { ...state, [`${t}_startUpdate`]: {...state[`${t}_startUpdate`], err:newErr } };
       default:
         return state;
     }
