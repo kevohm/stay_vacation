@@ -86,7 +86,7 @@ const getEvents = async (req, res) => {
   };
   const currentPage = Number(page) || 1
   const currentLimit = Number(limit) || 5;
-  const skip = (page - 1) * currentLimit;
+  const skip = (currentPage - 1) * currentLimit;
   let filter = {}
   if (category) {
     filter["category"] = category

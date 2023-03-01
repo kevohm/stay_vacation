@@ -15,10 +15,10 @@ const getAll = async (req, res) => {
     filter["state"] = state
   }
   console.log(filter)
-   const skip = (page - 1) * limit;
-   const currentLimit = Number(limit) || 5;
+  const currentLimit = Number(limit) || 5;
    const currentPage = Number(page) || 1;
-  const reports = await Report.find(filter).sort(sortData).skip(skip).limit(currentLimit);
+   const skip = (currentPage - 1) * limit;
+   const reports = await Report.find(filter).sort(sortData).skip(skip).limit(currentLimit);
   const count = await Report.find(filter).count()
   const pages = Math.ceil(count / currentLimit);
     if (!reports) {
@@ -62,9 +62,6 @@ const createOne= async (req, res) => {
 const updateOne = async (req, res) => {
     const { reportId } = req.params;
   const { description, state } = req.body;
-  if (!description || !state) {
-    throw new BadRequest("Please provide description and state of event");
-  }
   const report = await Report.findByIdAndUpdate(reportId, {description, state}, {new:true, runValidators:true});
   if (!report) {
     throw new NotFound("Report not updated");

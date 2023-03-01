@@ -28,6 +28,9 @@ const {
   authAdmin,
 } = require("./middleware/index");
 const cors = require("cors")
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./docs.json");
+
 
 app.disable("x-powered-by"); 
 
@@ -55,7 +58,9 @@ app.use(cors(corOpt));
 app.use(cookieParser());
 app.use(mongoSanitize());
 app.use(xss())
+
 //routes
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/v1/auth", authRouter)
 app.use("/v1/event", eventRouter);
 app.use("/v1/users", authenticate, usersRouter);
