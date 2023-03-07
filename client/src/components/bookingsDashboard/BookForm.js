@@ -4,7 +4,7 @@ import CreateForm from "./CreateForm";
 import events from "../../assets/svg/events.svg"
 const BookForm = () => {
      
-  return <ManageData element={<CreateForm />} img={events} />;
+  return <ManageData element={<CreateForm />} img={events} title="Create Booking" />;
 }
 
 export default BookForm

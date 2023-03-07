@@ -3,9 +3,9 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 import {StatsHolder} from "../cards/StatsHolder"
 
-export const ManageData = ({element, img}) => {
+export const ManageData = ({element, img, title}) => {
   return (
-    <StatsHolder text="Create User">
+    <StatsHolder text={title}>
       <Main>
         {element}
         <img src={img} alt="users"/>

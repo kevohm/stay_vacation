@@ -15,6 +15,23 @@ export const Main = styled.form`
       ${tw`h-[100px]`}
     }
   }
+  .file {
+    ${tw``}
+    label {
+      ${tw`relative flex items-center`}
+      span {
+        font-family: poppinsMedium;
+        ${tw`absolute h-full text-center text-sm flex items-center px-5 text-[rgba(1, 49, 91, .6)] bg-[rgba(1, 49, 91, .1)] rounded-l-lg`}
+      }
+      input {
+        ${tw`bg-white cursor-pointer`}
+        ::file-selector-button {
+          ${tw`cursor-pointer pl-8 `}
+          opacity: 0;
+        }
+      }
+    }
+  }
   .lined-up-now {
     ${tw`flex flex-col md:flex-row items-start space-y-5 md:items-center md:space-y-0 space-x-0 md:space-x-5 `}
   }
