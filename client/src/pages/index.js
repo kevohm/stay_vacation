@@ -1,17 +1,10 @@
 import Landing from "./Landing/Landing"
-import Booking from "./BookingsDashboard/Booking"
-import Dashboard from "./Dashboard/Dashboard"
-import Events from "./Events/Events"
-import SingleEvent from "./SingleEvent/SingleEvent"
-import SiteDetails from "./SiteDetails/SiteDetails"
-import User from "./UsersDashboard/User"
+import {Events,SingleEvent,SiteDetails} from "./Events/index"
 import Error from "./Error/Error"
 import Wrapper from "./Wrapper/Wrapper"
 import Register from "./Register/Register"
-import DashboardWrapper from "./DashboardWrapper/DashboardWrapper"
-import Report from "./ReportDashboard/Report"
-import Payment from "./PaymentDashboard/Payment"
 import Profile from "./Profile/Profile"
+import {Dashboard,DashboardWrapper,Booking,User,Report,Payment} from "./Dashboard/index"
 export {
   Landing,
   Booking,

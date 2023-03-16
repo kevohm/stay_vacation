@@ -8,7 +8,7 @@ export const ManageData = ({element, img, title}) => {
     <StatsHolder text={title}>
       <Main>
         {element}
-        <img src={img} alt="users"/>
+        <img id="image-manage-data" src={img} alt="users"/>
       </Main>
     </StatsHolder>
   )
@@ -17,7 +17,7 @@ export const ManageData = ({element, img, title}) => {
 
 const Main = styled.section`
   ${tw`w-full flex items-center`}
-  img { 
+  #image-manage-data{ 
     ${tw`w-full hidden sm:block max-w-[180px] md:max-w-[250px] lg:max-w-xs ml-auto mr-0 lg:mr-24`}
   }
 `;

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import tw from "twin.macro";
 export const Table = ({data=[], title=[], type}) => {
   return (
-    <Main>
+    <Main type={type}>
       <thead>
         <tr>
           {title.map((text) => (
@@ -55,12 +55,15 @@ const Main = styled.table`
   tfoot {
     tr {
       td {
-        ${tw`p-5 text-start text-[rgba(0,0,0,.5)]`}
+        ${tw`p-4 text-start text-[rgba(0,0,0,.5)]`}
         img{
-          ${tw`w-12 object-fill rounded-lg`}
+          ${tw`w-12 h-12 object-cover rounded-lg`}
         }
       }
     }
+  }
+  tbody tr td{
+    ${(props)=>props.type === "users" && tw`py-8`}
   }
   thead {
     tr {

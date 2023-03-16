@@ -14,9 +14,7 @@ const AppContext = ({ children }) => {
   });
 //authentication
   client.interceptors.response.use(
-    function (response) {
-      return response;
-    },
+    (response)=>response,
     function (error) {
       if (error.response.status === 401) {
         logout()
@@ -25,7 +23,7 @@ const AppContext = ({ children }) => {
     }
   );
   const getUser = async () => {
-    try {
+    try { 
       const { data } = await client.get(`users/user`);
       const {id, role} = data.user
       dispatch({ type: actions.UPDATE_USER, payload: { userData: { id, role } } })
@@ -77,11 +75,20 @@ const AppContext = ({ children }) => {
       }
       console.log(error);
     }
-  }
+  } 
 //events
-  const getEvents = async (page=1, limit=5) => {
+  const getEvents = async (page=1, limit=5,sort="created at",arrange="desc", validity="") => {
+    const mapSort = {
+      name:"name",
+      description:"descripton",
+      validity:'validity',
+      city:'city', 
+      country:'country',
+      "created at": "createdAt",
+      "updated at": "updatedAt",
+    };
     try {
-      const { data } = await client.get(`event/all?page=${page}&limit=${limit}`);
+      const { data } = await client.get(`event/all?page=${page}&limit=${limit}&sort=${mapSort[sort]}&arrange=${arrange}&validity=${validity}`);
       const { events, pages } = data;
       dispatch({
         type: actions.GET_EVENTS,
@@ -92,6 +99,92 @@ const AppContext = ({ children }) => {
       console.log(error);
     }
   };
+  const addEvent = async (body)=>{
+    const {image,max_people,name,description,city,country,
+      category,price_choices,validity} = body
+    const newDate = new Date(new Date(validity).setHours(23,59,59,900)).toISOString()
+    const createdAt = new Date().toISOString()
+    try {
+      const { data } = await client.post(`event/create`, {image,max_people,name,description,city,country,
+        category,price_choices,validity:newDate,createdAt});
+        setForm("event", {
+          msg: "Successfully created Event",
+          state: "success",
+          show: true,
+        });
+      console.log(data)
+    } catch (error) {
+      if (error.response.data) {
+        setForm("event", {
+          msg: error.response.data.msg,
+          state: "",
+          show: true,
+        });
+      }
+      console.log(error);
+    }
+  }
+  const updateEvent = async (id, body) => {
+    const defaultData = {
+      "image": [],
+      "max_people": "",
+      "name": "",
+      "description": "",
+      "city": "",
+      "country": "",
+      "category": [],
+      "price_choices":[],
+      "validity": "",
+    }
+    const date = new Date().toISOString()
+    try {
+      await client.patch(`event/${id}`, {...body, updatedAt:date })
+      updateError("event", {
+        msg: "Event updated. Reload to see changes",
+        state: "success",
+        show: true,
+      });
+      setTimeout(()=>toggleUpdate("event", defaultData), 3000)
+    } catch (error) {
+      if (error.response.data) {
+        updateError("event", {
+          msg: error.response.data.msg,
+          state: "",
+          show: true,
+        });
+        setTimeout(
+          () =>
+            toggleUpdate("event", defaultData),
+          3000
+        );
+      }
+      
+      console.log(error)
+    }
+  }
+  const removeEvent = async(id)=>{
+    setDefaults()
+    setLoading("events", true);
+    try {
+      await client.delete(`event/${id}`);
+      setLoading("events", false);
+      setTimeout( ()=>startError("events", {
+        msg: "Event deleted. Reload to see changes",
+        state: "success",
+        status: true,
+      }),3000)
+    } catch (error) {
+      setLoading("events", false);
+      if (error.response.data) {
+        startError("events", {
+          msg: error.response.data.msg,
+          state: "",
+          status: true,
+        });
+      }
+      console.log(error)
+    }
+  }
 //utils
   const setLoading = (type, status) => {
     dispatch({ type: actions.SET_LOAD, payload: { type, load: status } })
@@ -121,7 +214,7 @@ const AppContext = ({ children }) => {
   const toggleUpdate = (type, current) => {
     dispatch({
       type: actions.START_UPDATE,
-      payload: { start: !state.user_startUpdate.start, current, typeC:type },
+      payload: { start: !state[`${type}_startUpdate`].start, current, typeC:type },
     });
   };
   const updateError = (type, newErr) => {
@@ -133,6 +226,17 @@ const AppContext = ({ children }) => {
       },
     });
     setDefaults();
+  }
+  const defaultData = ()=>{
+    dispatch({
+      type:actions.DEFAULT_DASHBOARD
+    })
+  }
+  const defaultSingleData = (type)=>{
+    dispatch({
+      type:actions.DEFAULT_DASHBOARD_SINGLE,
+      payload:{typeData:type}
+    })
   }
 // users
   const getUsers = async (page = 1, limit = 5, sort = "created at", arrange = "desc") => {
@@ -205,6 +309,211 @@ const AppContext = ({ children }) => {
         );
       }
       
+      console.log(error)
+    }
+  }
+  //reports
+  const setCurrentEvent = (event)=>{
+    dispatch({
+      type:actions.SET_REPORT_ON,
+      payload:{event}
+    })
+  }
+  const createReport = async (id, body)=>{
+    try {
+      await client.post(`reports/${id}`, body)
+      setForm("report", {
+        msg: "Successfully created Report",
+        state: "success",
+        show: true,
+      });
+    } catch (error) {
+      if(error.response.data){
+        setForm("report", {
+          msg: error.response.data.msg,
+          state: "",
+          show: true,
+        });
+      }
+      console.log(error)
+      
+    }
+  }
+  const getReports = async (page = 1, limit = 5, sort = "created at", arrange = "desc") => {
+    const mapSort = {
+      "created at": "createdAt",
+      "updated at": "updatedAt",
+    };
+        
+    try {
+      const { data } = await client.get(
+        `reports?page=${page}&limit=${limit}&sort=${mapSort[sort]}&arrange=${arrange}`
+      );
+      const { reports, pages } = data;
+      dispatch({
+        type: actions.GET_REPORTS,
+        payload: { reports, p:pages },
+      });
+    } catch (error) {
+      setLoading("reports", false);
+      console.log(error);
+    }
+  };
+  const updateReport = async (id, body) => {
+    const date = new Date().toISOString()
+    try {
+      await client.patch(`reports/${id}`, {...body, updatedAt:date })
+      updateError("report", {
+        msg: "Report updated. Reload to see changes",
+        state: "success",
+        show: true,
+      });
+      setTimeout(()=>toggleUpdate("report", {
+        "description": "",
+        "state": "",
+        "event":{}
+      }), 3000)
+    } catch (error) {
+      if (error.response.data) {
+        updateError("report", {
+          msg: error.response.data.msg,
+          state: "",
+          show: true,
+        });
+        setTimeout(
+          () =>
+            toggleUpdate("report", {
+              "description": "",
+              "state": "",
+              "event":{}
+            }),
+          3000
+        );
+      }
+      
+      console.log(error)
+    }
+  }
+  const deleteReport = async (id) => {
+    setDefaults()
+    setLoading("reports", true);
+    try {
+      await client.delete(`reports/${id}`);
+      setLoading("reports", false);
+      setTimeout( ()=>startError("reports", {
+        msg: "Report deleted. Reload to see changes",
+        state: "success",
+        status: true,
+      }),3000)
+    } catch (error) {
+      setLoading("reports", false);
+      if (error.response.data) {
+        startError("reports", {
+          msg: error.response.data.msg,
+          state: "",
+          status: true,
+        });
+      }
+      console.log(error)
+    }
+  }
+//payments
+const setCurrents = (type,data)=>{
+  dispatch({
+    type:actions.SET_PAY_ON,
+    payload:{ type,data }
+  })
+}
+const createPayment = async (id, userId,body)=>{
+  try {
+    await client.post(`payments/pay/${id}/${userId}`, body)
+    setForm("payment", {
+      msg: "Successfully made Payment",
+      state: "success",
+      show: true,
+    });
+  } catch (error) {
+    if(error.response.data){
+      setForm("payment", {
+        msg: error.response.data.msg,
+        state: "",
+        show: true,
+      });
+    }
+    console.log(error)
+    
+  }
+}
+  const getPayments = async (page = 1, limit = 5, sort = "created at", arrange = "desc") => {
+    const mapSort = {
+      "created at": "createdAt",
+      "updated at": "updatedAt",
+    };
+    try {
+      const { data } = await client.get(
+        `payments?page=${page}&limit=${limit}&sort=${mapSort[sort]}&arrange=${arrange}`
+      );
+      const { payments, pages } = data;
+      dispatch({
+        type: actions.GET_PAYMENTS,
+        payload: { payments, pa:pages },
+      });
+    } catch (error) {
+      setLoading("payments", false);
+      console.log(error);
+    }
+  };
+  const updatePayment = async (id, body) => {
+    const date = new Date().toISOString()
+    try {
+      await client.patch(`payments/${id}`, {...body, updatedAt:date })
+      updateError("payment", {
+        msg: "Payment updated. Reload to see changes",
+        state: "success",
+        show: true,
+      });
+      setTimeout(()=>toggleUpdate("payment", {
+        "state": "",
+      }), 3000)
+    } catch (error) {
+      if (error.response.data) {
+        updateError("payment", {
+          msg: error.response.data.msg,
+          state: "",
+          show: true,
+        });
+        setTimeout(
+          () =>
+            toggleUpdate("payment", {
+              "state": "",
+            }),
+          3000
+        );
+      }
+      
+      console.log(error)
+    }
+  }
+  const deletePayment = async (id) => {
+    setDefaults()
+    setLoading("payments", true);
+    try {
+      await client.delete(`payments/${id}`);
+      setLoading("payments", false);
+      setTimeout( ()=>startError("payments", {
+        msg: "Payment deleted. Reload to see changes",
+        state: "success",
+        status: true,
+      }),3000)
+    } catch (error) {
+      setLoading("reports", false);
+      if (error.response.data) {
+        startError("payments", {
+          msg: error.response.data.msg,
+          state: "",
+          status: true,
+        });
+      }
       console.log(error)
     }
   }
@@ -295,6 +604,21 @@ const AppContext = ({ children }) => {
         toggleUpdate,
         updateError,
         updateUser,
+        addEvent,
+        removeEvent,
+        updateEvent,
+        setCurrentEvent,
+        createReport,
+        getReports,
+        updateReport,
+        deleteReport,
+        getPayments,
+        defaultData,
+        defaultSingleData,
+        setCurrents,
+        createPayment,
+        deletePayment,
+        updatePayment
       }}
     >
       {children}

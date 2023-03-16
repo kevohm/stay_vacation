@@ -1,15 +1,16 @@
 import React, { useState } from "react";
-import { Main } from "./css/Table";
+import { Main } from "./css/TableEntity";
 import  {Loader} from "../load/Loader"
 
 import { FaArrowLeft, FaArrowRight} from "react-icons/fa";
 
 import { useGlobal } from "../../../context/AppContext";
-import {  TableData} from "./TableData";
-export const Table = ({ handleChange, type, typeData, headings}) => {
-  const { state, setLoading, deleteUser, toggleUpdate, removeEvent, deleteReport,deletePayment } = useGlobal();
+import { TableEntityData } from "./TableEntityData";
+export const TableEntity = ({ handleChange, type, typeData, headings,validation}) => {
+  const { state, setLoading, setCurrentEvent,setCurrents} = useGlobal();
+  const [selected, setSelected] = useState("")
   const [page, setPage] = useState(state[type].currentPage);
-  const spanning = {"users":6,"events":10,"reports":7,"payments":10}
+  const spanning = {"users":5,"events":9}
   const handleInput = (e) => {
     e.preventDefault();
     const { value } = e.target;
@@ -20,23 +21,6 @@ export const Table = ({ handleChange, type, typeData, headings}) => {
     }
     setPage(value);
   };
-  const handleDelete = (id) => {
-    if (type === "users") {
-      deleteUser(id);
-    }
-    if(type === "events"){
-      removeEvent(id)
-    }
-    if(type === "reports"){
-      deleteReport(id)
-    }
-    if(type === "payments"){
-      deletePayment(id)
-    }
-  }
-  const handleUpdate = (data) => {
-      toggleUpdate(typeData, data)
-  }
     const handleDir = (mov) => {
         const total = Number(state[type].pages);
         const current = Number(state[type].currentPage);
@@ -63,6 +47,10 @@ export const Table = ({ handleChange, type, typeData, headings}) => {
             }
         }
   }
+  const handleSelect = (event)=>{
+    (validation)?setCurrentEvent(event):setCurrents(typeData,event)
+    setSelected(event._id)
+  }
   if (state[type].loading) {
     return <Loader />;
   }
@@ -79,11 +67,11 @@ export const Table = ({ handleChange, type, typeData, headings}) => {
         {state[type].data.length === 0 ? (
           <tr>
             <td colSpan={spanning[type] + 2} style={{ textAlign: "center" }}>
-              No users yet
+                {(type === "events")?`No expired events Yet`:`No ${type} yet`}
             </td>
           </tr> 
         ) : (
-          <TableData type={type} handleUpdate={handleUpdate} handleDelete={handleDelete}/>
+          <TableEntityData type={type} selected={selected} handleSelect={handleSelect}/>
         )}
       </tbody>
       <tfoot>

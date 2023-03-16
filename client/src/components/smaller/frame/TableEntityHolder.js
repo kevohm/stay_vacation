@@ -2,8 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
 import { useGlobal } from "../../../context/AppContext";
+import { FaTimes } from "react-icons/fa";
 import {Error} from "../error/Error"
-export const TableHolder = ({ typeDataB, update, text, type, children, sort="createdAt", changeArrange, changeSort, data, arrange="desc" }) => {
+export const TableEntityHolder = ({ changeOpen, typeDataB, update, text, type, children, sort="createdAt", changeArrange, changeSort, data, arrange="desc" }) => {
   const {state} = useGlobal()
   return ( 
     <Main>
@@ -14,7 +15,13 @@ export const TableHolder = ({ typeDataB, update, text, type, children, sort="cre
         </div>
       )}
       <div className="select">
+        <div className="close-popup">
+        <div onClick={changeOpen}>
+            <FaTimes title="close popup"/>
+        </div>
         <header>{text}</header>
+        </div>
+            
         <div>
           <select onChange={(e) => changeArrange(e)} value={arrange}>
             <option value="desc">desc</option>
@@ -52,24 +59,14 @@ const Main = styled.div`
         }
       }
     }
+    .close-popup{
+        ${tw`flex items-center space-x-5`}
+    }
   }
   .graph {
     ${tw`w-full`}
-    .apexcharts-yaxis-label tspan, .apexcharts-xaxis-label tspan {
-      ${tw`text-xs`}
-      fill:rgba(0,0,0,.5);
-    }
-    .apexcharts-tooltip {
-      background: #fff;
-      color: rgba(0, 0, 0, 0.5);
-    }
-    .apexcharts-bar-area:hover,
-    .apexcharts-bar-area:active {
-      fill: rgba(255, 164, 2, 0.9);
-    }
   }
   .update{
     ${tw`flex items-start sm:items-center justify-center absolute left-0 top-0 bg-[rgba(0,0,0,.2)] w-full h-full z-20 rounded-lg`}
   }
 `;
-

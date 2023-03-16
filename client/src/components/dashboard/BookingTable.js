@@ -10,7 +10,7 @@ const BookingTable = () => {
   useEffect(() => {
     getEvents()
   }, [])
-  
+  console.log(state)
   return (
     <StatsHolder text="recent booking">
       <Main>
