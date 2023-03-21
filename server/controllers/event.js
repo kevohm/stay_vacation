@@ -36,10 +36,11 @@ const createEvent = async (req, res) => {
     name,
     price_choices,
     validity,
-    createdAt
+    createdAt,
+    Amenities
   } = req.body;
   if (
-    (!category || !city || !country || !description || !image || !name || !price_choices || !validity || !createdAt)
+    (!category || !city || !country || !Amenities || !description || !image || !name || !price_choices || !validity || !createdAt)
   ) {
     throw new BadRequest(
       "please provide city, country, image, name, price_choices, image, createdAt and description"
@@ -49,6 +50,7 @@ const createEvent = async (req, res) => {
     Category: category,
     Image: image,
     Price_choices: price_choices,
+    Amenities:Amenities
   });
   const body = {
     country,
@@ -60,6 +62,7 @@ const createEvent = async (req, res) => {
     price_choices,
     validity,
     createdAt,
+    Amenities,
     updatedAt: createdAt,
   };
     const event = await Event.create(body); 
@@ -68,6 +71,7 @@ const createEvent = async (req, res) => {
     }
     res.status(StatusCodes.CREATED).json({ msg: "New Event created" });
 }
+
 const getSingleEvent = async (req, res) => {
     const { eventId } = req.params
     const event = await Event.findOne({ _id: eventId })
@@ -77,7 +81,7 @@ const getSingleEvent = async (req, res) => {
     res.status(StatusCodes.OK).json({ msg:"Event found", event });
 }
 const getEvents = async (req, res) => {
-  const { sort, arrange, page, limit, category, price_start, price_end, validity} = req.query
+  const { sort, arrange, page, limit, category, price_start, price_end, validity, name} = req.query
   const sortData = {
     [sort || "createdAt"]: arrange || "desc",
   };
@@ -94,6 +98,9 @@ const getEvents = async (req, res) => {
   }
   if(validity){
     filter['validity'] = {$lte:validity}
+  }
+  if(name){
+    filter['name'] = name
   }
   
   const events = await Event.find(filter).sort(sortData)

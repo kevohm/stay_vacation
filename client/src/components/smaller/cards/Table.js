@@ -12,8 +12,7 @@ export const Table = ({data=[], title=[], type}) => {
         </tr>
       </thead>
       <tbody>
-        {type === "users"
-          ? data.map((item, index) => {
+        {type === "users" && data.map((item, index) => {
               return (
                 <tr key={index}>
                   <td>0{index + 1}</td>
@@ -22,9 +21,9 @@ export const Table = ({data=[], title=[], type}) => {
                   <td>{item[title[3]]}</td>
                 </tr>
               );
-            })
-          : data.map((item, index) => {
-            const { name, description, image, max_people, city, country } =
+            })}
+          {type === "events" &&  data.map((item, index) => {
+            const { name, description, image, city, country } =
               item;
               return (
                 <tr key={index}>
@@ -33,9 +32,20 @@ export const Table = ({data=[], title=[], type}) => {
                     <img src={image[0]} alt={name} />
                   </td>
                   <td>{description}</td>
-                  <td>{max_people}</td>
                   <td>{city}</td>
                   <td>{country}</td>
+                </tr>
+              );
+            })}
+            {type === "payments" &&  data.map((item, index) => {
+            const { state, category , amount, currency} = item;
+              return (
+                <tr key={index}>
+                  <td>0{index + 1}</td>
+                  <td><button className={`status ${state === "Paid" && "active"}`}>{state}</button></td>
+                  <td>{category}</td>
+                  <td>{`${amount} ${currency}`}</td>
+                  <td>{item.event.name}</td>
                 </tr>
               );
             })}
@@ -46,6 +56,7 @@ export const Table = ({data=[], title=[], type}) => {
 
 const Main = styled.table`
   ${tw`w-max text-sm`}
+  ${(props)=>props.type === "payments" && tw`w-full`}
   border-collapse:collapse;
   thead,
   tbody > tr{
@@ -59,7 +70,14 @@ const Main = styled.table`
         img{
           ${tw`w-12 h-12 object-cover rounded-lg`}
         }
+        .status{
+          ${tw`w-[80px] h-[25px] border-solid  bg-white rounded-lg border border-orange text-orange`}
+        }
+        .active{
+          ${tw`text-green border-green`}
+        }
       }
+      
     }
   }
   tbody tr td{

@@ -66,6 +66,10 @@ const Event = new mongoose.Schema({
     },
     required: [true, "Please provide Category"],
   },
+  Amenities:{
+    type: [String],
+    required: [true, "Please provide Amenities"],
+  },
   validity: {
     type: Date,
     required: [true, "Please provide validity of Event"],
@@ -89,20 +93,5 @@ Event.post("findOneAndDelete", async function (doc) {
     throw new BadRequest("Error in removing dependencies")
   }
 })
-// Event.post("findOneAndUpdate", async function (doc) {
-//   const { price_choices } = this._update["$set"];
-//   const current = doc.price_choices
-//   const missing = []
-//   if (price_choices) {
-//     await Promise.all(current.forEach(async (item) => {
-//       const {category, price} = item
-//       const data = price_choices.find((item) => {item.category === category})
-//       if (!data) {
-//         await Payments.deleteMany({event: doc._id})
-//       }
-//     }));
-//   }
-    
-// })
 
 module.exports = mongoose.model("Event", Event)

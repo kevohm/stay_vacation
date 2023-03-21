@@ -12,7 +12,7 @@ const Footer = () => {
   
   return (
     <Main>
-      <div className="top"></div>
+      {location.pathname === "/" ? <div className="top"></div> : <></>}
       <div className="bottom">
         {location.pathname === "/" ? <Email /> : <></>}
         <div className="links">

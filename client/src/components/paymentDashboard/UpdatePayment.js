@@ -8,8 +8,10 @@ import tw from 'twin.macro'
 const UpdatePayment = () => {
   const {state,updateError,toggleUpdate,updatePayment} = useGlobal()
   const paymentId = state.payment_startUpdate.current._id
+  const prices = state.payment_startUpdate.current.event.price_choices
   const [data, setData] = useState({
-    state: state.payment_startUpdate.current.state
+    state: state.payment_startUpdate.current.state,
+    category: state.payment_startUpdate.current.category
   });
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -17,8 +19,9 @@ const UpdatePayment = () => {
   };
   const handleSubmit = (e)=>{
     e.preventDefault()
-    const {state} = data
-        if(!state){
+    const {state,category} = data
+    const amount =  prices.find((i)=>i.category === category).price
+        if(!state || !category){
           changeErr({
               msg: "All fields are required",
               state: "",
@@ -26,7 +29,7 @@ const UpdatePayment = () => {
             })
             return
         }
-        updatePayment(paymentId ,{state})
+        updatePayment(paymentId ,{state,category,amount})
   }
   const changeErr = (err) => {
     updateError('payment', err)
@@ -58,6 +61,24 @@ const UpdatePayment = () => {
           <option value="Paid">Paid</option>
         </select>
       </div>
+      <div>
+        <select
+          value={data.category}
+          name="category"
+          onChange={(e) => handleChange(e)}
+        >
+            <option value="" disabled={true}>
+            Choose Category
+          </option>{
+          state.payment_startUpdate.current.event.price_choices.map((i,index)=><option key={index} value={i.category}>{i.category}</option>)
+          }
+        </select>
+      </div>
+      <div className="total">
+            <p>Total Price: {prices.find((i)=>i.category === data.category) ?
+            prices.find((i)=>i.category === data.category).price : 0
+            }</p>
+          </div>
       <div className="submit">
         <input type="submit" value="Update" />
       </div>

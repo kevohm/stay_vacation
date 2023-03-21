@@ -5,13 +5,13 @@ import { useReducer } from "react";
 import { actions, initialState } from "./appActions";
 import { reducer } from "./appReducer"
 const appContext = createContext();
+const client = axios.create({
+  baseURL: "http://localhost:5000/v1",
+  withCredentials: true,
+});
 
 const AppContext = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
-  const client = axios.create({
-    baseURL: "http://localhost:5000/v1",
-    withCredentials: true,
-  });
 //authentication
   client.interceptors.response.use(
     (response)=>response,
@@ -629,4 +629,4 @@ const useGlobal = () => {
     return useContext(appContext)
 }
 
-export { AppContext , useGlobal}
+export { AppContext , useGlobal, client}

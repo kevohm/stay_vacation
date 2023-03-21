@@ -5,21 +5,24 @@ import { Table } from "../smaller/cards/Table"
 import { StatsHolder } from "../smaller/cards/StatsHolder"
 import { useGlobal } from '../../context/AppContext'
 import { useEffect } from 'react'
+import { Loader } from '../smaller/load/Loader'
 const UserTable = () => {
   const { state,getUsers } = useGlobal()
   useEffect(() => {
     getUsers()
   }, [])
-  
+  if (state.users.data.length === 0) {
+    return <Loader/>
+}
   return (
     <StatsHolder text="recent users">
       <Main>
-        {(state.users.data.length === 0) ? <div>fetching data...</div> :
+        
           <Table
             data={state.users.data}
             title={["index", "username", "email", "phone_number"]}
             type="users"
-          />}
+          />
       </Main>
     </StatsHolder>
   );

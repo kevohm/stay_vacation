@@ -1,4 +1,5 @@
 import Stats from "./Stats";
 import Graph from "./Graph";
 import AllTable from "./AllTable";
-export { Stats, Graph, AllTable };
+import Payments from "./Payments";
+export { Stats, Graph, AllTable, Payments};

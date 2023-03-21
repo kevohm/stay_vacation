@@ -8,9 +8,10 @@ const Breadcrumbs = () => {
   let address = "/";
   const current = location.pathname.split("/").filter((i) => i !== "").map(
     (i, index) => {
+      const d = i.replaceAll("%20", " ")
       address += `${i}/`
       return <Link to={`${address}`} key={index}>
-        {i.charAt(0).toUpperCase() + i.slice(1, i.length)}
+        {d.charAt(0).toUpperCase() + d.slice(1, d.length)}
       </Link>
     }
   )

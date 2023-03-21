@@ -5,19 +5,19 @@
 /* topography */
 
 @font-face {
-  font-family:montserrrat;
+  font-family:montserrat;
   src: url('./assets/fonts/static/Montserrat-Regular.ttf');
 }
 @font-face {
-  font-family:montserrratMedium;
+  font-family:montserratMedium;
   src: url('./assets/fonts/static/Montserrat-Medium.ttf');
 }
 @font-face {
-  font-family:montserrratSemi;
+  font-family:montserratSemi;
   src: url('./assets/fonts/static/Montserrat-SemiBold.ttf');
 }
 @font-face {
-  font-family:montserrratBold;
+  font-family:montserratBold;
   src: url('./assets/fonts/static/Montserrat-Bold.ttf');
 }
 @font-face {
@@ -41,7 +41,6 @@
   margin:0;
   padding:0;
   outline:none;
-   /* border:1px solid red; */
 }
 a{
   text-decoration: none;

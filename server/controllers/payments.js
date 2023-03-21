@@ -61,10 +61,10 @@ const updateOne = async (req, res) => {
     if (!payment) {
       throw new NotFound("Payment not found");
   }
-  const {state, amount, currency} = req.body
+  const {state, amount, category, currency} = req.body
     const data = await Payment.findByIdAndUpdate(
       payment._id,
-      { state, amount, currency },
+      { state, amount, currency, category },
       {
         runValidators: true,
         new: true,

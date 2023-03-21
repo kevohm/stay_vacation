@@ -1,13 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 import tw from "twin.macro"
-import { Stats, Graph, AllTable } from "../../components/dashboard/index";
+import { Stats, Graph, AllTable, Payments } from "../../components/dashboard/index";
 const Dashboard = () => {
   return (
     <Main>
       <Stats />
       <Graph />
       <AllTable />
+      <Payments/>
     </Main>
   );
 }

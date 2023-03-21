@@ -3,6 +3,7 @@ import { Table } from '../smaller/cards/Table'
 import { StatsHolder } from '../smaller/cards/StatsHolder'
 import { useGlobal } from '../../context/AppContext'
 import { useEffect } from 'react'
+import {Loader} from "../smaller/load/Loader"
 import styled from 'styled-components'
 import tw from 'twin.macro'
 const BookingTable = () => {
@@ -10,16 +11,17 @@ const BookingTable = () => {
   useEffect(() => {
     getEvents()
   }, [])
-  console.log(state)
+  if (state.events.data.length === 0){
+    return <Loader/>
+}
   return (
     <StatsHolder text="recent booking">
       <Main>
-        {(state.events.data.length === 0) ? <div>fetching data...</div> :
           <Table
             data={state.events.data}
-            title={["name", "image", "description", "max_people", "city", "country"]}
+            title={["name", "image", "description", "city", "country"]}
             type="events"
-          />}
+          />
       </Main>
     </StatsHolder>
   );
