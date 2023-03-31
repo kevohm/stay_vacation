@@ -5,10 +5,12 @@ export const initialState = {
         search: "",
         category: "",
         price: { min: 0, max: 300000 },
-        data:["Couple","Road Trip"]
+        data:[],
+        loading:false
       },
     sortBy:{sort:"createdAt",arrange:"desc",data:["createdAt desc","createdAt asc","name asc", "name desc"]},
-    currentEvent:{data:{},id:localStorage.getItem("current") || null, loading:true}
+    currentEvent:{data:{},id:localStorage.getItem("current") || null, loading:true},
+    MemberError:{msg:"",show:false,type:"warning"}
 }
 
 export const actions = {

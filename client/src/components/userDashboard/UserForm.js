@@ -12,7 +12,7 @@ const body = {
 }
 export const UserForm = () => {
   const [data, setData] = useState(body)
-  const { handleUser, state, setForm, getUsers } = useGlobal();
+  const { state,updateError,addUser} = useGlobal();
   const handleChange = (e) => {  
     e.preventDefault()
     const { name, value } = e.target 
@@ -22,12 +22,11 @@ export const UserForm = () => {
     e.preventDefault();
     const { username, email, phone_number, password } = data
     if (!verify(data, changeErr)) {
-      handleUser({ username, email, phone_number, password }, "register");
-      getUsers(1,10)
+      addUser({ username, email, phone_number, password });
     }
   }
   const changeErr = (err) => {
-    setForm("user",err);
+    updateError(err);
   }
   return (
     <Main onSubmit={(e) => handleSubmit(e)}>

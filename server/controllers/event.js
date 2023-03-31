@@ -1,5 +1,6 @@
 const Event = require("../models/Event")
 const Report = require("../models/Report")
+const Category = require("../models/Category")
 const { NotFound, NotAuthorized, BadRequest } = require("../errors/index")
 const { StatusCodes } = require("http-status-codes")
 const checkValidity = (obj) => {
@@ -50,14 +51,15 @@ const createEvent = async (req, res) => {
     Category: category,
     Image: image,
     Price_choices: price_choices,
-    Amenities:Amenities
+    Amenities
   });
+  
   const body = {
     country,
     city,
     description,
     image,
-    name,
+    name:name.toLowerCase(),
     category,
     price_choices,
     validity,
@@ -81,7 +83,7 @@ const getSingleEvent = async (req, res) => {
     res.status(StatusCodes.OK).json({ msg:"Event found", event });
 }
 const getEvents = async (req, res) => {
-  const { sort, arrange, page, limit, category, price_start, price_end, validity, name} = req.query
+  const { sort, arrange, page, limit, category, price_start, price_end, validity, name, search,dir} = req.query
   const sortData = {
     [sort || "createdAt"]: arrange || "desc",
   };
@@ -90,22 +92,33 @@ const getEvents = async (req, res) => {
   const skip = (currentPage - 1) * currentLimit;
   let filter = {}
   if (category) {
-    filter["category"] = category
+    const categoryFound = await Category.findOne({name:category})
+    if(!categoryFound){
+      throw new BadRequest("category does not exist yet")
+    }
+    const categoryData = { $in: [categoryFound._id.toString()] }
+    filter["category"] = categoryData
   }
   if (price_start && price_end) {
     const price = { $gte: Number(price_start), $lte: Number(price_end) };
     filter["price_choices.price"] = price
   }
-  if(validity){
-    filter['validity'] = {$lte:validity}
+  if(validity && dir){
+      filter['validity'] = (dir === "lessthan")?{$lte:validity}:{$gte:validity}
   }
   if(name){
     filter['name'] = name
   }
-  
+  if(search){
+    const data = [ 
+      {description : { $regex: search, $options: 'i' }}, 
+    { name: { $regex: search, $options: 'i' }},
+    { city: { $regex: search, $options: 'i' } } ]
+    filter["$or"]= data
+  }
   const events = await Event.find(filter).sort(sortData)
     .skip(skip)
-    .limit(currentLimit);
+    .limit(currentLimit)
   const count = await Event.find(filter).count();
   const pages = Math.ceil(count / currentLimit)
     res
@@ -130,7 +143,8 @@ const updateEvent = async (req, res) => {
       category,
       price_choices,
       validity,
-      updatedAt
+      updatedAt,
+      Amenities
     } = req.body;
   const { eventId } = req.params;
   if (!updatedAt) {
@@ -148,6 +162,7 @@ const updateEvent = async (req, res) => {
         price_choices,
         validity,
         updatedAt,
+      Amenities
       },
       {
         runValidators: true,

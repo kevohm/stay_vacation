@@ -1,3 +1,4 @@
+import { getCookie } from "./utils";
 export const initialState = {
   stats: {
     users: 0,
@@ -27,7 +28,7 @@ export const initialState = {
   event_form: { msg: "", state: "", show: false },
   report_form: { msg: "", state: "", show: false },
   payment_form: { msg: "", state: "", show: false },
-  user: JSON.parse(localStorage.getItem("user")) || { role: null, id: null },
+  user: getCookie("_v") || { role: null, id: null },
   report_on:{
     event:{},
   },
@@ -53,7 +54,9 @@ export const initialState = {
   payment_startUpdate:{start:false,current:{
     "description": "",
     "state": ""
-  }, err:{ msg: "", state: "", show: false }}
+  }, err:{ msg: "", state: "", show: false }},
+  event_category:{data:[],loading:true,err:{ msg: "", state: "", show: false }},
+  GlobalError:{msg:"",show:false,type:"warning"}
 };
 export const actions = {
   GET_STATS: "GET_STATS",
@@ -75,7 +78,10 @@ export const actions = {
   GET_PAYMENTS:"GET_PAYMENTS",
   DEFAULT_DASHBOARD:"DEFAULT_DASHBOARD",
   DEFAULT_DASHBOARD_SINGLE:"DEFAULT_DASHBOARD_SINGLE",
-  SET_PAY_ON:"SET_PAY_ON"
+  SET_PAY_ON:"SET_PAY_ON",
+  SET_EVENT_CATEGORY:"SET_EVENT_CATEGORY",
+  SET_EVENT_CATEGORY_DEFAULT:"SET_EVENT_CATEGORY_DEFAULT",
+  SET_GLOBAL_ERR:"SET_GLOBAL_ERR"
 };
 
 export const env = {ADMIN:"96e0c255-1643-48d2-9c60-08a115fbda91",MEMBER:"e213ee27-cb78-4b61-bd8c-296546738f08"}

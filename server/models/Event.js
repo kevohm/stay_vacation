@@ -15,8 +15,8 @@ const Event = new mongoose.Schema({
   description: {
     type: String,
     required: [true, "Please provide description"],
-    minLength: [3, "Description length must be at least 3"],
-    maxLength: [400, "Description length must be at most 400"],
+    minLength: [300, "Description length must be at least 300"],
+    maxLength: [1000, "Description length must be at most 1000"],
   },
   image: {
     type: [String],
@@ -55,17 +55,8 @@ const Event = new mongoose.Schema({
         match: [/^([0-9]+)$/, "Price must be numbers only no commas"],
       },
     },
-  ],
-  category: {
-    type: [String],
-    validate: {
-      validator: function (v) {
-        return v == null || v.length > 0;
-      },
-      message: "Please provide at least one  Category",
-    },
-    required: [true, "Please provide Category"],
-  },
+  ], 
+  category: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Category', autopopulate:true}],
   Amenities:{
     type: [String],
     required: [true, "Please provide Amenities"],
@@ -84,7 +75,7 @@ const Event = new mongoose.Schema({
     }
 });
 Event.plugin(customError)
-
+Event.plugin(require("mongoose-autopopulate"));
 Event.post("findOneAndDelete", async function (doc) {
   const event = doc._id;
   const report = await Report.deleteMany({ event });

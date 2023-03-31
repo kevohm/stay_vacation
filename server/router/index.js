@@ -4,6 +4,8 @@ const usersRouter = require("./users")
 const paymentRouter = require("./payments")
 const statsRouter = require("./stats")
 const reportRouter = require("./report")
+const commentsRouter = require("./comments")
+const CategoryRouter = require("./Category")
 module.exports = {
   authRouter,
   eventRouter,
@@ -11,4 +13,6 @@ module.exports = {
   paymentRouter,
   statsRouter,
   reportRouter,
+  commentsRouter,
+  CategoryRouter
 };

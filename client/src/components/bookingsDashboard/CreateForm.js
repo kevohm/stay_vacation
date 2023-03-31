@@ -5,6 +5,7 @@ import moment from "moment"
 import { uploadFiles,verifyData} from './uploadFiles';
 import { useGlobal } from '../../context/AppContext';
 import { FormError } from '../smaller/error/FormError';
+import { Categories } from './Categories';
 const body = {
   "image": [],
   "name": "",
@@ -14,14 +15,27 @@ const body = {
   "category": [],
   "price_choices":[],
   "validity": "",
+  "Amenities":[]
 }
-const CreateForm = () => {
+const CreateForm = ({handleScroll}) => {
   const [priceNum, setPriceNum] = useState([{ price: "", category: "" }])
   const dateInput = useRef()
   const [files, setFiles] = useState([])
-  const [category, setCategory] = useState([""]);
+  const [amenities, setAmenities] = useState([""]);
+  const [category, setCategory] = useState([]);
   const [data, setData] = useState(body);
-  const {state,addEvent,setForm} = useGlobal()
+  const {state,addEvent, updateError} = useGlobal()
+  const handleAmenity = (val)=>{
+    if (val === "add") {
+      setAmenities(["",...amenities]);
+    } else {
+      let arr = [...amenities];
+      if (arr.length !== 1) {
+        arr.splice(0, 1);
+        setAmenities(arr)
+      }
+    }
+  }
   const handlePrice = (val) => {
     if (val === "add") {
       setPriceNum([...priceNum, { price: "", category: "" }]);
@@ -39,22 +53,11 @@ const CreateForm = () => {
     newData[index][name] = value;
     setPriceNum(newData);
   };
-  const handleCategory = (val) => {
-    if (val === "add") {
-      setCategory([...category, ""]);
-    } else {
-      let arr = [...category];
-      if (arr.length !== 1) {
-        arr.splice(arr.length - 1, 1);
-        setCategory(arr);
-      }
-    }
-  }
-  const changeCategory = (e, index) => {
+  const changeAmenities = (e, index) => {
     const { value } = e.target;
-    let newData = [...category];
+    let newData = [...amenities];
     newData[index] = value;
-    setCategory(newData);
+    setAmenities(newData);
   };
     const handleImage = (e) => {
       const { files } = e.target
@@ -66,30 +69,29 @@ const CreateForm = () => {
   }
   const handleSubmit = async (e)=>{
     e.preventDefault()
-    let newData = {...data, category, price_choices:priceNum}
+    handleScroll()
+    let newData = {...data, category, Amenities:amenities, price_choices:priceNum}
     if(!verifyData(newData, changeErr)){
       return
     }
+    
       try {
-        changeErr({
-          msg: "Please wait while we process your data...",
-          state: "success",
-          show: true,
-        })
+        
+        changeErr({msg:"Please wait while we process your data...",show:true,type:"success"})
         const newFile = await uploadFiles(files,changeErr)
         if(newFile.length === 0){
-          return
+          changeErr({msg:"Error while uploading files",show:true,type:"warning"})
+          return 
         }
         newData = {...newData, image:newFile }
         setData(newData)
-        console.log(newData)
           addEvent(newData)
       } catch (error) {
         console.log(error)
       }
   }
   const changeErr = (err) => {
-    setForm("event",err);
+    updateError(err);
   }
   return (
     <Main onSubmit={(e)=>handleSubmit(e)}>
@@ -104,6 +106,9 @@ const CreateForm = () => {
         />
       </div>
       <div>
+        <label className='characters'>
+        {data.description.length} characters
+        </label>
         <textarea
           type="text"
           placeholder="Description"
@@ -161,26 +166,29 @@ const CreateForm = () => {
           />
         </label>
       </div>
-      {category.map((item, index) => {
+      <Categories value={category} setValue={setCategory} changeErr={changeErr}/>
+      {amenities.map((item, index) => {
         return (
           <div className="lined-up" key={index}>
-            <input
-              type="text"
-              placeholder="Category"
+            <textarea
+              type="number"
+              min={1}
+              className="price"
+              placeholder="Amenity"
               value={item}
-              name="category"
-              onChange={(e) => changeCategory(e, index)}
+              name="amenity"
+              onChange={(e) => changeAmenities(e, index)}
             />
             <div className="div-icon-add">
-              {index === category.length - 1 ? (
+              {index === amenities.length - 1 ? (
                 <AiOutlinePlus
                   className="icon-add"
-                  onClick={() => handleCategory("add")}
+                  onClick={() => handleAmenity("add")}
                 />
               ) : (
                 <AiOutlineMinus
                   className="icon-add"
-                  onClick={() => handleCategory("minus")}
+                  onClick={() => handleAmenity("minus")}
                 />
               )}
             </div>

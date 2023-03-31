@@ -59,7 +59,7 @@ export const TableData = ({type, handleUpdate, handleDelete}) => {
           image,name,
           description,city,country,
           category,price_choices,
-          validity,createdAt,updatedAt,
+          validity,createdAt,updatedAt,Amenities,
           _id,
         } = i;
         const count = index + 1;
@@ -71,9 +71,10 @@ export const TableData = ({type, handleUpdate, handleDelete}) => {
             </td>
             <td><img src={image[0]} alt={name}/></td>
             <td>{name}</td>
-            <td className="desc">{description}</td>
-            <td><ul>{category.map((i,index)=><li key={index}>{i}</li>)}</ul></td>
+            <td ><p className="desc">{description}</p></td>
+            <td><ul>{category.map((i,index)=><li key={index}>{i.name}</li>)}</ul></td>
             <td><ul>{price_choices.map((i)=><li key={i._id}>{i.price} per {i.category}</li>)}</ul></td>
+            <td><ul>{Amenities.map((i,index)=><li key={index}>{i}</li>)}</ul></td>
             <td>{city}</td>
             <td>{country}</td>
             <td>{moment(new Date(validity)).format("ddd, MMM Do YYYY")}</td>
@@ -114,7 +115,7 @@ export const TableData = ({type, handleUpdate, handleDelete}) => {
               {count < 10 ? "0" : ""}
               {count}
             </td>
-            <td className="desc">{description}</td>
+            <td className="width">{description}</td>
             <td>{state}</td>
             <td>{i.event.name}</td>
             <td>{i.event.city}</td>

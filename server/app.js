@@ -17,6 +17,8 @@ const {
   paymentRouter,
   statsRouter,
   reportRouter,
+  commentsRouter,
+  CategoryRouter 
 } = require("./router/index");
 const connectDB = require("./db/connect")
 const {
@@ -64,7 +66,8 @@ app.use("/v1/users", authenticate, usersRouter);
 app.use("/v1/payments", authenticate, paymentRouter);
 app.use("/v1/stats", authenticate, authAdmin, statsRouter);
 app.use("/v1/reports", authenticate, authAdmin, reportRouter);
-
+app.use("/v1/comments",authenticate,commentsRouter)
+app.use("/v1/categories",CategoryRouter)
 
 //middleware
 app.use(notFound)

@@ -3,7 +3,10 @@ import React, {useContext, createContext} from "react"
 import { useEffect } from "react";
 import { useReducer } from "react";
 import { actions, initialState } from "./appActions";
+import {ErrorGlobal} from "../components/utils/Global"
 import { reducer } from "./appReducer"
+import {setCookie} from "./utils"
+import { Category } from "../components/bookingsDashboard/Category";
 const appContext = createContext();
 const client = axios.create({
   baseURL: "http://localhost:5000/v1",
@@ -12,7 +15,7 @@ const client = axios.create({
 
 const AppContext = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
-//authentication
+//--------------------------AUTHENTICATION----------------------------------------------------------------------
   client.interceptors.response.use(
     (response)=>response,
     function (error) {
@@ -23,11 +26,11 @@ const AppContext = ({ children }) => {
     }
   );
   const getUser = async () => {
-    try { 
+    try {
       const { data } = await client.get(`users/user`);
       const {id, role} = data.user
+      setCookie("_v",JSON.stringify({ id, role }))
       dispatch({ type: actions.UPDATE_USER, payload: { userData: { id, role } } })
-      localStorage.setItem("user", JSON.stringify({ id, role }));
     } catch (error) {
       console.log(error)
     }
@@ -44,6 +47,7 @@ const AppContext = ({ children }) => {
       console.log(error)
     }
   }
+  
   const handleUser = async (body, type) => {
     const createdAt = new Date().toISOString();
     const login = type === "login"
@@ -76,8 +80,9 @@ const AppContext = ({ children }) => {
       console.log(error);
     }
   } 
-//events
-  const getEvents = async (page=1, limit=5,sort="created at",arrange="desc", validity="") => {
+//--------------------------EVENTS----------------------------------------------------------------------
+  const getEvents = async (page=1, limit=5,sort="created at",arrange="desc", validity="", validation) => {
+    const dir = (validation)? "lessthan": "greaterthan"
     const mapSort = {
       name:"name",
       description:"descripton",
@@ -88,7 +93,7 @@ const AppContext = ({ children }) => {
       "updated at": "updatedAt",
     };
     try {
-      const { data } = await client.get(`event/all?page=${page}&limit=${limit}&sort=${mapSort[sort]}&arrange=${arrange}&validity=${validity}`);
+      const { data } = await client.get(`event/all?page=${page}&limit=${limit}&sort=${mapSort[sort]}&arrange=${arrange}&validity=${validity}&dir=${dir}`);
       const { events, pages } = data;
       dispatch({
         type: actions.GET_EVENTS,
@@ -99,29 +104,22 @@ const AppContext = ({ children }) => {
       console.log(error);
     }
   };
-  const addEvent = async (body)=>{
+  const addEvent = async (body, page=1)=>{
     const {image,max_people,name,description,city,country,
-      category,price_choices,validity} = body
+      category,price_choices,validity,Amenities} = body
     const newDate = new Date(new Date(validity).setHours(23,59,59,900)).toISOString()
     const createdAt = new Date().toISOString()
     try {
       const { data } = await client.post(`event/create`, {image,max_people,name,description,city,country,
-        category,price_choices,validity:newDate,createdAt});
-        setForm("event", {
+        category,price_choices,Amenities,validity:newDate,createdAt});
+        updateError({
           msg: "Successfully created Event",
-          state: "success",
+          type: "success",
           show: true,
         });
-      console.log(data)
+        getEvents(page,10)
     } catch (error) {
-      if (error.response.data) {
-        setForm("event", {
-          msg: error.response.data.msg,
-          state: "",
-          show: true,
-        });
-      }
-      console.log(error);
+      setOtherErrors(error)
     }
   }
   const updateEvent = async (id, body) => {
@@ -132,6 +130,7 @@ const AppContext = ({ children }) => {
       "description": "",
       "city": "",
       "country": "",
+      "Amenities":[],
       "category": [],
       "price_choices":[],
       "validity": "",
@@ -139,27 +138,20 @@ const AppContext = ({ children }) => {
     const date = new Date().toISOString()
     try {
       await client.patch(`event/${id}`, {...body, updatedAt:date })
-      updateError("event", {
-        msg: "Event updated. Reload to see changes",
-        state: "success",
+      updateError({
+        msg: "Event has been updated",
+        type: "success",
         show: true,
       });
+      getEvents(state.events.currentPage,10)
       setTimeout(()=>toggleUpdate("event", defaultData), 3000)
-    } catch (error) {
-      if (error.response.data) {
-        updateError("event", {
-          msg: error.response.data.msg,
-          state: "",
-          show: true,
-        });
-        setTimeout(
-          () =>
-            toggleUpdate("event", defaultData),
-          3000
-        );
-      }
-      
-      console.log(error)
+    } catch (error){
+      setOtherErrors(error)
+      setTimeout(
+        () =>
+        toggleUpdate("event", defaultData),
+        3000
+      );
     }
   }
   const removeEvent = async(id)=>{
@@ -168,37 +160,97 @@ const AppContext = ({ children }) => {
     try {
       await client.delete(`event/${id}`);
       setLoading("events", false);
-      setTimeout( ()=>startError("events", {
-        msg: "Event deleted. Reload to see changes",
-        state: "success",
-        status: true,
-      }),3000)
+      getEvents(state.events.currentPage,10)
+      updateError(
+        {
+          msg: "Event deleted",
+          type: "success",
+          show: true,
+        }
+      )
     } catch (error) {
       setLoading("events", false);
-      if (error.response.data) {
-        startError("events", {
-          msg: error.response.data.msg,
-          state: "",
-          status: true,
-        });
-      }
-      console.log(error)
+      setOtherErrors(error)
     }
   }
-//utils
-  const setLoading = (type, status) => {
+//--------------------------CATEGORIES---------------------------------------------------------------------
+const getCategories = ()=>{
+  dispatch({type:actions.SET_EVENT_CATEGORY_DEFAULT})
+  return client.get("categories")}
+const getAllCategories = async ()=>{
+  dispatch({type:actions.SET_EVENT_CATEGORY_DEFAULT})
+  try {
+    const {data} = await client.get("categories")
+    const {categories} = data
+    dispatch({
+      type:"SET_EVENT_CATEGORY",
+      payload:{categories}
+    })
+  } catch (error) {
+    setOtherErrors(error)
+  }
+}
+const addCategory = async (body)=>{
+  const {name} = body
+  const createdAt = new Date().toISOString()
+  try {
+    await client.post("categories",{name,createdAt})
+    updateError(
+      {
+        msg: "Category successfully added",
+        type: "success",
+        show: true,
+      }
+    )
+    getAllCategories()
+  } catch (error) {
+    setOtherErrors(error)
+  }
+}
+const updateCategory = async (id, name)=>{
+  const updatedAt = new Date().toISOString()
+  try {
+    await client.patch(`categories/${id}`, {name, updatedAt})
+    updateError(
+      {
+        msg: "Category successfully updated",
+        type: "success",
+        show: true,
+      }
+    )
+    getAllCategories()
+    getEvents(1,10)
+  } catch (error) {
+    setOtherErrors(error)
+  }
+}
+//--------------------------UTILS----------------------------------------------------------------------
+const setOtherErrors = (error)=>{
+  if(error.response && error.response.data){
+    updateError({msg:error.response.data.msg,show:true,type:"warning"})
+  }
+}
+const setGlobalErrors = (err)=>{
+  dispatch({
+    type:actions.SET_GLOBAL_ERR,
+    payload:{err}
+  })
+}  
+const updateError = (newErr) => {
+  setGlobalErrors(newErr)
+  return setDefaults();
+}
+const setLoading = (type, status) => {
     dispatch({ type: actions.SET_LOAD, payload: { type, load: status } })
   }
   const setDefaults = () => {
-    setTimeout(() => dispatch(
+    return setTimeout(() => dispatch(
     {type:actions.ERROR_DEFAULT}
     ), 3000)
   } 
-  const setError = (type, err) => {
-    dispatch({
-      type: actions.SET_ERROR,
-      payload: {err, typeData:type },
-    });
+  // changed errors
+  const setError = (err) => {
+    setGlobalErrors(err)
   }
   const startError = (type, err) => {
     setError(type, err);
@@ -217,16 +269,6 @@ const AppContext = ({ children }) => {
       payload: { start: !state[`${type}_startUpdate`].start, current, typeC:type },
     });
   };
-  const updateError = (type, newErr) => {
-    dispatch({
-      type: actions.START_UPDATE_ERR,
-      payload: {
-        newErr,
-        t: type,
-      },
-    });
-    setDefaults();
-  }
   const defaultData = ()=>{
     dispatch({
       type:actions.DEFAULT_DASHBOARD
@@ -238,7 +280,7 @@ const AppContext = ({ children }) => {
       payload:{typeData:type}
     })
   }
-// users
+//--------------------------USERS----------------------------------------------------------------------
   const getUsers = async (page = 1, limit = 5, sort = "created at", arrange = "desc") => {
     const mapSort = {
       "email": "email",
@@ -259,60 +301,56 @@ const AppContext = ({ children }) => {
       });
     } catch (error) {
       setLoading("users", false);
-      console.log(error);
     }
   };
+  const addUser = async(body)=>{
+    const createdAt = new Date().toISOString();
+    try {
+      await client.post("auth", { ...body, createdAt });
+      getUsers(state.users.currentPage, 10)
+        updateError({
+          msg: "successfully added user",
+          type: "success",
+          show: true,
+        });
+    } catch (error) {
+      setOtherErrors(error)
+    }
+}
   const deleteUser = async (id) => {
-    setDefaults()
-    setLoading("users", true);
     try {
       await client.delete(`users/${id}`);
-      setLoading("users", false);
-      setTimeout( ()=>startError("users", {
-        msg: "User deleted. Reload to see changes",
-        state: "success",
-        status: true,
-      }),3000)
+      getUsers(state.users.currentPage,10)
+      updateError({
+        msg: "User deleted.",
+        type: "success",
+        show: true,
+      })
     } catch (error) {
-      setLoading("users", false);
-      if (error.response.data) {
-        startError("users", {
-          msg: error.response.data.msg,
-          state: "",
-          status: true,
-        });
-      }
-      console.log(error)
+      setOtherErrors(error)
     }
   }
   const updateUser = async (id, body) => {
     const date = new Date().toISOString()
     try {
       await client.patch(`users/${id}`, {...body, updatedAt:date })
-      updateError("user", {
-        msg: "User updated. Reload to see changes",
-        state: "success",
+      getUsers(state.users.currentPage,10)
+      updateError({
+        msg: "User updated.",
+        type: "success",
         show: true,
       });
       setTimeout(()=>toggleUpdate("user", { email: "", phone_number: "", username: "" }), 3000)
     } catch (error) {
-      if (error.response.data) {
-        updateError("user", {
-          msg: error.response.data.msg,
-          state: "",
-          show: true,
-        });
+      setOtherErrors(error)
         setTimeout(
           () =>
             toggleUpdate("user", { email: "", phone_number: "", username: "" }),
           3000
         );
-      }
-      
-      console.log(error)
     }
   }
-  //reports
+  //--------------------------REPORTS----------------------------------------------------------------------
   const setCurrentEvent = (event)=>{
     dispatch({
       type:actions.SET_REPORT_ON,
@@ -322,21 +360,14 @@ const AppContext = ({ children }) => {
   const createReport = async (id, body)=>{
     try {
       await client.post(`reports/${id}`, body)
-      setForm("report", {
+      getReports(1,10)
+    updateError({
         msg: "Successfully created Report",
-        state: "success",
+        type: "success",
         show: true,
       });
     } catch (error) {
-      if(error.response.data){
-        setForm("report", {
-          msg: error.response.data.msg,
-          state: "",
-          show: true,
-        });
-      }
-      console.log(error)
-      
+      setOtherErrors(error)
     }
   }
   const getReports = async (page = 1, limit = 5, sort = "created at", arrange = "desc") => {
@@ -363,9 +394,10 @@ const AppContext = ({ children }) => {
     const date = new Date().toISOString()
     try {
       await client.patch(`reports/${id}`, {...body, updatedAt:date })
-      updateError("report", {
-        msg: "Report updated. Reload to see changes",
-        state: "success",
+      getReports(1,10)
+      updateError({
+        msg: "Report updated",
+        type: "success",
         show: true,
       });
       setTimeout(()=>toggleUpdate("report", {
@@ -374,74 +406,59 @@ const AppContext = ({ children }) => {
         "event":{}
       }), 3000)
     } catch (error) {
-      if (error.response.data) {
-        updateError("report", {
-          msg: error.response.data.msg,
-          state: "",
-          show: true,
-        });
-        setTimeout(
-          () =>
-            toggleUpdate("report", {
-              "description": "",
-              "state": "",
-              "event":{}
-            }),
-          3000
-        );
-      }
-      
-      console.log(error)
+      setOtherErrors(error)
+      setTimeout(
+        () =>
+          toggleUpdate("report", {
+            "description": "",
+            "state": "",
+            "event":{}
+          }),
+        3000
+      );
     }
   }
   const deleteReport = async (id) => {
-    setDefaults()
-    setLoading("reports", true);
     try {
       await client.delete(`reports/${id}`);
-      setLoading("reports", false);
-      setTimeout( ()=>startError("reports", {
-        msg: "Report deleted. Reload to see changes",
-        state: "success",
-        status: true,
-      }),3000)
+      getReports(1,10)
+      updateError({
+        msg: "Report deleted",
+        type: "success",
+        show: true,
+      })
     } catch (error) {
-      setLoading("reports", false);
-      if (error.response.data) {
-        startError("reports", {
-          msg: error.response.data.msg,
-          state: "",
-          status: true,
-        });
-      }
-      console.log(error)
+      setOtherErrors(error)
     }
   }
-//payments
+//--------------------------PAYMENTS----------------------------------------------------------------------
 const setCurrents = (type,data)=>{
   dispatch({
     type:actions.SET_PAY_ON,
     payload:{ type,data }
   })
 }
-const createPayment = async (id, userId,body)=>{
+const createPayment = async (id, userId,category,currency)=>{
+  let url = `payments/pay/${id}/${userId}`
+  if(category && currency){
+    url= `payments/pay/${id}/${userId}?data=${category}&currency=${currency}`
+  }
+  if(currency){
+    url= `payments/pay/${id}/${userId}?currency=${currency}`
+  }
+  if(category){
+    url= `payments/pay/${id}/${userId}?data=${category}`
+  }
   try {
-    await client.post(`payments/pay/${id}/${userId}`, body)
-    setForm("payment", {
+    await client.post(url)
+    getPayments(state.payments.currentPage,10)
+    updateError({
       msg: "Successfully made Payment",
-      state: "success",
+      type: "success",
       show: true,
     });
   } catch (error) {
-    if(error.response.data){
-      setForm("payment", {
-        msg: error.response.data.msg,
-        state: "",
-        show: true,
-      });
-    }
-    console.log(error)
-    
+    setOtherErrors(error)
   }
 }
   const getPayments = async (page = 1, limit = 5, sort = "created at", arrange = "desc") => {
@@ -460,28 +477,23 @@ const createPayment = async (id, userId,body)=>{
       });
     } catch (error) {
       setLoading("payments", false);
-      console.log(error);
     }
   };
   const updatePayment = async (id, body) => {
     const date = new Date().toISOString()
     try {
       await client.patch(`payments/${id}`, {...body, updatedAt:date })
-      updateError("payment", {
-        msg: "Payment updated. Reload to see changes",
-        state: "success",
+      getPayments(state.payments.currentPage,10)
+      updateError({
+        msg: "Payment updated.",
+        type: "success",
         show: true,
       });
       setTimeout(()=>toggleUpdate("payment", {
         "state": "",
       }), 3000)
     } catch (error) {
-      if (error.response.data) {
-        updateError("payment", {
-          msg: error.response.data.msg,
-          state: "",
-          show: true,
-        });
+      setOtherErrors(error)
         setTimeout(
           () =>
             toggleUpdate("payment", {
@@ -489,35 +501,22 @@ const createPayment = async (id, userId,body)=>{
             }),
           3000
         );
-      }
-      
-      console.log(error)
     }
   }
   const deletePayment = async (id) => {
-    setDefaults()
-    setLoading("payments", true);
     try {
       await client.delete(`payments/${id}`);
-      setLoading("payments", false);
-      setTimeout( ()=>startError("payments", {
-        msg: "Payment deleted. Reload to see changes",
-        state: "success",
-        status: true,
-      }),3000)
+      getPayments(state.payments.currentPage,10)
+      updateError({
+        msg: "Payment deleted.",
+        type: "success",
+        show: true,
+      })
     } catch (error) {
-      setLoading("reports", false);
-      if (error.response.data) {
-        startError("payments", {
-          msg: error.response.data.msg,
-          state: "",
-          status: true,
-        });
-      }
-      console.log(error)
+      setOtherErrors(error)
     }
   }
-//stats
+//--------------------------STATS----------------------------------------------------------------------
   const getTableStats = async (type="events", time="day") => {
     try {
       let date = [{ "2": "Mon" }, { "3": "Tue" }, {"4": "Wed"}, {"5": "Thu"}, {"6": "Fri"}, {"7": "Sat"}, {"1":"Sun"}]
@@ -590,6 +589,7 @@ const createPayment = async (id, userId,body)=>{
     <appContext.Provider
       value={{
         state,
+        dispatch,
         getStats,
         getTableStats,
         getUsers,
@@ -597,6 +597,7 @@ const createPayment = async (id, userId,body)=>{
         handleUser,
         logout,
         getUser,
+        addUser,
         setLoading,
         deleteUser,
         startError,
@@ -618,7 +619,11 @@ const createPayment = async (id, userId,body)=>{
         setCurrents,
         createPayment,
         deletePayment,
-        updatePayment
+        updatePayment,
+        getCategories,
+        addCategory,
+        updateCategory,
+        updateError
       }}
     >
       {children}

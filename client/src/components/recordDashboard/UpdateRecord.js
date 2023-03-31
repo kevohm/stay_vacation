@@ -18,18 +18,33 @@ const UpdateRecord = () => {
   const handleSubmit = (e)=>{
     e.preventDefault()
     const {description,state} = data
-        if(!description || !state){
-          changeErr({
-              msg: "All fields are required",
-              state: "",
-              show: true,
-            })
-            return
-        }
+    if(!description || !state){
+      changeErr({
+          msg: "All fields are required",
+          type: "warning",
+          show: true,
+        })
+        return
+    }if(description.length < 60){
+      changeErr({
+        msg: "Description must be atleast 60 characters",
+        type: "warning",
+        show: true,
+      })
+      return
+    }
+    if(description.length > 400){
+      changeErr({
+        msg: "Description must be atmost 400 characters",
+        type: "warning",
+        show: true,
+      })
+      return
+    }
         updateReport(reportId ,{description,state})
   }
   const changeErr = (err) => {
-    updateError('report', err)
+    updateError(err)
 }
   return (
     <Main onSubmit={(e)=>handleSubmit(e)}>
@@ -48,6 +63,7 @@ const UpdateRecord = () => {
             </div>
             {state.report_startUpdate.err.show && (<FormError err={state.report_startUpdate.err}/>)}
       <div>
+        <p>{data.description.length} characters</p>
         <textarea
           placeholder="Description of event"
           value={data.description}
@@ -81,7 +97,7 @@ export default UpdateRecord
 const Main = styled.form`
 ${tw`relative w-full bg-white max-w-[300px] md:max-w-max space-y-5 p-5 rounded-lg`}
       > div {
-        ${tw`w-full max-w-none sm:max-w-[440px] flex flex-col space-y-5`}
+        ${tw`w-full max-w-none sm:max-w-[440px] flex flex-col space-y-2`}
         p{
             font-family: poppinsMedium;
             ${tw`capitalize text-sm text-[rgba(1, 49, 91, .9)]`}

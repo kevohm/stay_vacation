@@ -98,7 +98,7 @@ const addUser = async (req, res) => {
   const user = await User.findOne({ _id: userId });
   if (!user || !event) {
     throw new BadRequest("Invalid details provided");
-  } 
+  }
   const amount = await event.price_choices.find(
     (item) => category === item.category
   );

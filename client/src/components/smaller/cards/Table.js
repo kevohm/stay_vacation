@@ -31,7 +31,7 @@ export const Table = ({data=[], title=[], type}) => {
                   <td>
                     <img src={image[0]} alt={name} />
                   </td>
-                  <td>{description}</td>
+                  <td>{(description.length > 45)?`${description.slice(0,45)}...`:description}</td>
                   <td>{city}</td>
                   <td>{country}</td>
                 </tr>

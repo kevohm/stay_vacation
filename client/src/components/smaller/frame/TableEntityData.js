@@ -40,7 +40,7 @@ export const TableEntityData = ({type,selected,handleSelect}) => {
           const {
           image,name,
           description,city,country,
-          category,price_choices,
+          category,price_choices,Amenities,
           validity,createdAt,updatedAt,
           _id,
         } = i;
@@ -53,9 +53,10 @@ export const TableEntityData = ({type,selected,handleSelect}) => {
             </td>
             <td><img src={image[0]} alt={name}/></td>
             <td>{name}</td>
-            <td className="desc">{description}</td>
-            <td><ul>{category.map((i,index)=><li key={index}>{i}</li>)}</ul></td>
+            <td ><p className="desc">{description}</p></td>
+            <td><ul>{category.map((i)=><li key={i.name}>{i.name}</li>)}</ul></td>
             <td><ul>{price_choices.map((i)=><li key={i._id}>{i.price} per {i.category}</li>)}</ul></td>
+            <td><ul>{Amenities.map((i,index)=><li key={index}>{i}</li>)}</ul></td>
             <td>{city}</td>
             <td>{country}</td>
             <td>{moment(new Date(validity)).format("ddd, MMM Do YYYY")}</td>

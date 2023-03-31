@@ -11,6 +11,11 @@ const Comment = new mongoose.Schema({
     ref: "Event",
     autopopulate: true,
   },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    autopopulate: { select: "-password" },
+  },
   createdAt: {
     type: Date,
     required: [true, "Please provide date created"],
@@ -20,4 +25,6 @@ const Comment = new mongoose.Schema({
       required:[true, "Please provide date updated"]
     }
 });
+
+Comment.plugin(require("mongoose-autopopulate"));
 module.exports = mongoose.model("Comment", Comment)

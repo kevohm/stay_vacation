@@ -6,6 +6,7 @@ import tw from 'twin.macro'
 import SingleEvent from './SingleEvent'
 import { Loader } from '../../smaller/load/Loader'
 import { useEvent } from '../context/EventContext'
+import noevents from "../../../assets/svg/noevents.svg"
 
 const Events = ({loading,eventsData, page, changePage, handleCategory}) => {
   const {sortBy,events} = useEvent()
@@ -78,11 +79,22 @@ const Events = ({loading,eventsData, page, changePage, handleCategory}) => {
       </div>
      </div>
      <div className='events'>
-      {loading?<Loader color="#8A9AEA"/>:
-        eventsData.map((item)=><SingleEvent key={item.name} grid={grid}  event={item}/>)
+      {
+        loading?<Loader color="#8A9AEA"/>:(
+          <>{
+          eventsData.length === 0 ? <div className='noevents'>
+            <img src={noevents} alt="no events"/> 
+            <p>No Events Yet. try changing the filters</p>
+            </div>:
+          eventsData.map((item)=><SingleEvent key={item.name} grid={grid}  event={item}/>)
+          }
+          </>
+        )
       }
+      
      </div>
-     <div className='pages'>
+     {
+      events.pages === 0 || <div className='pages'>
       <div className='icon-holder' title='previous' onClick={()=>handleDir("prev")}>
       <FaAngleLeft className='icon'/>
       </div>
@@ -98,6 +110,7 @@ const Events = ({loading,eventsData, page, changePage, handleCategory}) => {
       <FaAngleRight className='icon'/>
       </div>
      </div>
+     }
     </Main>
   )
 }
@@ -135,6 +148,16 @@ ${tw`w-full max-w-[896px] flex flex-col space-y-5 rounded-lg col-span-2 row-span
 }
 >.events{
   ${(props)=>props.grid ?tw`grid grid-cols-[1fr] sm:justify-items-center sm:grid-cols-[repeat(auto-fit, minmax(400px, 1fr))] lg:grid-cols-[repeat(auto-fit, minmax(350px, 1fr))] gap-5`: tw`flex flex-col space-y-5`}
+  .noevents{
+    ${tw`flex flex-col justify-center items-center space-y-10 py-10`}
+    font-family:poppinsSemi;
+    p{
+      ${tw`text-sm text-darkBlue`}
+    }
+    >img{
+      ${tw`w-full max-w-[250px] mx-auto`}
+    }
+  }
 }
 >.pages{
   ${tw`bg-white flex space-x-5 items-center p-5 rounded-lg`}

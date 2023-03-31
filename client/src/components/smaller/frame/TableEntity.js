@@ -10,7 +10,7 @@ export const TableEntity = ({ handleChange, type, typeData, headings,validation}
   const { state, setLoading, setCurrentEvent,setCurrents} = useGlobal();
   const [selected, setSelected] = useState("")
   const [page, setPage] = useState(state[type].currentPage);
-  const spanning = {"users":5,"events":9}
+  const spanning = {"users":5,"events":10}
   const handleInput = (e) => {
     e.preventDefault();
     const { value } = e.target;

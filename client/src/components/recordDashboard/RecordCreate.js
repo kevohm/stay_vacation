@@ -9,7 +9,7 @@ import tw from 'twin.macro'
 const RecordCreate = () => {
     const [open, setOpen] = useState(false)
     const sortData = ['created at', 'name', ' description', 'validity', 'city', ' country']
-  const headings = ['#','image','name','description','category','price','city','country','validity','createdAt','UpdatedAt']
+  const headings = ['#','image','name','description','category','price','amenities','city','country','validity','createdAt','UpdatedAt']
     const handleChange = ()=>{
         setOpen(!open)
     }

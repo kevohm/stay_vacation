@@ -68,7 +68,7 @@ const Main = styled.div`
       fill: rgba(255, 164, 2, 0.9);
     }
   }
-  .update{
+  >.update{
     ${tw`flex items-start sm:items-center justify-center absolute left-0 top-0 bg-[rgba(0,0,0,.2)] w-full h-full z-20 rounded-lg`}
   }
 `;

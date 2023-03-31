@@ -7,7 +7,7 @@ const body = {
   category: "",
 };
 const PaymentForm = ({ changeOpen, changeOpenUsers }) => {
-  const { state, setForm, defaultSingleData, createPayment  } = useGlobal();
+  const { state, setForm, defaultSingleData, createPayment ,updateError } = useGlobal();
   const [price,setPrice] = useState("")
   const [data, setData] = useState(body);
   const handleChange = (e) => {
@@ -21,7 +21,7 @@ const PaymentForm = ({ changeOpen, changeOpenUsers }) => {
     if (!id) {
       changeErr({
         msg: "Please provide an event to make payments on",
-        state: "",
+        type: "warning",
         show: true,
       });
       return
@@ -29,7 +29,7 @@ const PaymentForm = ({ changeOpen, changeOpenUsers }) => {
     if (!userID) {
       changeErr({
         msg: "Please provide a user to pay for event",
-        state: "",
+        type: "warning",
         show: true,
       });
       return
@@ -38,15 +38,15 @@ const PaymentForm = ({ changeOpen, changeOpenUsers }) => {
       if (!category || !currency) {
         changeErr({
           msg: "All fields are required",
-          state: "",
+          type: "warning",
           show: true,
         });
         return;
       }
-      createPayment(id,userID,{ category,currency});
+      createPayment(id,userID,category,currency);
   };
   const changeErr = (err) => {
-    setForm("report", err);
+    updateError(err);
   };
   return (
     <Main onSubmit={(e) => handleSubmit(e)}>

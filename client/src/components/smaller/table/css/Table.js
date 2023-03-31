@@ -2,14 +2,13 @@ import styled from "styled-components";
 import tw from "twin.macro";
 export const Main = styled.table`
   ${tw`relative min-w-full w-max text-sm`}
-  
   border-collapse:collapse;
   thead,
   tbody > tr {
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    .desc{
-        ${tw`max-w-[300px]`}
-    }
+    .width{
+      ${tw`max-w-[300px]`}
+  }
     .edit {
       ${tw`flex space-x-5`}
       .delete, .edit{
@@ -47,6 +46,9 @@ export const Main = styled.table`
             ${tw`text-[rgba(0,0,0,.5)] text-sm`}
           }
         }
+        .desc{
+          ${tw`max-w-[300px] max-h-[60px] text-start overflow-y-scroll`}
+      }
         
       }
       .status{

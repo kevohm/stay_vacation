@@ -1,54 +1,49 @@
 import validator from "validator"
+let err = { msg: "All fields are required", type: "warning", show: true }
 export const verify = (body, changeErr) => {
   const { username, email, phone_number, password, confirm_password } = body;
   if (!username || !email || !phone_number || !password || !confirm_password) {
-    changeErr({ msg: "All fields are required", state: "", show: true });
+    changeErr(err);
     return true;
   }
   if (username.length > 40) {
     changeErr({
-      msg: "Username must be less than 40 letters",
-      state: "",
-      show: true,
+      ...err,
+      msg: "Username must be less than 40 letters"
     });
     return true;
   }
   if (username.length < 3) {
     changeErr({
+      ...err,
       msg: "Username must be at least than 3 letters",
-      state: "",
-      show: true,
     });
     return true;
     } if (!validator.isEmail(email)) {
       changeErr({
+        ...err,
         msg: "Email is not valid",
-        state: "",
-        show: true,
       });
       return true;
   }
   if (phone_number.length < 13) {
     changeErr({
+      ...err,
       msg: "Phone Number length must be at least 13",
-      state: "",
-      show: true,
     });
     return true;
   }
   if (!phone_number.startsWith("+254")) {
     changeErr({
+      ...err,
       msg: "Phone Number length must start with +254",
-      state: "",
-      show: true,
     });
     return true;
   }
   if (password !== confirm_password) {
     changeErr({
+      ...err,
       msg: "Passwords do not match",
-      state: "",
-      show: true,
     });
     return true;
   }
@@ -58,45 +53,40 @@ export const verify = (body, changeErr) => {
 export const verifyUpdate = (body, changeErr) => {
   const { username, email, phone_number} = body;
   if (!username || !email || !phone_number) {
-    changeErr({ msg: "All fields are required", state: "", show: true });
+    changeErr(err);
     return true;
   }
   if (username.length > 40) {
     changeErr({
+      ...err,
       msg: "Username must be less than 40 letters",
-      state: "",
-      show: true,
     });
     return true;
   }
   if (username.length < 3) {
     changeErr({
+      ...err,
       msg: "Username must be at least than 3 letters",
-      state: "",
-      show: true,
     });
     return true;
     } if (!validator.isEmail(email)) {
       changeErr({
+        ...err,
         msg: "Email is not valid",
-        state: "",
-        show: true,
       });
       return true;
   }
   if (phone_number.length < 13) {
     changeErr({
+      ...err,
       msg: "Phone Number length must be at least 13",
-      state: "",
-      show: true,
     });
     return true;
   }
   if (!phone_number.startsWith("+254")) {
     changeErr({
+      ...err,
       msg: "Phone Number length must start with +254",
-      state: "",
-      show: true,
     });
     return true;
   }

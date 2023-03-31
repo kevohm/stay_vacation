@@ -5,6 +5,7 @@ import tw from 'twin.macro'
 import { Navbar, Sidebar } from "../../components/DashboardWrapper/index" 
 import { useGlobal } from "../../context/AppContext"
 import {env} from "../../context/appActions"
+import { GlobalError } from '../../components/smaller/error/GlobalError'
 const DashboardWrapper = () => { 
   const { state } = useGlobal()
   if (state.user.role !== env.ADMIN) {
@@ -12,6 +13,7 @@ const DashboardWrapper = () => {
   }
   return (
     <Main>
+                <GlobalError {...state.GlobalError}/>
           <Navbar />
           <div className='body'>
               <Sidebar />
@@ -26,7 +28,7 @@ const DashboardWrapper = () => {
 export default DashboardWrapper
 
 const Main = styled.main`
-  ${tw`w-full h-screen flex flex-col items-center`}
+  ${tw`relative w-full h-screen flex flex-col items-center`}
   .body {
     ${tw`w-full h-full flex`}
   }

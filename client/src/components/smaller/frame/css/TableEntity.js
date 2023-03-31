@@ -45,6 +45,9 @@ export const Main = styled.table`
             ${tw`text-[rgba(0,0,0,.5)] text-sm`}
           }
         }
+        .desc{
+          ${tw`max-w-[300px] max-h-[60px] text-start overflow-y-scroll`}
+      }
       }
       .page {
         ${tw``}

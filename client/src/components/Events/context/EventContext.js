@@ -62,10 +62,12 @@ const EventContext = ({ children }) => {
     arrange = "desc",
     min = 0,
     max = 900000,
-    category = ""
+    category = "",
+    search = ""
   ) => {
     setLoading(true, "events");
-    const url = `/event/all?page=${page}&limit=${limit}&sort=${sort}&arrange=${arrange}&price_start=${min}&price_end=${max}&category=${category}`;
+
+    const url = `/event/all?page=${page}&limit=${limit}&sort=${sort}&arrange=${arrange}&price_start=${min}&price_end=${max}&category=${category}&search=${search}`;
     try {
       const { data } = await client.get(url);
       const { events, pages } = data;
@@ -106,6 +108,16 @@ const EventContext = ({ children }) => {
       console.log(error);
     }
   };
+  const getCategories = async()=>{
+    setFilter({...state.filter, loading:true})
+    try {
+      const { data } = await client.get("categories");
+      const { categories } = data;
+      setFilter({...state.filter, data:categories, loading:false})
+    } catch (error) {
+      setFilter({...state.filter, loading:false})
+    }
+  }
   return (
     <AppProvider.Provider
       value={{
@@ -115,7 +127,8 @@ const EventContext = ({ children }) => {
         setFilter,
         setSort,
         setCurrentEvent,
-        getSingle
+        getSingle,
+        getCategories
       }}
     >
       {children}

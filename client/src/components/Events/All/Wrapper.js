@@ -19,7 +19,7 @@ const Wrapper = () => {
     setSort(sort, arrange)
   }
   useEffect(()=>{
-    getAll(page,6,sortBy.sort,sortBy.arrange,filter.price.min,filter.price.max,filter.category)
+    getAll(page,6,sortBy.sort,sortBy.arrange,filter.price.min,filter.price.max,filter.category,filter.search)
   },[filter,sortBy,page])
   return (
     <Main>
@@ -33,5 +33,5 @@ const Wrapper = () => {
 export default Wrapper
 
 const Main =styled.div`
-${tw`flex flex-col space-y-12 md:space-y-0  md:grid  md:grid-cols-[repeat(3, 1fr)] grid-flow-col-dense md:grid-rows-[25rem, 670px, 1fr] gap-5 items-start`}
+${tw`flex flex-col space-y-12 md:space-y-0  md:grid  md:grid-cols-[repeat(3, 1fr)] grid-flow-col-dense md:grid-rows-[25rem, 780px, 1fr] gap-5 items-start`}
 `

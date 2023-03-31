@@ -25,7 +25,7 @@ export const Table = ({ handleChange, type, typeData, headings}) => {
       deleteUser(id);
     }
     if(type === "events"){
-      removeEvent(id)
+      removeEvent(id,page)
     }
     if(type === "reports"){
       deleteReport(id)

@@ -23,20 +23,12 @@ export const SelectEntityTable = ({changeOpen, update, typeData, sortData, headi
     setLoading(typeData, true)
   }
   useEffect(() => {
-    if(!validation){
-      if(typeData === "users"){
-        getUsers(page, 10, sort, arrange);
-    }if(typeData === "events"){
-        getEvents(page, 10, sort, arrange);
-    }
-  }else{
     const validity = new Date().toISOString()
       if(typeData === "users"){
-          getUsers(page, 10, sort, arrange, validity);
+          getUsers(page, 10, sort, arrange, validity, validation);
       }if(typeData === "events"){
-          getEvents(page, 10, sort, arrange, validity);
+          getEvents(page, 10, sort, arrange, validity, validation);
       }
-  }
   }, [page, sort, arrange]);
   return (
     <TableEntityHolder

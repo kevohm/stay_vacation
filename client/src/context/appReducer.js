@@ -95,6 +95,7 @@ export const reducer = (state, action) => {
         events_error: errorState,
         payments_error: errorState,
         reports_error: errorState,
+        GlobalError:{msg:"",show:false,type:"warning"}
       };
     case actions.SET_ERROR:
       const { typeData, err } = action.payload;
@@ -146,6 +147,17 @@ export const reducer = (state, action) => {
       const {typeData} = action.payload
       const defaultData = { data: [], pages: 1, currentPage: 1, loading: true };
       return {...state,[typeData]:defaultData}
+    }
+    case actions.SET_EVENT_CATEGORY:{
+      const {categories} = action.payload
+      return {...state,event_category:{data:categories,loading:false}}
+    }
+    case actions.SET_EVENT_CATEGORY_DEFAULT:{
+      return {...state,event_category:{data:[],loading:true}}
+    }
+    case actions.SET_GLOBAL_ERR:{
+      const {err} = action.payload
+      return {...state, GlobalError:err}
     }
     default:
       return state;

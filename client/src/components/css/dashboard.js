@@ -18,6 +18,10 @@ export const Main = styled.form`
       ${tw`w-full`}
       resize: vertical;
     }
+    .characters{
+      font-family: poppinsMedium;
+      ${tw`text-xs text-[rgba(1, 49, 91, .5)]`}
+    }
   }
   .file {
     ${tw``}

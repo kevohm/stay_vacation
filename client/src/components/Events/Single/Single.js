@@ -26,7 +26,6 @@ const Single = () => {
         <p>Opps! Event does not exist.</p>
       </Err>
     }
-    console.log(currentEvent.data)
   return (
     <Main>
       <div className='images'>
@@ -42,7 +41,7 @@ const Single = () => {
       </div>
       <div className='info'>
         <div>
-        <header className='title'>{currentEvent.data.name}</header>
+        <header className='title'>{currentEvent.data.name}, {currentEvent.data.city}</header>
         <p>{currentEvent.data.description}</p>
         </div>
         <div>
@@ -60,17 +59,37 @@ const Single = () => {
         </div>
         <div>
           <header  className='title'>Amenities</header>
-          <div className='amenities'>
-            <BsCheck2Circle className='icon'/>
-            <p>Transport in 6 seater luxury open roof tour vans / landcruisers for 3 days</p>
+          {
+            currentEvent.data.Amenities.map(
+              (item,index)=><div key={index} className='amenities'>
+              <BsCheck2Circle className='icon'/>
+              <p>{item}</p>
+            </div>
+            )
+          }
+          
+        </div>
+        <div>
+          <header  className='title'>Category</header>
+          <div className='categories'>
+          {
+            currentEvent.data.category.map(
+              (item,index)=><div key={index} className='category'>
+              <p>{item.name}</p>
+            </div>
+            )
+          }
           </div>
+          
         </div>
         <div className='submit'>
-          <button>Book now</button>
-        </div>
         <div className='info-div'>
           <FaInfoCircle className='icon'/>
           <p>For more information, contact us at <span>+254704591173</span></p>
+        </div>
+        <div className='book'>
+          <button>Book now</button>
+        </div>
         </div>
       </div>
     </Main>
@@ -87,6 +106,7 @@ ${tw`w-full flex-col space-y-10 flex bg-white rounded-lg py-12 items-center just
 `
 const Main = styled.div`
 ${tw`w-full bg-white rounded-lg p-2.5 flex flex-col items-center md:items-start  space-y-5 md:grid md:grid-cols-[48%, 52%] md:gap-2.5`}
+box-shadow:0px 2px 6px 0px rgba(1, 49, 91, .25);
 .images{
   ${tw`w-full max-w-[620px] grid grid-cols-[repeat(auto-fill, minmax(120px, 1fr))] 
   sm:grid-cols-[repeat(auto-fill, minmax(130px, 1fr))]  md:grid-cols-[repeat(auto-fill, minmax(150px, 1fr))] 
@@ -96,7 +116,7 @@ ${tw`w-full bg-white rounded-lg p-2.5 flex flex-col items-center md:items-start 
   }
 }
 .info{
-  ${tw`w-full max-h-[850px] max-w-[720px] pl-5 flex flex-col space-y-5 pr-6 overflow-y-scroll`}
+  ${tw`w-full max-w-[720px] pl-5 flex flex-col space-y-10 pr-6`}
   p{
     font-family:montserratMedium;
     ${tw`text-sm`}
@@ -106,7 +126,13 @@ ${tw`w-full bg-white rounded-lg p-2.5 flex flex-col items-center md:items-start 
     ${tw`text-lg text-darkBlue`}
   }
   >div{
-    ${tw`w-full flex flex-col space-y-2 py-8`}
+    ${tw`w-full flex flex-col space-y-2 `}
+    .categories{
+      ${tw`w-full grid grid-cols-[repeat(auto-fill, minmax(70px, 1fr))] gap-5`}
+      .category{
+        ${tw`w-max rounded-xl  text-darkBlue border border-solid border-darkBlue p-2 px-2.5`}
+      }
+    }
     .amenities{
       ${tw`flex items-center space-x-4 pl-1`}
       .icon{
@@ -129,24 +155,30 @@ ${tw`w-full bg-white rounded-lg p-2.5 flex flex-col items-center md:items-start 
     ${tw`pt-0`}
   }
   .submit{
-    ${tw`py-10 items-end`}
-    button{
-      ${tw`p-2.5 py-2 rounded-lg bg-green text-darkBlue border-none`}
+    ${tw`py-10 flex space-y-5 items-start`}
+    .book{
+      ${tw`w-full flex items-center justify-end`}
+      button{
+        font-family:montserratMedium;
+        ${tw`p-2.5 py-2 rounded-lg bg-green text-sm  text-darkBlue border-none`}
+      }
+    }
+    .info-div{
+      ${tw`space-y-0 flex flex-row items-center space-x-2  `}
+      .icon{
+        ${tw`text-lightBlue text-sm w-max`}
+      }
+      p{
+        ${tw`w-full text-lightBlue text-sm`}
+      }
+      span{
+        font-family:montserratSemi;
+        ${tw`text-darkBlue text-sm`}
+      }
     }
   }
-  .info-div{
-    ${tw`w-full pb-0 max-w-[430px] mx-auto space-y-0 flex-row items-center space-x-5 `}
-    .icon{
-      ${tw`text-lightBlue w-max`}
-    }
-    p{
-      ${tw`w-full text-lightBlue text-sm`}
-    }
-    span{
-      font-family:montserratSemi;
-      ${tw`text-darkBlue`}
-    }
-  }
+  
+
   
 }
 `

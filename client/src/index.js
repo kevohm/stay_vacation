@@ -24,10 +24,11 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { AppContext } from "./context/AppContext";
+import { EventContext } from './components/Events/context/EventContext';
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route errorElement={<Error />}>
-      <Route path="/" element={<Wrapper />}>
+      <Route path="/" element={<EventContext> <Wrapper /></EventContext>}>
         <Route index element={<Landing />} />
         <Route path="profile" element={<Profile />} />
         <Route path="events" element={<Events />} />

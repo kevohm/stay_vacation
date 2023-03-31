@@ -1,12 +1,13 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
 import RangeSlider from "react-range-slider-input";
 import "react-range-slider-input/dist/style.css";
 import { useEvent } from "../context/EventContext";
+import { Loader } from "../../smaller/load/Loader";
 
 const Search = ({handleRefresh}) => {
-  const {filter} = useEvent()
+  const {filter,getCategories} = useEvent()
   const [filterData, setfilterData] = useState(filter);
 
   const handleChange = (e) => {
@@ -18,8 +19,16 @@ const Search = ({handleRefresh}) => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleRefresh(filterData)
+    handleRefresh({...filterData, data:filter.data})
   };
+  useEffect(()=>{
+    getCategories()
+  },[])
+  if(filter.loading){
+    return <Main>
+      <Loader/>
+    </Main>
+  }
   return (
     <Main onSubmit={(e) => handleSubmit(e)}>
       <div className="input">
@@ -28,7 +37,7 @@ const Search = ({handleRefresh}) => {
           <input
             type="text"
             name="search"
-            placeholder="Keywords"
+            placeholder="keywords"
             value={filterData.search}
             onChange={(e) => handleChange(e)}
           />
@@ -55,16 +64,16 @@ const Search = ({handleRefresh}) => {
       <div className="input">
         <label>Category</label>
         <div className="radio">
-          {filterData.data.map((i) => {
+          {filter.data.map((i) => {
             return (
-              <div key={i}>
+              <div key={i.name}>
                 <input
                   type="radio"
                   name="category"
-                  value={i}
+                  value={i.name}
                   onChange={(e) => handleChange(e)}
                 />
-                <label>{i}</label>
+                <label>{i.name}</label>
               </div>
             );
           })}
