@@ -7,13 +7,13 @@ import { useGlobal } from "../../context/AppContext"
 import {env} from "../../context/appActions"
 import { GlobalError } from '../../components/smaller/error/GlobalError'
 const DashboardWrapper = () => { 
-  const { state } = useGlobal()
+  const { state,closeGlobalErr } = useGlobal()
   if (state.user.role !== env.ADMIN) {
     return <Navigate to="/" />
   }
   return (
     <Main>
-                <GlobalError {...state.GlobalError}/>
+                <GlobalError {...state.GlobalError} close={closeGlobalErr}/>
           <Navbar />
           <div className='body'>
               <Sidebar />

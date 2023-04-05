@@ -117,11 +117,6 @@ export const UpdateForm = () => {
           }
         />
       </div>
-      {state.event_startUpdate.err.show && (
-        <div className="update-message">
-          <FormError err={state.event_startUpdate.err} />
-        </div>
-      )}
       <div className="flex-it">
         <div>
           <div>

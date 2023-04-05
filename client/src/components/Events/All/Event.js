@@ -11,7 +11,7 @@ export const Event = ({event}) => {
         </div>
         <div>
             <header>{event.name}</header>
-            <p>{event.description}</p>
+            <p>{event.description.length <= 70 ?event.description:`${event.description.slice(0,70)}...`}</p>
         </div> 
     </Main>
   )

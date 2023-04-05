@@ -50,7 +50,6 @@ const PaymentForm = ({ changeOpen, changeOpenUsers }) => {
   };
   return (
     <Main onSubmit={(e) => handleSubmit(e)}>
-      {state.payment_form.show && <FormError err={state.payment_form} />}
       {<div>
         <select
           value={data.category}

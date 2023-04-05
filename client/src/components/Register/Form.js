@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
 import tw from 'twin.macro'
+import {FormError} from "../smaller/error/FormError"
 import { useGlobal } from '../../context/AppContext';
 const body = {
   email: "",
@@ -13,7 +13,7 @@ const body = {
 }
 
 const Form = () => {
-  const {handleUser, state}  = useGlobal()
+  const {handleUser, state, getUser, setForm}  = useGlobal()
   const [data, setData] = useState(body)
     const { pathname } = useLocation()
   const login = (pathname === "/register/login")
@@ -22,28 +22,58 @@ const Form = () => {
       e.preventDefault()
       if (login) {
         const {email, password} = data
-        handleUser({ email, password }, "login");
-        
+        handleUser({ email, password }, "login").then(()=>{
+          getUser()
+          changeErr({
+            msg: "You are logged in. Redirecting...",
+            state: "success",
+            show: true,
+          });
+          setTimeout(()=>navigate("/"), 3000);
+        }).catch((error)=>{
+          if (error.response && error.response.data) {
+            changeErr({
+              msg: error.response.data.msg,
+              state: "",
+              show: true,
+            });
+          }
+        })
       } else {
         const { email,password,username,phone_number} = data;
-        handleUser({ email, password, username, phone_number }, "register");
+        handleUser({ email, password, username, phone_number }, "register").then(()=>{
+          changeErr({
+            msg: "Successfully registered. redirecting...",
+            state: "success",
+            show: true,
+          });
+          setTimeout(()=>navigate("/register/login"), 3000);
+        }).catch((error)=>{
+          if (error.response && error.response.data) {
+            changeErr({
+              msg: error.response.data.msg,
+              state: "",
+              show: true,
+            });
+          }
+        })
       }
+  }
+  const changeErr = (err)=>{
+    setForm(err)
   }
   const changeData = (e) => {
     const { value, name } = e.target 
     setData({ ...data, [name]: value })
   }
-  useEffect(() => {
-    if (state.user.id) {
-      let current = setTimeout(navigate("/"), 3000);
-      return clearTimeout(current)
-    }
-  }, [state.user.id]);
   return (
     <Main onSubmit={(e) => handleSubmit(e)}>
       <div className="title">
         <header>{login ? "log in" : "sign up"}</header>
       </div>
+      {state.user_form.show && <div className="input">
+      <FormError {...state.user_form}/>
+      </div>}
       <div className="input">
         <input
           type="text"

@@ -2,16 +2,23 @@ import React from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import {MdNotificationsActive} from "react-icons/md"
+import { useGlobal } from '../../../context/AppContext'
+import { FaTimes } from 'react-icons/fa'
 
-export const GlobalError = ({msg, type, show}) => {
+export const GlobalError = ({msg, type, show, close}) => {
     if(!show) return
     return (
     <Main type={type}>
+        <div className='header'>
         <header>
             <MdNotificationsActive className='icon'/> 
             <p>Notifications</p>
         </header>
-        <div>
+        <div onClick={close}>
+            <FaTimes className='icon'/>
+        </div>
+        </div>
+        <div className='message'>
             {msg}
         </div>
     </Main>
@@ -19,40 +26,30 @@ export const GlobalError = ({msg, type, show}) => {
 }
 
 const Main =styled.div`
-${tw`absolute top-[30px] left-[40%] bg-white max-w-[400px] border-solid border-2 flex flex-col space-y-2 border-transparent rounded-lg p-5 z-40`}
+${tw`min-w-[200px] absolute top-[30px] left-[20px] sm:left-[40%] bg-white max-w-[400px] border-solid border-2 flex flex-col space-y-2 border-transparent rounded-lg p-5 z-50`}
 box-shadow:0px 4px 8px rgba(0,0,0,.15);
-
->header{
-    ${(props)=>props.type === "warning" && tw`text-red-600`}
-    ${(props)=>props.type === "success" && tw`text-[#16a34a]`}
-    ${tw`flex items-center space-x-2 text-sm`}
-    .icon{
-        ${tw`text-sm`}
-
+.header{
+    ${tw`flex justify-between`}
+    >header{
+        ${(props)=>props.type === "warning" && tw`text-red-600`}
+        ${(props)=>props.type === "success" && tw`text-[#16a34a]`}
+        ${tw`flex items-center space-x-2 text-sm`}
+        .icon{
+            ${tw`text-sm`}
+    
+        }
+    }
+    >div{
+        ${tw`cursor-pointer flex items-center justify-center p-1`}
+        .icon{
+            ${tw`text-lg`}
+            ${(props)=>props.type === "warning" && tw`text-red-600`}
+            ${(props)=>props.type === "success" && tw`text-[#16a34a]`}
+        }
     }
 }
->div{
+.message{
     ${tw`relative text-sm`}
     
 }
-
-:before{
-    ${(props)=>props.type === "warning" && tw`bg-red-600`}
-    ${(props)=>props.type === "success" && tw`bg-[#16a34a]`}
-    content:"";
-    width:0px;
-    height:2px;
-    ${tw`absolute bottom-[1px] -left-0`}
-    animation: spin 3s linear infinite;
-}
-
-@keyframes spin {
-from {
-width:0px;
-}
-to {
-width:100%;
-}
-
-
 `

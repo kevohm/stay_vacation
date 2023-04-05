@@ -2,10 +2,10 @@ import tw from "twin.macro"
 import styled from "styled-components"
 
 const Main = styled.div`
-  ${tw`h-16 pl-6 md:pl-12 text-sm flex items-center border-y border-x-0 border-solid border-[rgba(1, 49, 91, .1)]`}
+  ${tw`overflow-x-scroll overflow-y-auto h-16 px-12 pl-6 md:pl-12 text-sm flex items-center border-y border-x-0 border-solid border-[rgba(1, 49, 91, .1)]`}
   font-family:poppinsSemi;
   a {
-    ${tw`text-lightBlue`}
+    ${tw`min-w-fit text-lightBlue`}
   }
 
   .home:after,

@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import moment from "moment"
 import tw from 'twin.macro'
 export const Input = ({
   type,
@@ -9,7 +10,38 @@ export const Input = ({
   error,
   handleChange,
   width,
+  value
 }) => {
+  if(type === "date"){
+    return (
+      <Main error={error} width={width}>
+        <label htmlFor={name}>{title}</label>
+        <input
+          type={type}
+          placeholder={placeholder}
+          min={moment(new Date()).format("YYYY-MM-DD")}
+          name={name}
+          value={value}
+          onChange={(e) => handleChange(e)}
+        />
+      </Main>
+    );
+  }
+  if(type === "number"){
+    return (
+      <Main error={error} width={width}>
+        <label htmlFor={name}>{title}</label>
+        <input
+          type={type}
+          placeholder={placeholder}
+          min={0}
+          name={name}
+          value={value}
+          onChange={(e) => handleChange(e)}
+        />
+      </Main>
+    );
+  }
   return (
     <Main error={error} width={width}>
       <label htmlFor={name}>{title}</label>
@@ -17,6 +49,7 @@ export const Input = ({
         type={type}
         placeholder={placeholder}
         name={name}
+        value={value}
         onChange={(e) => handleChange(e)}
       />
     </Main>
@@ -31,8 +64,7 @@ const Main = styled.div`
   input {
     font-family: poppins;
     ${tw`w-full text-xs sm:text-sm p-1 sm:p-2 text-darkBlue bg-white rounded-lg border-none`}
-    outline:1px solid ${(props) =>
-      props.error ? "rgba(255, 0, 0, .5)" : "rgba(1, 49, 91, .2)"};
+    outline:1px solid rgba(1, 49, 91, .2);
     width: ${(props) => props.width};
     ::placeholder {
       font-family: poppins;

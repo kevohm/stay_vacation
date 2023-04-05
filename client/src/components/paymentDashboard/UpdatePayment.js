@@ -47,7 +47,6 @@ const UpdatePayment = () => {
                     }
                 />
             </div>
-            {state.payment_startUpdate.err.show && (<FormError err={state.payment_startUpdate.err}/>)}
       <div>
         <select
           value={data.state}

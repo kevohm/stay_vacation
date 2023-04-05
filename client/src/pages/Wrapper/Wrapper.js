@@ -1,15 +1,16 @@
 import React from "react";
 import { Outlet} from "react-router-dom";
-import { EventContext, useEvent } from "../../components/Events/context/EventContext";
-import { GlobalError } from "../../components/smaller/error/GlobalError";
 import { Breadcrumbs, Navbar, Footer } from "../../components/Wrapper/index"
+import {GlobalError} from "../../components/smaller/error/GlobalError"
 import { Main } from "./css/Wrapper";
-const Wrapper = () => {
-  const {MemberError} = useEvent()
+import { useGlobal } from "../../context/AppContext";
+import { useEvent } from "../../components/Events/context/EventContext";
 
+const Wrapper = () => {
+  const {MemberError,setDefaultGlobal} = useEvent()
   return (
     <Main>
-      <GlobalError {...MemberError}/>
+      <GlobalError {...MemberError} close={setDefaultGlobal}/>
       <Navbar />
       <Breadcrumbs/> 
       <Outlet />

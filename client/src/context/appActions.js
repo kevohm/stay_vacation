@@ -20,14 +20,7 @@ export const initialState = {
   events: { data: [], pages: 1, currentPage: 1, loading: true },
   reports: { data: [], pages: 1, currentPage: 1, loading: true },
   payments: { data: [], pages: 1, currentPage: 1, loading: true },
-  users_error: { msg: "", state: "", status: false },
-  events_error: { msg: "", state: "", status: false },
-  reports_error: { msg: "", state: "", status: false },
-  payments_error: { msg: "", state: "", status: false },
   user_form: { msg: "", state: "", show: false },
-  event_form: { msg: "", state: "", show: false },
-  report_form: { msg: "", state: "", show: false },
-  payment_form: { msg: "", state: "", show: false },
   user: getCookie("_v") || { role: null, id: null },
   report_on:{
     event:{},
@@ -36,7 +29,7 @@ export const initialState = {
     event:{},
     user:{}
   },
-  user_startUpdate:{start:false,current:{email:"",phone_number:"", username:""}, err:{ msg: "", state: "", show: false }},
+  user_startUpdate:{start:false,current:{email:"",phone_number:"", username:""}},
   event_startUpdate:{start:false,current:{
     "image": [],
     "name": "",
@@ -46,16 +39,16 @@ export const initialState = {
     "category": [],
     "price_choices":[],
     "validity": "",
-  }, err:{ msg: "", state: "", show: false }},
+  }},
   report_startUpdate:{start:false,current:{
     "description": "",
     "state": ""
-  }, err:{ msg: "", state: "", show: false }},
+  }},
   payment_startUpdate:{start:false,current:{
     "description": "",
     "state": ""
   }, err:{ msg: "", state: "", show: false }},
-  event_category:{data:[],loading:true,err:{ msg: "", state: "", show: false }},
+  event_category:{data:[],loading:true},
   GlobalError:{msg:"",show:false,type:"warning"}
 };
 export const actions = {
@@ -81,7 +74,8 @@ export const actions = {
   SET_PAY_ON:"SET_PAY_ON",
   SET_EVENT_CATEGORY:"SET_EVENT_CATEGORY",
   SET_EVENT_CATEGORY_DEFAULT:"SET_EVENT_CATEGORY_DEFAULT",
-  SET_GLOBAL_ERR:"SET_GLOBAL_ERR"
+  SET_GLOBAL_ERR:"SET_GLOBAL_ERR",
+  CLOSE_GLOBAL_ERR:"CLOSE_GLOBAL_ERR"
 };
 
 export const env = {ADMIN:"96e0c255-1643-48d2-9c60-08a115fbda91",MEMBER:"e213ee27-cb78-4b61-bd8c-296546738f08"}

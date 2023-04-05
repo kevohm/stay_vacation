@@ -69,9 +69,10 @@ export const reducer = (state, action) => {
           current,
         },
       };
-    case actions.FORM_ERROR:
-      const { currentErr, currentType } = action.payload;
-      return { ...state, [`${currentType}_form`]: currentErr };
+    case actions.FORM_ERROR:{
+      const { err} = action.payload;
+      return { ...state, user_form: err };
+    }
     case actions.UPDATE_USER:
       const { userData } = action.payload;
       return { ...state, user: userData };
@@ -79,22 +80,10 @@ export const reducer = (state, action) => {
       const { userD } = action.payload;
       return { ...state, user: userD };
     case actions.ERROR_DEFAULT:
-      const errorState = { msg: "", state: "", status: false };
       let error = { msg: "", state: "", show: false };
       return {
         ...state,
-        event_startUpdate: { ...state.event_startUpdate, err: error },
-        user_startUpdate: { ...state.user_startUpdate, err: error },
-        report_startUpdate: { ...state.report_startUpdate, err: error },
-        payment_startUpdate: { ...state.payment_startUpdate, err: error },
         user_form: error,
-        event_form: error,
-        payment_form: error,
-        report_form: error,
-        users_error: errorState,
-        events_error: errorState,
-        payments_error: errorState,
-        reports_error: errorState,
         GlobalError:{msg:"",show:false,type:"warning"}
       };
     case actions.SET_ERROR:
@@ -157,6 +146,10 @@ export const reducer = (state, action) => {
     }
     case actions.SET_GLOBAL_ERR:{
       const {err} = action.payload
+      return {...state, GlobalError:err}
+    }
+    case actions.CLOSE_GLOBAL_ERR:{
+      const err = {msg:"",show:false,type:"warning"}
       return {...state, GlobalError:err}
     }
     default:

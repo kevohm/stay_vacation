@@ -15,7 +15,8 @@ import {
   Report,
   Register,
   DashboardWrapper,
-  Profile
+  Profile,
+  BookEvent
 } from "./pages/index";
 import {
   createBrowserRouter,
@@ -32,7 +33,8 @@ const router = createBrowserRouter(
         <Route index element={<Landing />} />
         <Route path="profile" element={<Profile />} />
         <Route path="events" element={<Events />} />
-        <Route path="events/:eventId" element={<SingleEvent />} />
+        <Route path="events/:name" element={<SingleEvent />} />
+        <Route path="events/:name/:eventId" element={<BookEvent />} />
         <Route path="info" element={<SiteDetails />} />
         <Route path="info/:infoTab" element={<SiteDetails />} />
       </Route>

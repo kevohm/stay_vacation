@@ -4,11 +4,9 @@ import {Main} from "./styles"
 import { EventContext } from '../../components/Events/context/EventContext'
 const SingleEvent = () => {
   return (
-    <EventContext>
    <Main>
     <Wrapper/>
    </Main>
-    </EventContext>
   )
 }
 

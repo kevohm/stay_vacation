@@ -1,19 +1,11 @@
 import React from 'react'
-import styled from "styled-components"
-import tw from "twin.macro"
 import Single from './Single'
-import Related from './Related'
+import { RelatedWrapper } from './RelatedWrapper'
+
 const Wrapper = () => {
   return (
-   <Main>
-    <Single/>
-    <Related/>
-   </Main>
+    <RelatedWrapper element={<Single/>}/>
   )
 }
 
 export default Wrapper
-
-const Main = styled.section`
-${tw`flex flex-col space-y-12 items-start`}
-`

@@ -1,4 +1,6 @@
 import { FaCameraRetro, FaHotel, FaTrain, FaCar } from "react-icons/fa";
+import moment from "moment";
+
 export const servicesData = [
   {
     title: "Day Trips",
@@ -33,15 +35,17 @@ export const inputData = [
   {
     type: "text",
     placeholder: "Nairobi",
-    name: "Location",
-    title: "Location",
+    name: "City",
+    title: "City",
+    value:"",
     error: false,
   },
   {
-    type: "number",
-    placeholder: "8",
-    name: "Person",
-    title: "Person",
+    type: "date",
+    placeholder: "",
+    name: "Date",
+    title: "Date",
+    value: moment(new Date()).format("YYYY-MM-DD"),
     error: false,
   },
   {
@@ -49,6 +53,7 @@ export const inputData = [
     placeholder: "10000",
     name: "Min",
     title: "Min price",
+    value:"",
     error:false
   },
   {
@@ -56,6 +61,7 @@ export const inputData = [
     placeholder: "10000",
     name: "Max",
     title: "Max price",
+    value:"",
     error:false
   },
 ];

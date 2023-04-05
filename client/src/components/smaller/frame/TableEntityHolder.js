@@ -8,7 +8,6 @@ export const TableEntityHolder = ({ changeOpen, typeDataB, update, text, type, c
   const {state} = useGlobal()
   return ( 
     <Main>
-      {state[`${type}_error`].status && <Error type={type} />}
       {state[`${typeDataB}_startUpdate`].start && (
         <div className="update">
           {update}

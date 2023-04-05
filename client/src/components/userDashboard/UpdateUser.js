@@ -36,9 +36,6 @@ const UpdateUser = () => {
           }
         />
       </div>
-      {state.user_startUpdate.err.show && (
-        <FormError err={state.user_startUpdate.err} />
-      )}
       <div>
         <input
           type="text"

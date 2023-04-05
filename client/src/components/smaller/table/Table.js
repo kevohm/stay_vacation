@@ -79,7 +79,7 @@ export const Table = ({ handleChange, type, typeData, headings}) => {
         {state[type].data.length === 0 ? (
           <tr>
             <td colSpan={spanning[type] + 2} style={{ textAlign: "center" }}>
-              No users yet
+              No {type} yet
             </td>
           </tr> 
         ) : (

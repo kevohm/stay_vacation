@@ -5,11 +5,9 @@ import { EventContext } from '../../components/Events/context/EventContext'
 const Events = () => {
 
   return (
-    <EventContext>
    <Main>
     <Wrapper/>
    </Main>
-    </EventContext>
   )
 }
 

@@ -3,10 +3,8 @@ import React, {useContext, createContext} from "react"
 import { useEffect } from "react";
 import { useReducer } from "react";
 import { actions, initialState } from "./appActions";
-import {ErrorGlobal} from "../components/utils/Global"
 import { reducer } from "./appReducer"
 import {setCookie} from "./utils"
-import { Category } from "../components/bookingsDashboard/Category";
 const appContext = createContext();
 const client = axios.create({
   baseURL: "http://localhost:5000/v1",
@@ -19,8 +17,15 @@ const AppContext = ({ children }) => {
   client.interceptors.response.use(
     (response)=>response,
     function (error) {
-      if (error.response.status === 401) {
+      if (error?.response && error?.response?.status === 401) {
         logout()
+      }
+      if(error?.response?.status === 500 && error?.response?.data?.msg === "Check your Internet connection"){
+        updateError({
+          msg:"Check your internet connection",
+          show:true,
+          type:"warning"
+        })
       }
       return Promise.reject(error);
     }
@@ -48,37 +53,12 @@ const AppContext = ({ children }) => {
     }
   }
   
-  const handleUser = async (body, type) => {
+  const handleUser = (body, type) => {
     const createdAt = new Date().toISOString();
     const login = type === "login"
     let url = (login) ? "auth/login":"auth"
-    try {
-      const { data } = await client.post(url, { ...body, createdAt });
-      if (login) {
-        getUser()
-        setForm("user", {
-          msg: "You are logged in. Redirecting...",
-          state: "success",
-          show: true,
-        });
-      } else {
-        setForm("user", {
-          msg: data.msg,
-          state: "success",
-          show: true,
-        });
-      }
-      console.log(data)
-    } catch (error) {
-      if (error.response.data) {
-        setForm("user", {
-          msg: error.response.data.msg,
-          state: "",
-          show: true,
-        });
-      }
-      console.log(error);
-    }
+    return (!login)?client.post(url, { ...body, createdAt }):client.post(url, body)
+      
   } 
 //--------------------------EVENTS----------------------------------------------------------------------
   const getEvents = async (page=1, limit=5,sort="created at",arrange="desc", validity="", validation) => {
@@ -225,6 +205,9 @@ const updateCategory = async (id, name)=>{
   }
 }
 //--------------------------UTILS----------------------------------------------------------------------
+const closeGlobalErr = ()=>{
+  dispatch({type:actions.CLOSE_GLOBAL_ERR})
+}
 const setOtherErrors = (error)=>{
   if(error.response && error.response.data){
     updateError({msg:error.response.data.msg,show:true,type:"warning"})
@@ -238,7 +221,6 @@ const setGlobalErrors = (err)=>{
 }  
 const updateError = (newErr) => {
   setGlobalErrors(newErr)
-  return setDefaults();
 }
 const setLoading = (type, status) => {
     dispatch({ type: actions.SET_LOAD, payload: { type, load: status } })
@@ -249,17 +231,10 @@ const setLoading = (type, status) => {
     ), 3000)
   } 
   // changed errors
-  const setError = (err) => {
-    setGlobalErrors(err)
-  }
-  const startError = (type, err) => {
-    setError(type, err);
-    setDefaults()
-  };
-  const setForm = (type, err) => {
+  const setForm = (err) => {
      dispatch({
        type: actions.FORM_ERROR,
-       payload: { currentErr: err, currentType: type },
+       payload: { err },
      });
     setDefaults();
   }
@@ -600,7 +575,6 @@ const createPayment = async (id, userId,category,currency)=>{
         addUser,
         setLoading,
         deleteUser,
-        startError,
         setForm,
         toggleUpdate,
         updateError,
@@ -623,7 +597,8 @@ const createPayment = async (id, userId,category,currency)=>{
         getCategories,
         addCategory,
         updateCategory,
-        updateError
+        updateError,
+        closeGlobalErr
       }}
     >
       {children}

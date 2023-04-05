@@ -1,5 +1,5 @@
 import Landing from "./Landing/Landing"
-import {Events,SingleEvent,SiteDetails} from "./Events/index"
+import {Events,SingleEvent,SiteDetails,BookEvent} from "./Events/index"
 import Error from "./Error/Error"
 import Wrapper from "./Wrapper/Wrapper"
 import Register from "./Register/Register"
@@ -20,4 +20,5 @@ export {
   Report,
   Payment,
   Profile,
+  BookEvent
 };

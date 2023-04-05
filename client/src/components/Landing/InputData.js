@@ -5,16 +5,20 @@ import { InputBtnRounded } from "../smaller/input/InputBtnRounded";
 import { Input } from "../smaller/input/Input"
 import {inputData} from "../utils/landing/services"
 import { useState } from 'react';
+import { useEvent } from '../Events/context/EventContext';
+import { useNavigate } from 'react-router-dom';
+import moment from 'moment';
 const InputData = () => {
     const [data, setData] = useState(inputData);
-    const [error, setError] = useState({msg:"", state:false});
+    const [body,setBody] = useState({city:"",date:moment(new Date()).format("YYYY-MM-DD"),min:0,max:0})
+    const navigate = useNavigate()
+    const {setFilter, filter,setFilterLocal} = useEvent()
     const handleChange = (e) => {
-        const { name } = e.target
+        const { name , value} = e.target
+        setBody({...body,[name.toLowerCase()]:value})
         const newData = data.map((item) => {
-            const {error} = item
             if (item.name === name) {
-                setError({msg:`${item.title} has an error`, state:true});
-            return {...item, error:!error};
+            return {...item, value};
             }
             return item
         });
@@ -22,15 +26,17 @@ const InputData = () => {
     }
     const handleSubmit = (e) => {
         e.preventDefault()
+        console.log(body)
+        const maximum = (body.max === 0)?'300000':body.max
+        setFilter({...filter, search:body.city,validity:body.date,price:{min:body.min,max:maximum}})
+        setFilterLocal(body.city,body.date,body.min,maximum)
+        navigate("/events",{ state:  {...filter, search:body.city,validity:body.date,price:{min:body.min,max:maximum}}})
     }
   return (
     <Main onSubmit={(e) => handleSubmit(e)}>
       <header>
         <p>Where are you traveling to ?</p>
           </header>
-          {
-              error.state ? <p>{error.msg}</p> :<></>
-          }
       <div className="inputData">
         {data.map((item) => (
           <Input key={item.title} {...item} handleChange={handleChange}/>

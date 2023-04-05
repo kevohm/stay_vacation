@@ -95,7 +95,6 @@ const CreateForm = ({handleScroll}) => {
   }
   return (
     <Main onSubmit={(e)=>handleSubmit(e)}>
-      {state.event_form.show && <FormError err={state.event_form} />}
       <div>
         <input
           type="text"

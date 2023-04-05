@@ -15,7 +15,7 @@ const SingleEvent = ({grid, event}) => {
             <header>{event.name}</header>
             <Link to={`${event.name}`} className="links">Details</Link>
             </div>
-            <p>{event.description}</p>
+            <p>{event.description.length <= 100 ?event.description:`${event.description.slice(0,100)}...`}</p>
         </div>
     </Main>
   )

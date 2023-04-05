@@ -7,7 +7,6 @@ export const TableHolder = ({ typeDataB, update, text, type, children, sort="cre
   const {state} = useGlobal()
   return ( 
     <Main>
-      {state[`${type}_error`].status && <Error type={type} />}
       {state[`${typeDataB}_startUpdate`].start && (
         <div className="update">
           {update}

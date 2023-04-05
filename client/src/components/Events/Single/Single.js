@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { useEvent } from '../context/EventContext'
+import { Link } from 'react-router-dom'
 import tw from 'twin.macro'
 import { Loader } from '../../smaller/load/Loader'
 import { useParams } from 'react-router-dom'
@@ -11,10 +12,10 @@ import dot from "../../../assets/svg/dot.svg"
 
 const Single = () => {
   const {currentEvent,getSingle} = useEvent()
-  const {eventId} = useParams()
+  const {name} = useParams()
   useEffect(()=>{
-    getSingle(eventId)
-    },[eventId])
+    getSingle(name)
+    },[name])
     if(currentEvent.loading){
       return <Err>
         <Loader color="#8A9AEA"/>
@@ -88,7 +89,7 @@ const Single = () => {
           <p>For more information, contact us at <span>+254704591173</span></p>
         </div>
         <div className='book'>
-          <button>Book now</button>
+          <Link to={`/events/${name}/${currentEvent.id}`}>Book now</Link>
         </div>
         </div>
       </div>
@@ -108,11 +109,10 @@ const Main = styled.div`
 ${tw`w-full bg-white rounded-lg p-2.5 flex flex-col items-center md:items-start  space-y-5 md:grid md:grid-cols-[48%, 52%] md:gap-2.5`}
 box-shadow:0px 2px 6px 0px rgba(1, 49, 91, .25);
 .images{
-  ${tw`w-full max-w-[620px] grid grid-cols-[repeat(auto-fill, minmax(120px, 1fr))] 
-  sm:grid-cols-[repeat(auto-fill, minmax(130px, 1fr))]  md:grid-cols-[repeat(auto-fill, minmax(150px, 1fr))] 
-  lg:grid-cols-[repeat(auto-fill, minmax(200px, 1fr))] xl:grid-cols-[repeat(auto-fill, minmax(220px, 1fr))] gap-2.5`}
+  ${tw`w-full max-w-[620px] grid grid-cols-[repeat(auto-fill, minmax(220px, 1fr))]
+  md:grid-cols-[repeat(2, minmax(150px, 1fr))] gap-2.5`}
   >img{
-    ${tw`w-full h-full max-h-[200px] rounded-lg`}
+    ${tw`w-full h-full h-[150px] md:h-[200px] rounded-lg object-cover`}
   }
 }
 .info{
@@ -158,7 +158,7 @@ box-shadow:0px 2px 6px 0px rgba(1, 49, 91, .25);
     ${tw`py-10 flex space-y-5 items-start`}
     .book{
       ${tw`w-full flex items-center justify-end`}
-      button{
+      a{
         font-family:montserratMedium;
         ${tw`p-2.5 py-2 rounded-lg bg-green text-sm  text-darkBlue border-none`}
       }
