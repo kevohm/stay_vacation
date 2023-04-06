@@ -9,11 +9,13 @@ const getUser = async (req, res) => {
   if (!user) {
     throw new NotFound("User doesn't exist");
   }
-  const { _id, role } = user
-  let newRole = role === "116116" ? process.env.ADMIN : process.env.ADMIN;
+  const { _id, role,email,username,phone_number,createdAt,updatedAt} = user
+  let newRole = role === "116116" ? process.env.ADMIN : process.env.MEMBER;
+  delete user._id
   res.status(StatusCodes.OK).json({
-    msg: "User Found",
+    msg: "Current User Found",
     user: { id: _id, role:newRole },
+    details:{id:_id,email,username,phone_number,createdAt,updatedAt}
   });
 };
 const getAll = async (req,res) => {
@@ -52,9 +54,16 @@ const updateUser = async (req, res) => {
   const { email, username, phone_number, updatedAt } = req.body;
   const { id } = req.params
   const body = { email, username, phone_number, updatedAt };
-
+  const user = await User.findOne({_id:id})
+  if(!user){
+    throw new NotFound("User does not exist")
+  }
   if (!updatedAt) {
     throw new BadRequest("Please provide date of update");
+  }
+  const diffAt = new Date(updatedAt) - new Date(user.createdAt)
+  if(diffAt < 0){
+    throw new BadRequest("invalid updatedAt time");
   }
   const updatedData = await User.findByIdAndUpdate(id, body, { new: true, runValidators: true });
   if (!updatedData) {

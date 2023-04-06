@@ -37,13 +37,5 @@ export const verifyData = ({username,email,password,phone_number,price,confirmPa
         })
         return false
     }
-    if(!price.category || price.price === 0){
-        changeErr({
-            ...err,
-            msg:"Please select a price choice"
-        })
-        return false
-    }
-
     return true
 }

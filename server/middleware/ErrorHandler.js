@@ -2,6 +2,7 @@
 const { StatusCodes} = require("http-status-codes")
 
 const ErrorHandler = (err, req, res, next) => {
+  //console.log(err)
     let customErr = {
         msg: err.message || "Internal Server Error",
         statusCode: err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,
@@ -22,7 +23,7 @@ const ErrorHandler = (err, req, res, next) => {
     }
       if (err.code && err.code === 11000) {
         const [key] = Object.entries(err.keyValue);
-        customErr.msg = `${key[0]} already exists`;
+        customErr.msg = `${key[0].replace("_", " ")} already exists`;
         customErr.statusCode = StatusCodes.BAD_REQUEST;
       }
     if ((err.name === "CastError")) {

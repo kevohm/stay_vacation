@@ -7,10 +7,10 @@ const secureUandD = async (req,res,next)=>{
     if(!comment){
         throw new NotFound("comment does not exist")
     }
-    if(comment.user.toString() === userId){
-        next()
+    if(comment.user._id.toString() !== userId.toString()){
+        throw new BadRequest("Cannot change this information")
     }
-    throw new BadRequest("Cannot change this information")
+    return next()
 }
 
 module.exports = secureUandD

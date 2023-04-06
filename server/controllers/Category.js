@@ -35,11 +35,16 @@ const createOne = async (req, res)=>{
 const updateOne = async (req, res)=>{
     const {categoryId} = req.params
     const {updatedAt, name} = req.body
-    if(!name){
-        throw new BadRequest("Please provide name")
-    }
+    const oldCategory = await Category.findOne({_id:categoryId})
     if(!updatedAt){
         throw new BadRequest("Please provide updatedAt")
+    }
+    const diffAt = new Date(updatedAt) - new Date(oldCategory.createdAt)
+    if(diffAt < 0){
+        throw new BadRequest("invalid updatedAt time");
+    }
+    if(!name){
+        throw new BadRequest("Please provide name")
     }
     const category = await Category.findByIdAndUpdate(categoryId,{updatedAt, name:name.toLowerCase()},{new:true,runValidators:true})
     if(!category){

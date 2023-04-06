@@ -1,8 +1,12 @@
 import React from 'react'
+import {Main} from "../Events/styles"
+import Wrapper from '../../components/Profile/Wrapper'
 
 const Profile = () => {
   return (
-    <div>Profile</div>
+    <Main>
+      <Wrapper/>
+    </Main>
   )
 }
 

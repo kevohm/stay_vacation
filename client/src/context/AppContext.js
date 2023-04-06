@@ -30,12 +30,15 @@ const AppContext = ({ children }) => {
       return Promise.reject(error);
     }
   );
+  const setupUser = (id, role)=>{
+    setCookie("_v",JSON.stringify({ id, role }))
+    dispatch({ type: actions.UPDATE_USER, payload: { userData: { id, role } } })
+  }
   const getUser = async () => {
     try {
       const { data } = await client.get(`users/user`);
       const {id, role} = data.user
-      setCookie("_v",JSON.stringify({ id, role }))
-      dispatch({ type: actions.UPDATE_USER, payload: { userData: { id, role } } })
+      setupUser(id,role)
     } catch (error) {
       console.log(error)
     }
@@ -61,8 +64,7 @@ const AppContext = ({ children }) => {
       
   } 
 //--------------------------EVENTS----------------------------------------------------------------------
-  const getEvents = async (page=1, limit=5,sort="created at",arrange="desc", validity="", validation) => {
-    const dir = (validation)? "lessthan": "greaterthan"
+  const getEvents = async (page=1, limit=5,sort="created at",arrange="desc", validity={valid:new Date().toISOString(),invalid:null}) => {
     const mapSort = {
       name:"name",
       description:"descripton",
@@ -72,8 +74,15 @@ const AppContext = ({ children }) => {
       "created at": "createdAt",
       "updated at": "updatedAt",
     };
+    let url = `event/all?page=${page}&limit=${limit}&sort=${mapSort[sort]}&arrange=${arrange}`
+    const {valid,invalid} = validity
+    if(invalid){
+      url += `&invalid=${invalid}`
+    }else{
+      url += `&valid=${valid}`
+    }
     try {
-      const { data } = await client.get(`event/all?page=${page}&limit=${limit}&sort=${mapSort[sort]}&arrange=${arrange}&validity=${validity}&dir=${dir}`);
+      const { data } = await client.get(url);
       const { events, pages } = data;
       dispatch({
         type: actions.GET_EVENTS,
@@ -598,7 +607,8 @@ const createPayment = async (id, userId,category,currency)=>{
         addCategory,
         updateCategory,
         updateError,
-        closeGlobalErr
+        closeGlobalErr,
+        setupUser
       }}
     >
       {children}

@@ -37,6 +37,6 @@ p{
   font-family:montserratMedium;
 }
 .all-events{
-  ${tw`grid grid-cols-[repeat(auto-fit, minmax(300px, 1fr))] gap-5 justify-items-center items-start`}
+  ${tw`grid grid-cols-[repeat(auto-fit, minmax(300px, 1fr))]  md:grid-cols-[repeat(auto-fit, 300px)] items-start gap-5 justify-items-center items-start`}
 }
 `

@@ -83,7 +83,7 @@ const getSingleEvent = async (req, res) => {
     res.status(StatusCodes.OK).json({ msg:"Event found", event });
 }
 const getEvents = async (req, res) => {
-  const { sort, arrange, page, limit, category, price_start, price_end, validity, name, search,dir} = req.query
+  const { sort, arrange, page, limit, category, price_start, price_end, valid, name, search,invalid,categories,eventId} = req.query
   const sortData = {
     [sort || "createdAt"]: arrange || "desc",
   };
@@ -99,15 +99,26 @@ const getEvents = async (req, res) => {
     const categoryData = { $in: [categoryFound._id.toString()] }
     filter["category"] = categoryData
   }
+
+  if(categories){
+    const categoryData = { $in: categories.split(",") }
+    filter["category"] = categoryData
+  }
   if (price_start && price_end) {
     const price = { $gte: Number(price_start), $lte: Number(price_end) };
     filter["price_choices.price"] = price
   }
-  if(validity && dir){
-      filter['validity'] = (dir === "lessthan")?{$lte:validity}:{$gte:validity}
+  if(invalid){
+      filter['validity'] = {$lte:invalid}
+  }
+  if(valid){
+    filter['validity'] = {$gte:valid}
   }
   if(name){
     filter['name'] = name
+  }
+  if(eventId){
+    filter["_id"] = { $nin: [ eventId ] }
   }
   if(search){
     const data = [ 
@@ -149,6 +160,20 @@ const updateEvent = async (req, res) => {
   const { eventId } = req.params;
   if (!updatedAt) {
     throw new BadRequest("Please provide date of update");
+  }
+  const oldEvent = await Event.findOne({_id:eventId})
+  if(!oldEvent){
+    throw new BadRequest("invalid event");
+  }
+  //prevent updating with a date before event was created
+  const diffAt = new Date(updatedAt) - new Date(oldEvent.createdAt)
+  if(diffAt < 0){
+    throw new BadRequest("invalid updatedAt time");
+  }
+  //prevent updating expired events
+  const diff = new Date(updatedAt) - new Date(oldEvent.validity) - 24 * 60 * 60 * 1000
+  if(diff > 0){
+    throw new BadRequest("Cannot update an event 24 hours before it happens");
   }
     const event = await Event.findOneAndUpdate(
       { _id: eventId },

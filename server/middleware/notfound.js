@@ -1,4 +1,4 @@
 const notFound = (req,res,next) => {
-    return res.status(404).json({msg:"Error:404",errorPage:true})
+    return res.status(404).json({msg:"Oops, route does not exist"})
 }
 module.exports = notFound

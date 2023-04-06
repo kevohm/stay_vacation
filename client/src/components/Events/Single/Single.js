@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { useEvent } from '../context/EventContext'
 import { Link } from 'react-router-dom'
+import moment from 'moment'
 import tw from 'twin.macro'
 import { Loader } from '../../smaller/load/Loader'
 import { useParams } from 'react-router-dom'
@@ -81,6 +82,11 @@ const Single = () => {
             )
           }
           </div>
+          
+        </div>
+        <div>
+          <header  className='title'>Expires at</header>
+          <p>{`${moment(currentEvent.data.validity).format("dddd, MMMM DD YYYY")}`}</p>
           
         </div>
         <div className='submit'>

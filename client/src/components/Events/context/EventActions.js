@@ -18,6 +18,7 @@ export const initialState = {
     MemberError:{msg:"",show:false,type:"warning"},
     current_categories:getCookie("categories") || null,
     book_event:{data:null,loading:true},
+    book_event_id:getCookie("book") || null,
     stages:{level: getCookie("stage") || 1,user:getCookie("user") || null,err:{state:"",msg:"",show:false}, price: getCookie("price") || null}
 }
 

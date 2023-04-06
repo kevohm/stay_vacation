@@ -1,5 +1,6 @@
 const mongoose = require("mongoose")
 const Report = require("./Report")
+const Comment = require("./Comments")
 const Payments = require("./Payments")
 const customError = require("../utils/mongoose")
 const {BadRequest} = require("../errors/index")
@@ -78,9 +79,10 @@ Event.plugin(customError)
 Event.plugin(require("mongoose-autopopulate"));
 Event.post("findOneAndDelete", async function (doc) {
   const event = doc._id;
+  const comment = await Comment.deleteMany({ event });
   const report = await Report.deleteMany({ event });
   const payment = await Payments.deleteMany({ event });
-  if (!report || !payment) {
+  if (!report || !payment || !comment) {
     throw new BadRequest("Error in removing dependencies")
   }
 })

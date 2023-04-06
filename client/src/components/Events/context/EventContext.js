@@ -8,6 +8,7 @@ const AppProvider = React.createContext();
 
 const EventContext = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const {setupUser} = useGlobal()
 
   const setGlobalResponse = (error)=>{
     if(error.response && error.response.data){
@@ -92,8 +93,8 @@ const EventContext = ({ children }) => {
     try {
       const categoriesData = await client.get(`event/all?name=${name}`);
       const categories=categoriesData.data.events[0].category.map((i)=>i._id)
-      console.log(categories)
-      const {data} = await client.get(`event/all?categories=${categories}`,{categories})
+      const eventId =categoriesData.data.events[0]._id
+      const {data} = await client.get(`event/all?categories=${categories}&eventId=${eventId}`,{categories})
       const {events} = data
       dispatch({type:actions.GET_RELATED,payload:{data:events}})
     } catch (error) {
@@ -104,9 +105,10 @@ const EventContext = ({ children }) => {
     try {
       const { data } = await client.get(`event/${id}`);
       const {event} = data
-      if( !state.book_event.data || event._id !== state.book_event.data._id){
+      if( state.book_event_id !== event._id && !state.stages){
         removeBookingState()
       }
+      setCookie("book",event._id)
       dispatch({
         type:actions.SET_BOOK_EVENT,
         payload:{data:event}
@@ -145,12 +147,16 @@ const EventContext = ({ children }) => {
     max = 900000,
     category = "",
     search = "",
-    validity="",
-    dir=""
+    validity={valid:new Date().toISOString(),invalid:null},
   ) => {
     setLoading(true, "events");
-
-    const url = `/event/all?page=${page}&limit=${limit}&sort=${sort}&arrange=${arrange}&price_start=${min}&price_end=${max}&category=${category}&search=${search}&validity=${validity}&dir=${dir}`;
+    const {valid,invalid} = validity
+    let url = `/event/all?page=${page}&limit=${limit}&sort=${sort}&arrange=${arrange}&price_start=${min}&price_end=${max}&category=${category}&search=${search}`;
+    if(invalid){
+      url += `&invalid=${invalid}`
+    }else{
+      url += `&valid=${valid}`
+    }
     try {
       const { data } = await client.get(url);
       const { events, pages } = data;
@@ -207,6 +213,7 @@ const EventContext = ({ children }) => {
       type:actions.SET_BOOKING_STAGE,
       payload:{level}
     })
+    setCookie("stage",2)
   }
   const setBookingError = (err)=>{
     const defaultErr = {msg:"",show:false,state:""}
@@ -219,11 +226,12 @@ const EventContext = ({ children }) => {
       payload:{err:defaultErr}
     }),3000)
   }
-  const setBookingData = (user,price)=>{
+  const setBookingData = (type,data)=>{
     dispatch({
       type:actions.SET_BOOKING_DATA,
-      payload:{user,price}
+      payload:{type,data}
     })
+    setCookie(type,JSON.stringify(data))
   }
   const removeBookingState = ()=>{
     dispatch({
@@ -232,24 +240,27 @@ const EventContext = ({ children }) => {
     })
     dispatch({
       type:actions.SET_BOOKING_DATA,
-      payload:{user:null,price:null}
+      payload:{type:"user",data:null}
+    })
+    dispatch({
+      type:actions.SET_BOOKING_DATA,
+      payload:{type:"price",data:null}
     })
     removeCookie("user")
     removeCookie("price")
     removeCookie("stage")
   }
-  const registerBoookingUser = async(body,price)=>{
+  const registerBoookingUser = async(body)=>{
     const createdAt = new Date().toISOString()
     const {email,password} = body
     try {
       await client.post("/auth", {...body, createdAt})
       await client.post("/auth/login", {email,password})
       const {data} = await client.get("/users/user")
-      setBookingData(data.details,price)
+      setBookingData("user",data.details)
       setBookingStage(2)
-      setCookie("user",JSON.stringify(data.details))
-      setCookie("price",JSON.stringify(price))
-      setCookie("stage",2)
+      const {id,role} = data.user
+      setupUser(id,role)
     } catch (error) {
       if(error.response && error.response.data){
         setBookingError({
@@ -261,9 +272,12 @@ const EventContext = ({ children }) => {
       console.log(error)
     }
   }
-  const payNow = (eventId, userId)=>{
+  const getBookingUser = ()=>{
+    return client.get(`/users/user`)
+  }
+  const payNow = (eventId, userId,data)=>{
     const currentTime = new Date().toISOString()
-    return client.post(`payments/pay/${eventId}/${userId}`,{currentTime})
+    return client.post(`payments/pay/${eventId}/${userId}?data=${data}`,{currentTime})
   }
   return (
     <AppProvider.Provider
@@ -286,7 +300,10 @@ const EventContext = ({ children }) => {
         payNow,
         setDefaultGlobal,
         setGlobalErrors,
-        setGlobalResponse
+        setGlobalResponse,
+        getBookingUser,
+        setBookingData,
+        setBookingStage
       }}
     >
       {children}

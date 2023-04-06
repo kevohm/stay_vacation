@@ -36,8 +36,15 @@ const Payments = mongoose.Schema(
       },
       default: "ksh",
     },
-  },
-  { timestamps: true }
+    createdAt: {
+      type: Date,
+      required: [true, "Please provide date created"],
+    },
+    updatedAt: {
+        type: Date,
+        required:[true, "Please provide date updated"]
+      }
+  }
 );
 Payments.plugin(require("mongoose-autopopulate"));
 module.exports = mongoose.model("Payment", Payments)

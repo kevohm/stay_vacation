@@ -11,6 +11,7 @@ import { NoData } from '../../smaller/error/NoData'
 
 const EventDisplay = () => {
     const {eventId} = useParams()
+
     const {getSingleById,book_event} = useEvent()
     useEffect(()=>{
         getSingleById(eventId)
@@ -59,17 +60,17 @@ export default EventDisplay
 
 
 const Main = styled.div`
-${tw`bg-white w-full rounded-lg flex flex-col md:flex-row items-start md:items-center space-x-0 md:space-x-2.5`}
+${tw`bg-white w-full rounded-lg flex flex-col items-start space-y-2.5`}
 box-shadow:0px 2px 6px 0px rgba(1, 49, 91, .25);
 .image{
-  ${tw`w-full  h-[250px] md:h-[350px] md:w-[200px] lg:w-[300px]`}
+  ${tw`w-full h-[250px] md:h-[350px]`}
   >img{
       object-position: center;
-      ${tw`w-full h-[250px] md:h-[350px] object-cover rounded-l-lg`}
+      ${tw`w-full h-[250px] md:h-full object-cover rounded-t-lg`}
   }
 }
 .details{
-    ${tw`w-full flex flex-col space-y-2.5 min-w-[250px] max-w-[350px] lg:max-w-[500px] h-full px-2.5`}
+    ${tw`w-full flex flex-col space-y-2.5 h-full px-5`}
     >div{
         ${tw` md:px-0 py-2.5`}
         >header{

@@ -19,9 +19,9 @@ const getAll = async (req, res) => {
     [sort || "createdAt"]: arrange || "desc",
   }
   const filter = {}
-  const skip = (page - 1) * limit
   const currentLimit = Number(limit) || 5
   const currentPage = Number(page) || 1
+  const skip = (currentPage - 1) * currentLimit
   if (userId) {
     filter["user"] = userId
   }
@@ -57,14 +57,22 @@ const getOne = async (req, res) => {
 };
 const updateOne = async (req, res) => {
     const { paymentId } = req.params;
+    const {updatedAt} = req.body
     const payment = await Payment.findOne({ _id: paymentId });
+    if(!updatedAt){
+      throw new BadRequest("update time required")
+    }
     if (!payment) {
       throw new NotFound("Payment not found");
+  }
+  const diffAt = new Date(updatedAt) - new Date(payment.createdAt)
+  if(diffAt < 0){
+    throw new BadRequest("invalid updatedAt time");
   }
   const {state, amount, category, currency} = req.body
     const data = await Payment.findByIdAndUpdate(
       payment._id,
-      { state, amount, currency, category },
+      { state, amount, currency, category,updatedAt },
       {
         runValidators: true,
         new: true,
@@ -92,12 +100,21 @@ const deleteOne = async (req, res) => {
 const addUser = async (req, res) => {
   const { eventId} = req.params;
   const { userId } = req.pay;
+  const {currentTime} = req.body
   const { data, currency } = req.query;
   const category = data || "Person";
   const event = await Event.findOne({ _id: eventId });
   const user = await User.findOne({ _id: userId });
   if (!user || !event) {
     throw new BadRequest("Invalid details provided");
+  }
+  if(!currentTime){
+    throw new BadRequest("currentTime must be provided");
+  }
+  // check if event is yet to occurr 24hrs before it
+  const diff = new Date(event.validity) - new Date(currentTime) -  (24 * 60 * 60 * 1000)
+  if(diff < 0){
+        throw new BadRequest("Events can only be paid for 24hrs before")
   }
   const amount = await event.price_choices.find(
     (item) => category === item.category
@@ -123,7 +140,9 @@ const addUser = async (req, res) => {
     user: user._id,
     amount: amount.price,
     category,
-    currency
+    currency,
+    createdAt:currentTime,
+    updatedAt:currentTime
   });
   if (!current) {
     throw new BadRequest("Unable to Book Event");

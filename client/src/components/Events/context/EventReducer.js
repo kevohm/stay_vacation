@@ -32,8 +32,8 @@ export const reducer = (state,action)=>{
             return {...state, stages:{...state.stages,err}}
         }
         case actions.SET_BOOKING_DATA:{
-            const {user,price} = action.payload
-            return {...state, stages:{...state.stages,user,price}}
+            const {type,data} = action.payload
+            return {...state, stages:{...state.stages,[type]:data}}
         }
         case actions.SET_CURRENT_CATEGORIES:{
             const {categories} = action.payload

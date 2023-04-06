@@ -22,7 +22,7 @@ const Wrapper = () => {
   }
   useEffect(()=>{
     const validity = new Date(`${filter.validity} ${new Date().toLocaleTimeString()}`).toISOString()
-    getAll(page,6,sortBy.sort,sortBy.arrange,filter.price.min,filter.price.max,filter.category,filter.search,validity,"greaterthan")
+    getAll(page,6,sortBy.sort,sortBy.arrange,filter.price.min,filter.price.max,filter.category,filter.search,{valid:validity,invalid:null})
   },[filter,sortBy,page])
   return (
     <Main>

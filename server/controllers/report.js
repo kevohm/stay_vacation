@@ -17,7 +17,7 @@ const getAll = async (req, res) => {
   // console.log(sortData)
   const currentLimit = Number(limit) || 5;
    const currentPage = Number(page) || 1;
-   const skip = (currentPage - 1) * limit;
+   const skip = (currentPage - 1) * currentLimit;
    const reports = await Report.find(filter).sort(sortData).skip(skip).limit(currentLimit);
   const count = await Report.find(filter).count()
   const pages = Math.ceil(count / currentLimit);
@@ -37,9 +37,13 @@ const getOne = async (req, res) => {
 };
 
 const createOne= async (req, res) => {
-  const { description, state } = req.body
+  const { description, state, currentTime} = req.body
   const { eventId } = req.params
   const event = await Event.findOne({ _id: eventId })
+  const diff = new Date(currentTime) - new Date(event.validity)
+  if(diff <= 0){
+        throw new BadRequest("Event has not yet occurred")
+  }
   if (!description || !state) {
     throw new BadRequest("Please provide description and state of event");
   }

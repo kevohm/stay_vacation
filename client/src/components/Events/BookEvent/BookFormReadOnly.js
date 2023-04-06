@@ -1,30 +1,58 @@
-import React from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import React , {useEffect, useState} from 'react'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
+import { useGlobal } from '../../../context/AppContext'
 import { useEvent } from '../context/EventContext'
+import { FormError } from '../../smaller/error/FormError'
 import {Main} from "./BookForm"
 
 export const BookFormReadOnly = () => {
-    const {stages,payNow,setGlobalErrors,setGlobalResponse} = useEvent()
-    const {eventId} = useParams()
+    const {stages,payNow,setGlobalErrors,setGlobalResponse,book_event,setBookingError} = useEvent()
+    const [data,setData] = useState({price:0,category:""})
+    const {state} = useGlobal()
+    const {eventId,name} = useParams()
     const navigate= useNavigate()
+    const handlePrice = (price,category)=>{
+      setData({price,category})
+    }
     const handleSubmit = (e)=>{
         e.preventDefault()
-        payNow(eventId, stages.user.id).then((res)=>{
-            const {data} = res.json()
-            console.log(data)
+        if(data.price === 0){
+          setBookingError({
+            msg:"Please choose a price plan.",
+            type:"warning",
+            show:true
+          })
+          return
+        }
+        payNow(eventId, stages.user.id,data.category).then((res)=>{
+          setBookingError({
+            msg:"Paid for Event. Check Profile for details.",
+            type:"success",
+            show:true
+          })
             setGlobalErrors({
                 msg:"Paid for Event. Check Profile for details.",
                 type:"success",
                 show:true
               })
-            navigate("/events")
+            setTimeout(()=>navigate(`/events/${name}`),3000)
         }).catch((error)=>{
+          if(error.response && error.response.data){
+            setBookingError({
+              msg:error.response.data.msg,
+              type:"warning",
+              show:true
+            })
+          }
             setGlobalResponse(error)
         })
     }
   return (
     <Main onSubmit={(e)=>handleSubmit(e)}>
     <header>payment details</header>
+    {stages.err.show && <div className="error">
+        <FormError {...stages.err}/>
+      </div>}
     <div className="all-input">
       <div className="left">
       <div className="input">
@@ -42,10 +70,29 @@ export const BookFormReadOnly = () => {
           <label>phone number</label>
           <p>{stages.user.phone_number}</p>
         </div>
+        {
+          book_event.data && <>  
         <div className="input">
-          <label>total amount</label>
-          <p>{stages.price.price}</p>
+        <label>Price</label>
+        <div className="prices">
+        {
+          book_event.data.price_choices.map((item,index)=>{
+            const {price,category} = item
+            const checked = price === data.price && category === data.category
+          return <div className="price" key={index}>
+          <input type="radio" name="price_choice" onChange={()=>handlePrice(price,category)}  checked={checked}/>
+          <label>ksh. {price.toLocaleString("en-US")} per {category}</label>
+          </div>
+          })
+        }
         </div>
+      </div>
+      <div className="total">
+          <span>total amount</span>
+          <p>{data.price.toLocaleString("en-us")}</p>
+      </div>
+          </>
+        }
       </div>
     </div>
     <div className="submit">

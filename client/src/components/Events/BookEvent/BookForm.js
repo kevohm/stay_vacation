@@ -6,25 +6,24 @@ import { FormError } from "../../smaller/error/FormError";
 import { useEvent } from "../context/EventContext";
 import { verifyData } from "../../utils/Events/BookForm";
 import { BookFormReadOnly } from "./BookFormReadOnly";
+import { useGlobal } from "../../../context/AppContext";
+import { useNavigate, useParams } from "react-router-dom";
 
 const body = {
   username:"",
   email:"",
   password:"",
   phone_number:"",
-  price:{category:"",price:0},
   confirmPassword:""
 }
 
 const BookForm = () => {
   const [data,setData] = useState(body)
-  const {book_event,stages,setBookingError,registerBoookingUser} = useEvent()
+  const {book_event,stages,setBookingError,registerBoookingUser,getBookingUser,setBookingData,setBookingStage} = useEvent()
+  const {state} = useGlobal()
   const handleData = (e)=>{
     const {name,value} = e.target
     setData({...data, [name]:value})
-  }
-  const handlePrice = (price,category)=>{
-    setData({...data, price:{price,category}})
   }
 const handleSubmut = (e)=>{
   e.preventDefault()
@@ -34,20 +33,30 @@ const handleSubmut = (e)=>{
       state:"success",
       show:true
     })
-    const price = data.price
     const {email,username,password,phone_number} = data
-    registerBoookingUser({email,username,password,phone_number},price)
+    registerBoookingUser({email,username,password,phone_number})
   }
 }
   const changeErr = (err)=>{
     setBookingError(err)
   }
+  useEffect(()=>{
+    getBookingUser().then((res)=>{
+      const {data} = res
+      console.log(data)
+      setBookingStage(2)
+      setBookingData("user",data.details)
+    }).catch((err)=>{
+      setBookingStage(1)
+    })
+},[state.user.id]) 
   if(book_event.loading){
     return <Main>
        <header>payment details</header>
         <Loader/>
     </Main>
 }
+
 if(stages.level && Number(stages.level) === 2 && stages.user !== null){
   return <BookFormReadOnly/>
 }
@@ -75,21 +84,6 @@ if(stages.level && Number(stages.level) === 2 && stages.user !== null){
         </div>
         <div className="right"> 
           <div className="input">
-            <label>Price</label>
-            <div className="prices">
-            {
-              book_event.data.price_choices.map((item,index)=>{
-                const {price,category} = item
-                const checked = price === data.price.price && category === data.price.category
-              return <div className="price" key={index}>
-              <input type="radio" name="price_choice" onChange={()=>handlePrice(price,category)}  checked={checked}/>
-              <label>ksh. {price.toLocaleString("en-US")} per {category}</label>
-              </div>
-              })
-            }
-            </div>
-          </div>
-          <div className="input">
             <label>phone number</label>
             <input type="text" value={data.phone_number} name="phone_number" onChange={(e)=>handleData(e)}  placeholder="(e.g) +254712121212"/>
           </div>
@@ -100,10 +94,6 @@ if(stages.level && Number(stages.level) === 2 && stages.user !== null){
         </div>
       </div>
       <div className="submit">
-        <div className="total">
-          <span>Total Amount</span>
-          <p>ksh. {data.price.price.toLocaleString("en-US")}</p>
-        </div>
         <input type="submit" value="next"/>
       </div>
     
@@ -186,21 +176,21 @@ export const Main = styled.form`
   }
 
   .submit{
-    ${tw`flex items-center justify-between mt-5`}
-    .total{
-      ${tw`flex space-x-2 text-sm`}
-      p{
-        font-family:poppinsMedium;
-        ${tw`text-[rgba(0,0,0,.5)]`}
-      }
-      span{
-        font-family:montserratSemi;
-        ${tw`text-darkBlue`}
-      }
-    }
+    ${tw`flex items-center justify-end mt-5`}
     input {
           ${tw`w-max py-2 text-sm px-2.5 rounded-lg border-none bg-green text-darkBlue`}
           font-family:poppinsMedium;
         }
+  }
+  .total{
+    ${tw`flex space-x-2 text-sm`}
+    p{
+      font-family:poppinsMedium;
+      ${tw`text-[rgba(0,0,0,.5)]`}
+    }
+    span{
+      font-family:montserratSemi;
+      ${tw`text-darkBlue capitalize`}
+    }
   }
 `;

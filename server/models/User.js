@@ -11,7 +11,7 @@ const UserSchema = new mongoose.Schema({
     required: [true, "Please provide Phone Number"],
     minLength: [13, "Phone Number length must be at least 13"],
     match: [/^([0-9+]+)$/, "Phone Number must be numbers only including +"],
-    unique: true,
+    unique: [true,"Phone number already exists"],
   },
   username: {
     type: String,
@@ -22,7 +22,7 @@ const UserSchema = new mongoose.Schema({
       /^([a-zA-Z0-9\s\u0600-\u06FF\u0660-\u0669\u06F0-\u06F9 _.-]+)$/,
       "Username must be letters and numbers only",
     ],
-    unique: true,
+    unique: [true,"Username already exists"],
   },
   email: {
     type: String,
@@ -31,7 +31,7 @@ const UserSchema = new mongoose.Schema({
       validator: validator.isEmail,
       message: "Please provide a valid email",
     },
-    unique: true,
+    unique: [true,"Email already exists",]
   },
   password: {
     type: String,
@@ -47,7 +47,6 @@ const UserSchema = new mongoose.Schema({
       values: ["115115", "116116"],
       message: "{VALUE} is not supported",
     },
-    required: [true, "Please provide role"],
     default: "115115",
   },
   createdAt: {
@@ -62,9 +61,8 @@ const UserSchema = new mongoose.Schema({
  
 UserSchema.post("findOneAndDelete", async function (doc) {
   const user = doc._id;
-  const report = await Report.deleteMany({ user });
   const payment = await Payments.deleteMany({ user });
-  if (!report || !payment) {
+  if (!payment) {
     throw new BadRequest("Error in removing dependencies");
   }
 });
