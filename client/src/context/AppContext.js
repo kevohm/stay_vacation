@@ -7,7 +7,7 @@ import { reducer } from "./appReducer"
 import {setCookie} from "./utils"
 const appContext = createContext();
 const client = axios.create({
-  baseURL: "http://localhost:5000/v1",
+  baseURL: process.env.REACT_APP_BASE_URL,
   withCredentials: true,
 });
 

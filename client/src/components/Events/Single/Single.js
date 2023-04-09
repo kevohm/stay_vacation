@@ -92,11 +92,13 @@ const Single = () => {
         <div className='submit'>
         <div className='info-div'>
           <FaInfoCircle className='icon'/>
-          <p>For more information, contact us at <span>+254704591173</span></p>
+          <p>You can only book an event 24hrs before it expires <Link to="/info">contact Us</Link></p>
         </div>
-        <div className='book'>
-          <Link to={`/events/${name}/${currentEvent.id}`}>Book now</Link>
+        {!currentEvent.isExpired && <div className='book'>
+          <Link to={`/events/${name}/${currentEvent.id}`}>Book now</Link> 
         </div>
+        }
+          
         </div>
       </div>
     </Main>

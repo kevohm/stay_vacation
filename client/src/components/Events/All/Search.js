@@ -4,14 +4,19 @@ import tw from "twin.macro";
 import RangeSlider from "react-range-slider-input";
 import "react-range-slider-input/dist/style.css";
 import { useEvent } from "../context/EventContext";
-import moment from "moment";
-import { Loader } from "../../smaller/load/Loader";
-import { useLocation } from "react-router-dom";
+import { getCookie } from "../../../context/utils";
+import Categories from "./Categories";
 
-const Search = ({handleRefresh}) => {
-  const {filter,getCategories,removeFilterLocal} = useEvent()
-  const {state} = useLocation()
-  const [filterData, setfilterData] = useState(filter);
+const Search = ({handleRefresh,filter}) => {
+  const {removeFilterLocal} = useEvent()
+  const [filterData, setfilterData] = useState(
+    {
+      search: getCookie("search") || filter.search,
+      category: getCookie("category") || filter.category,
+      price: { min: getCookie("min") || filter.price.min, max: getCookie("max") || filter.price.max},
+      validity:getCookie("validity") || filter.validity
+    }
+  );
   
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,16 +28,11 @@ const Search = ({handleRefresh}) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     removeFilterLocal()
-    handleRefresh({...filterData, data:filter.data})
+    handleRefresh({...filterData})
   };
   useEffect(()=>{
-    getCategories()
+
   },[])
-  if(filter.loading){
-    return <Main>
-      <Loader/>
-    </Main>
-  }
   return (
     <Main onSubmit={(e) => handleSubmit(e)}>
       <div className="input">
@@ -65,31 +65,13 @@ const Search = ({handleRefresh}) => {
           </div>
         </div>
       </div>
-      <div className="input">
-        <label>Category</label>
-        <div className="radio">
-          {filter.data.map((i) => {
-            return (
-              <div key={i.name}>
-                <input
-                  type="radio"
-                  name="category"
-                  value={i.name}
-                  onChange={(e) => handleChange(e)}
-                />
-                <label>{i.name}</label>
-              </div>
-            );
-          })}
-        </div>
-      </div>
+      <Categories handleChange={handleChange} category={filterData.category}/>
       <div className="input">
         <label>Validity</label>
         <div className="validity">
           <input
             type="date"
             name="validity"
-            min={moment(new Date).format("YYYY-MM-DD")}
             value={filterData.validity}
             onChange={(e) => handleChange(e)}
           />

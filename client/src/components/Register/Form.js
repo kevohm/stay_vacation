@@ -29,7 +29,7 @@ const Form = () => {
             state: "success",
             show: true,
           });
-          setTimeout(()=>navigate("/"), 3000);
+          setTimeout(()=>navigate(-1), 3000);
         }).catch((error)=>{
           if (error.response && error.response.data) {
             changeErr({

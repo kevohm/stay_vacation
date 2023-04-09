@@ -1,7 +1,6 @@
 import React, {useState}from 'react'
 import styled from 'styled-components'
 import { useGlobal } from "../../context/AppContext";
-import { FormError } from "../smaller/error/FormError";
 import { FaTimes } from 'react-icons/fa';
 import tw from 'twin.macro'
 const UpdateRecord = () => {
@@ -61,7 +60,6 @@ const UpdateRecord = () => {
                     }
                 />
             </div>
-            {state.report_startUpdate.err.show && (<FormError err={state.report_startUpdate.err}/>)}
       <div>
         <p>{data.description.length} characters</p>
         <textarea

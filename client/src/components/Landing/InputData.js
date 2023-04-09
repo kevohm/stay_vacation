@@ -12,7 +12,7 @@ const InputData = () => {
     const [data, setData] = useState(inputData);
     const [body,setBody] = useState({city:"",date:moment(new Date()).format("YYYY-MM-DD"),min:0,max:0})
     const navigate = useNavigate()
-    const {setFilter, filter,setFilterLocal} = useEvent()
+    const {setFilter, filter,setFilterLocal,storeFilter} = useEvent()
     const handleChange = (e) => {
         const { name , value} = e.target
         setBody({...body,[name.toLowerCase()]:value})
@@ -26,11 +26,8 @@ const InputData = () => {
     }
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(body)
-        const maximum = (body.max === 0)?'300000':body.max
-        setFilter({...filter, search:body.city,validity:body.date,price:{min:body.min,max:maximum}})
-        setFilterLocal(body.city,body.date,body.min,maximum)
-        navigate("/events",{ state:  {...filter, search:body.city,validity:body.date,price:{min:body.min,max:maximum}}})
+        storeFilter(body.city,body.date,body.min,body.max,"")
+        navigate("/events")
     }
   return (
     <Main onSubmit={(e) => handleSubmit(e)}>

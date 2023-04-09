@@ -4,7 +4,7 @@ import { RelatedWrapper } from './RelatedWrapper'
 
 const Wrapper = () => {
   return (
-    <RelatedWrapper element={<Single/>}/>
+    <RelatedWrapper element={<Single/>} comments={true}/>
   )
 }
 

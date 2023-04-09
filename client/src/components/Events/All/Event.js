@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import {Link} from "react-router-dom"
 import tw from 'twin.macro'
-import { useEvent } from '../context/EventContext'
+
 export const Event = ({event}) => {
   return (
     <Main to={`/events/${event.name}`}>

@@ -15,22 +15,12 @@ export const LinkList = ({ data = [], menu = false }) => {
               data.map(
                   (item) => {
                   const { link, text } = item
-                  if (text === "Contacts" && state.user.id) {
-                    if (
-                      state.user.role === env.ADMIN
-                    ) {
-                      return (
-                        <Link to={"/admin/"} key="admin">
-                          <li>Admin</li>
-                        </Link>
-                      );
-                    }
+                  if (text === "Contacts" && state.user.id && state.user.role) {
                     return (
                       <Link to={"/profile"} key="profile">
                         <li>Profile</li>
                       </Link>
                     );
-                    
                   }
                       return (
                         <Link to={link} key={text}>

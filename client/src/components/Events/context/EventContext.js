@@ -1,15 +1,15 @@
 import React, { useContext, useReducer } from "react";
 import { actions, initialState } from "./EventActions";
 import { reducer } from "./EventReducer";
-import { client, useGlobal } from "../../../context/AppContext";
+import {  client,useGlobal } from "../../../context/AppContext";
 import { removeCookie, setCookie } from "../../../context/utils";
+import moment from "moment";
 
 const AppProvider = React.createContext();
 
 const EventContext = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const {setupUser} = useGlobal()
-
   const setGlobalResponse = (error)=>{
     if(error.response && error.response.data){
       dispatch({
@@ -40,24 +40,43 @@ const EventContext = ({ children }) => {
       payload: { status, type },
     });
   };
-  const setFilterLocal = (search,validity,min,max)=>{
+  const setFilterLocal = (search,validity,min,max,category)=>{
     setCookie("search",search)
     setCookie("min",min)
     setCookie("max",max)
     setCookie("validity",validity)
+    setCookie("category",category)
   }
   const removeFilterLocal = ()=>{
     removeCookie("search")
     removeCookie("min")
     removeCookie("max")
     removeCookie("validity")
+    removeCookie("category")
+    setFilter({
+      search: "",
+      category: "",
+      price: { min:0, max:300000 },
+      validity:moment(new Date).format("YYYY-MM-DD")
+    })
   }
   const setFilterFromLocal = ()=>{
     dispatch({
       type:actions.SET_LOCAL_FILTER
     })
   }
+  const storeFilter = (city,date,min,max,category)=>{
+    const maximum = (max === 0)?'300000':max
+        setFilter({
+          search: city,
+          category: category,
+          price: { min, max:maximum},
+          validity: date
+        })
+        setFilterLocal(city,date,min,maximum,category)
+  }
   const setFilter = (data) => {
+    setFilterLocal(data.search,data.validity,data.price.min,data.price.max,data.category)
     dispatch({
       type: actions.SET_FILTER,
       payload: { data },
@@ -69,11 +88,11 @@ const EventContext = ({ children }) => {
       payload: { sort, arrange },
     });
   };
-  const setCurrentEvent = (data) => {
+  const setCurrentEvent = (data, isExpired=false) => {
     setCookie("current", data._id);
     dispatch({
       type: actions.SET_CURRENT,
-      payload: { data, id: data._id },
+      payload: { data, id: data._id , isExpired},
     });
   };
   const setCurrentLoading = (status)=>{
@@ -129,7 +148,8 @@ const EventContext = ({ children }) => {
       if(events.length === 0){
         setCurrentEvent({_id:""})
       }else{
-        setCurrentEvent(events[0])
+        const isExpired = (new Date(events[0].validity) - new Date() - (24 * 60 * 60 * 1000)) < 0
+        setCurrentEvent(events[0],isExpired)
       }
       setCurrentLoading(false)
     } catch (error) {
@@ -198,13 +218,18 @@ const EventContext = ({ children }) => {
     }
   };
   const getCategories = async()=>{
-    setFilter({...state.filter, loading:true})
     try {
       const { data } = await client.get("categories");
       const { categories } = data;
-      setFilter({...state.filter, data:categories, loading:false})
+      dispatch({
+        type:actions.GET_CATEGORIES,
+        payload:{data:categories}
+      })
     } catch (error) {
-      setFilter({...state.filter, loading:false})
+      dispatch({
+        type:actions.GET_CATEGORIES,
+        payload:{data:[]}
+      })
     }
   }
   //-----BOOKINg------------------------------------------------
@@ -279,6 +304,17 @@ const EventContext = ({ children }) => {
     const currentTime = new Date().toISOString()
     return client.post(`payments/pay/${eventId}/${userId}?data=${data}`,{currentTime})
   }
+  const userPayments = (id)=>client.get(`payments?userId=${id}`)
+
+  //-------------COMMENTS------------------
+  const getComments = (id)=>client.get(`comments?event=${id}`)
+  const addComment = (id,data)=>{
+  const createdAt = new Date().toISOString()
+    return client.post(`comments/${id}`,{...data,createdAt})}
+  const deleteComment = (id)=>client.delete(`comments/${id}`)
+  const updateComment = (id,data)=>{
+    const updatedAt = new Date().toISOString()
+      return client.patch(`comments/${id}`,{...data,updatedAt})}
   return (
     <AppProvider.Provider
       value={{
@@ -303,7 +339,13 @@ const EventContext = ({ children }) => {
         setGlobalResponse,
         getBookingUser,
         setBookingData,
-        setBookingStage
+        setBookingStage,
+        userPayments,
+        getComments,
+        addComment,
+        deleteComment,
+        updateComment,
+        storeFilter
       }}
     >
       {children}

@@ -15,6 +15,10 @@ export const reducer = (state,action)=>{
             const {data} = action.payload
             return {...state, related:{data, loading:false}}
         }
+        case actions.GET_CATEGORIES:{
+            const {data} = action.payload
+            return {...state, categories:{data, loading:false}}
+        }
         case actions.SET_BOOK_EVENT:{
             const {data} = action.payload
             return {...state, book_event:{data,loading:false}}
@@ -52,8 +56,8 @@ export const reducer = (state,action)=>{
             return {...state, sortBy:{...state.sortBy, sort,arrange}}
         }
         case actions.SET_CURRENT:{
-            const {data,id} = action.payload
-            return {...state, currentEvent:{data,id,loading:false}}
+            const {data,id,isExpired} = action.payload
+            return {...state, currentEvent:{data,id,loading:false,isExpired}}
         }
         case actions.SET_CURRENT_LOADING:{
             const {status} = action.payload

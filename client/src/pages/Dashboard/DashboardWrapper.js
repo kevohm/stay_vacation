@@ -1,19 +1,16 @@
 import React from 'react'
-import { Outlet, Navigate } from 'react-router-dom'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import { Navbar, Sidebar } from "../../components/DashboardWrapper/index" 
 import { useGlobal } from "../../context/AppContext"
-import {env} from "../../context/appActions"
 import { GlobalError } from '../../components/smaller/error/GlobalError'
+import { Outlet } from 'react-router-dom'
+
 const DashboardWrapper = () => { 
   const { state,closeGlobalErr } = useGlobal()
-  if (state.user.role !== env.ADMIN) {
-    return <Navigate to="/" />
-  }
   return (
     <Main>
-                <GlobalError {...state.GlobalError} close={closeGlobalErr}/>
+          <GlobalError {...state.GlobalError} close={closeGlobalErr}/>
           <Navbar />
           <div className='body'>
               <Sidebar />

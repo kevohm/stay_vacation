@@ -7,25 +7,28 @@ export const initialState = {
     related:{ data: [], loading: true },
     filter:{
         search: getCookie("search") || "",
-        category: "",
+        category: getCookie("category") || "",
         price: { min: getCookie("min") || 0, max: getCookie("max") || 300000 },
-        validity:getCookie("validity") || moment(new Date).format("YYYY-MM-DD"),
-        data:[],
-        loading:false
+        validity:getCookie("validity") || moment(new Date).format("YYYY-MM-DD")
       },
+    categories:{
+        data:[],
+        loading:true
+    },
     sortBy:{sort:"createdAt",arrange:"desc",data:["createdAt desc","createdAt asc","name asc", "name desc"]},
-    currentEvent:{data:{},id:getCookie("current") || null, loading:true},
+    currentEvent:{data:{},id:getCookie("current") || null, loading:true,isExpired:false},
     MemberError:{msg:"",show:false,type:"warning"},
     current_categories:getCookie("categories") || null,
     book_event:{data:null,loading:true},
     book_event_id:getCookie("book") || null,
-    stages:{level: getCookie("stage") || 1,user:getCookie("user") || null,err:{state:"",msg:"",show:false}, price: getCookie("price") || null}
+    stages:{level: getCookie("stage") || 1,user:getCookie("user") || null,err:{state:"",msg:"",show:false}, price: getCookie("price") || null},
 }
 
 export const actions = {
     GET_EVENTS:"GET_EVENTS",
     GET_RECENT:"GET_RECENT",
     GET_RELATED:"GET_RELATED",
+    GET_CATEGORIES:"GET_CATEGORIES",
     SET_LOAD:"SET_LOAD",
     SET_FILTER:"SET_FILTER",
     SET_SORT:"SET_SORT",
@@ -38,5 +41,5 @@ export const actions = {
     SET_BOOKING_STAGE:"SET_BOOKING_STAGE",
     SET_BOOKING_FORM_ERR:"SET_BOOKING_FORM_ERR",
     SET_BOOKING_DATA:"SET_BOOKING_DATA",
-    SET_MEMBER_ERROR:"SET_MEMBER_ERROR"
+    SET_MEMBER_ERROR:"SET_MEMBER_ERROR",
 }

@@ -3,21 +3,14 @@ import styled from 'styled-components'
 import tw from 'twin.macro'
 import { Link } from "react-router-dom"
 import { useGlobal } from '../../../context/AppContext'
-import {env} from "../../../context/appActions"
+
 export const ListFooter = ({ data, header }) => {
   const {state} = useGlobal()
   return (
     <Main>
       <li className="title">{header}</li>
       {data.map((item) => {
-        if (item.text === "join us" && state.user.role) {
-          if (state.user.role === env.ADMIN) {
-            return (
-              <Link to="/admin/" key="admin">
-                <li>admin</li>
-              </Link>
-            );
-          }
+        if (item.text === "join us" && state.user.role && state.user.id) {
           return (
             <Link to="/profile" key="profile">
               <li>profile</li>

@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { Main } from './Update'
 import {FaTimes} from "react-icons/fa"
 import { useGlobal } from '../../context/AppContext'
-import { FormError } from '../smaller/error/FormError'
 import { verifyUpdate } from '../utils/userDashboard/verifyForm'
 const UpdateUser = () => {
     const { state, toggleUpdate, updateError, updateUser } = useGlobal();

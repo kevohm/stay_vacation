@@ -5,13 +5,13 @@ import RangeSlider from "react-range-slider-input";
 import "react-range-slider-input/dist/style.css";
 import { useEvent } from "../context/EventContext";
 import moment from "moment";
-import { Loader } from "../../smaller/load/Loader";
-import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Categories from "../All/Categories";
 
-const Search = ({handleRefresh}) => {
-  const {filter,getCategories,removeFilterLocal} = useEvent()
-  const {state} = useLocation()
+const Search = () => {
+  const {filter,removeFilterLocal,storeFilter} = useEvent()
   const [filterData, setfilterData] = useState(filter);
+  const navigate = useNavigate()
   
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,17 +22,12 @@ const Search = ({handleRefresh}) => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    removeFilterLocal()
-    handleRefresh({...filterData, data:filter.data})
+    storeFilter(filterData.search,filterData.validity,filterData.price.min,filterData.price.max,filterData.category)
+    navigate("/events")
   };
   useEffect(()=>{
-    getCategories()
+    removeFilterLocal()
   },[])
-  if(filter.loading){
-    return <Main>
-      <Loader/>
-    </Main>
-  }
   return (
     <Main onSubmit={(e) => handleSubmit(e)}>
       <div className="input">
@@ -65,24 +60,7 @@ const Search = ({handleRefresh}) => {
           </div>
         </div>
       </div>
-      <div className="input">
-        <label>Category</label>
-        <div className="radio">
-          {filter.data.map((i) => {
-            return (
-              <div key={i.name}>
-                <input
-                  type="radio"
-                  name="category"
-                  value={i.name}
-                  onChange={(e) => handleChange(e)}
-                />
-                <label>{i.name}</label>
-              </div>
-            );
-          })}
-        </div>
-      </div>
+      <Categories handleChange={handleChange} category={filterData.category}/>
       <div className="input">
         <label>Validity</label>
         <div className="validity">

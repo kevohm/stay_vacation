@@ -25,7 +25,7 @@ const Main = styled.section`
     ${tw`text-white absolute w-max flex flex-col items-center space-y-5 md:space-y-10 top-1/2 left-1/2`}
     transform:translate(-50%, -50%);
     .bold {
-      font-family: montserrratBold;
+      font-family: montserratBold;
       ${tw`text-xl sm:text-4xl md:text-5xl`}
     }
     .light {

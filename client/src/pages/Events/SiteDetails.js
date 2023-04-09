@@ -1,8 +1,12 @@
 import React from 'react'
+import {Main} from "./styles"
+import Wrapper from '../../components/info/Wrapper'
 
-const SiteDetails = () => {
+const SiteDetails = ({children}) => {
   return (
-    <div>SiteDetails</div>
+    <Main>
+      <Wrapper element={children}/>
+    </Main>
   )
 }
 

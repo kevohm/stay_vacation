@@ -2,10 +2,13 @@ import React from 'react'
 import styled from "styled-components"
 import tw from "twin.macro"
 import Related from './Related'
-export const RelatedWrapper = ({element}) => {
+import Comments from './Comments'
+
+export const RelatedWrapper = ({element,comments=false}) => {
   return (
    <Main>
     {element}
+    {comments && <Comments/>}
     <Related/>
    </Main>
   )
