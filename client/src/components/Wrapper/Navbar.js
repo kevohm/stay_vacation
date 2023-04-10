@@ -8,7 +8,7 @@ import {LinkList} from "../smaller/list/LinkList";
 import { data } from "../utils/landing/links"
 import { FaBars, FaTimes } from "react-icons/fa"
 import { useGlobal } from "../../context/AppContext";
-import { useEffect } from "react";
+
 const Navbar = () => {
   const [menu, setMenu] = useState(false)
   const {state} = useGlobal()

@@ -32,7 +32,7 @@ const UserDetails = () => {
        <div className='header-div'>
       <header className='header'>your profile</header>
       {
-        user.role === "96e0c255-1643-48d2-9c60-08a115fbda91" && <Link to="/admin">view Dashboard</Link>
+        user.role === process.env.REACT_APP_ADMIN && <Link to="/admin/">view Dashboard</Link>
       }
       </div>
       <div>

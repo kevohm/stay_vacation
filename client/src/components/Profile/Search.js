@@ -31,6 +31,7 @@ ${tw`h-full order-1 md:order-2 p-5 flex flex-col`}
 >form{
   ${tw`w-full flex items-center`}
   >input{
+    ${tw`w-full max-w-[300px]`}
     font-family:poppinsMedium;
     ${tw`px-2.5 py-2 text-[rgba(1, 49, 91, .7)] text-sm border-solid border rounded-l-lg border-[rgba(1, 49, 91, .3)]`}
     ::placeholder{
@@ -44,7 +45,7 @@ ${tw`h-full order-1 md:order-2 p-5 flex flex-col`}
   }
   input[type="submit"]{
     font-family:poppinsSemi;
-    ${tw`px-2.5 py-2 text-white text-sm rounded-none rounded-r-lg bg-orange border-orange`}
+    ${tw`w-24 max-w-[80px] px-2.5 py-2 text-white text-sm rounded-none rounded-r-lg bg-orange border-orange`}
   }
 }
 `
