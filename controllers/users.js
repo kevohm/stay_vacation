@@ -10,8 +10,7 @@ const getUser = async (req, res) => {
     throw new NotFound("User doesn't exist");
   }
   const { _id, role,email,username,phone_number,createdAt,updatedAt} = user
-  let newRole = role === "116116" ? process.env.ADMIN : process.env.MEMBER;
-  delete user._id
+  let newRole = role === process.env.ADMIN_DEFAULT ? process.env.ADMIN : process.env.MEMBER;
   res.status(StatusCodes.OK).json({
     msg: "Current User Found",
     user: { id: _id, role:newRole },

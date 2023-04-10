@@ -32,7 +32,7 @@ export const TableData = ({type, handleUpdate, handleDelete}) => {
           <td>
             {moment(new Date(updatedAt)).format("ddd, MMM Do YYYY")}
           </td>
-          <td>{role === "116116" ? "Admin" : "Member"}</td>
+          <td>{role === process.env.REACT_APP_ADMIN_DEFAULT ? "Admin" : "Member"}</td>
           <td>
             <div className="edit">
               <FaEdit

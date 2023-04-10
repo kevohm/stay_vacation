@@ -3,12 +3,14 @@ import styled from "styled-components"
 import tw from "twin.macro"
 import Related from './Related'
 import Comments from './Comments'
+import { useEvent } from '../context/EventContext'
 
 export const RelatedWrapper = ({element,comments=false}) => {
+  const {currentEvent} = useEvent()
   return (
    <Main>
     {element}
-    {comments && <Comments/>}
+    {(comments && !currentEvent.loading) && <Comments/>}
     <Related/>
    </Main>
   )

@@ -71,7 +71,7 @@ const Main = styled.table`
           ${tw`w-12 h-12 object-cover rounded-lg`}
         }
         .status{
-          ${tw`w-[80px] h-[25px] border-solid  bg-white rounded-lg border border-orange text-orange`}
+          ${tw`w-[80px] p-1 px-2 border-solid  bg-white rounded-full border border-orange text-sm text-orange`}
         }
         .active{
           ${tw`text-green border-green`}

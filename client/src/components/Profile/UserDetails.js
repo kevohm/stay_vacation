@@ -23,7 +23,7 @@ const UserDetails = () => {
     },[])
     if(!user){
       return <Main>
-         <header>your profile</header>
+         <header className='header'>your profile</header>
          <Loader/>
       </Main>
     }

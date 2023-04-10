@@ -54,7 +54,7 @@ export const Main = styled.table`
       .status{
         ${tw`flex items-center`}
         .pending, .paid{
-          ${tw`w-[80px] h-[30px] border-solid bg-white border rounded-full`}
+          ${tw`w-[80px] p-1 px-2 border-solid bg-white border text-sm rounded-full`}
         }
         .pending{
           ${tw`text-orange border-orange`}

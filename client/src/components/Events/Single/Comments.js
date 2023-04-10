@@ -63,14 +63,14 @@ const Comments = () => {
     useEffect(()=>{
         fetchComments()
     },[currentEvent.loading])
+    if(!currentEvent.isExpired){
+        return
+    }
     if(loading){
         return <Main>
         <header className='header'>Comments</header>
        <Loader/>
     </Main>
-    }
-    if(!currentEvent.isExpired){
-        return
     }
   return (
     <Main>

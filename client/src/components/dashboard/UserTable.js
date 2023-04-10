@@ -11,18 +11,17 @@ const UserTable = () => {
   useEffect(() => {
     getUsers()
   }, [])
-  if (state.users.data.length === 0) {
-    return <Loader/>
-}
+  
   return (
     <StatsHolder text="recent users">
       <Main>
-        
-          <Table
-            data={state.users.data}
-            title={["index", "username", "email", "phone_number"]}
-            type="users"
-          />
+         { (state.users.data.length === 0)?<Loader/>
+          :<Table
+          data={state.users.data}
+          title={["index", "username", "email", "phone_number"]}
+          type="users"
+        />}
+         
       </Main>
     </StatsHolder>
   );

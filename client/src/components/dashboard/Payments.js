@@ -12,17 +12,17 @@ const Payments = () => {
     useEffect(() => {
         getPayments()
     }, [])
-    if (state.events.data.length === 0){
-        return <Loader/>
-    }
+
     return (
       <StatsHolder text="recent payments">
         <Main>
+        {(state.payments.data.length === 0)?<Loader/>:
             <Table
               data={state.payments.data}
               title={["index", "status", "category", "amount", "Event Paid"]}
               type="payments"
             />
+          }
         </Main>
       </StatsHolder>
     );

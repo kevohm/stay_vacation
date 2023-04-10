@@ -23,7 +23,7 @@ const Navbar = () => {
           className={`dropdown ${menu ? "active" : ""}`}
           onClick={changeMenu}
         >
-          {menu ? <FaTimes /> : <FaBars />}
+          {menu ? <FaTimes className="times"/> : <FaBars className="bars"/>}
         </div>
       </div>
       <LinkList data={data} menu={menu} />

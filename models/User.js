@@ -40,14 +40,12 @@ const UserSchema = new mongoose.Schema({
   },
 
   role: {
-    //115115 member
-    //116116 admin
     type: String,
     enum: {
-      values: ["115115", "116116"],
+      values: [process.env.MEMBER_DEFAULT, process.env.ADMIN_DEFAULT],
       message: "{VALUE} is not supported",
     },
-    default: "115115",
+    default: process.env.MEMBER_DEFAULT,
   },
   createdAt: {
     type: Date,
