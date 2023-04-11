@@ -15,10 +15,8 @@ export const Categories = ({ value, setValue, changeErr, id="1"}) => {
 
   const changeCategory = (index, val)=>{
     setCategory({...category, [`${index}`]:val})
-    console.log(category,value,index,val)
   }
   const handleChange = (val, checked, index) => {
-    console.log(value,category)
     let arr = category
     if (checked) {
       arr[index] = val

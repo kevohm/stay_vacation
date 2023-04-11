@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useReducer } from "react";
 import { actions, initialState } from "./appActions";
 import { reducer } from "./appReducer"
-import {setCookie} from "./utils"
+import {removeCookie, setCookie} from "./utils"
 const appContext = createContext();
 const client = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
@@ -40,7 +40,7 @@ const AppContext = ({ children }) => {
       const {id, role} = data.user
       setupUser(id,role)
     } catch (error) {
-      console.log(error)
+      console.log(error) 
     }
   }
   const logout = async () => {
@@ -50,7 +50,7 @@ const AppContext = ({ children }) => {
         type: actions.LOGOUT,
         payload: { userD: { id: null, role: null } },
       });
-      localStorage.setItem("user", JSON.stringify({ id: null, role: null }));
+      removeCookie("_v")
     } catch (error) {
       console.log(error)
     }

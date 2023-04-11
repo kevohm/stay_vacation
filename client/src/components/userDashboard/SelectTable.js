@@ -24,9 +24,10 @@ export const SelectTable = ({typeData, update,sortData, headings, typeDataB}) =>
   }
   useEffect(() => {
     if(typeData === "users"){
-        getUsers(page, 10, sort, arrange);
+      getUsers(page, 10, sort, arrange);
     }if(typeData === "events"){
-        getEvents(page, 10, sort, arrange);
+      const validity = {valid:"",invalid:""}
+      getEvents(page, 10, sort, arrange, validity);
     }if(typeData === "reports"){
       getReports(page, 10, sort, arrange)
     }

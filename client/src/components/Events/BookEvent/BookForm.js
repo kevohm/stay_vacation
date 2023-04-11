@@ -7,7 +7,6 @@ import { useEvent } from "../context/EventContext";
 import { verifyData } from "../../utils/Events/BookForm";
 import { BookFormReadOnly } from "./BookFormReadOnly";
 import { useGlobal } from "../../../context/AppContext";
-import { useNavigate, useParams } from "react-router-dom";
 
 const body = {
   username:"",
@@ -49,7 +48,7 @@ const handleSubmut = (e)=>{
     }).catch((err)=>{
       setBookingStage(1)
     })
-},[state.user.id]) 
+},[state.user.id,state.user.role]) 
   if(book_event.loading){
     return <Main>
        <header>payment details</header>

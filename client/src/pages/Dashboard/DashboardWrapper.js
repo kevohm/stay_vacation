@@ -25,7 +25,7 @@ const DashboardWrapper = () => {
 export default DashboardWrapper
 
 const Main = styled.main`
-  ${tw`relative w-full h-screen flex flex-col items-center`}
+  ${tw`relative w-full h-screen flex flex-col items-center bg-white `}
   .body {
     ${tw`w-full h-full flex`}
   }

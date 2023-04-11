@@ -4,7 +4,6 @@ import tw from "twin.macro";
 import styled from "styled-components";
 import moment from "moment";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
-import { FormError } from "../smaller/error/FormError";
 import { useGlobal } from "../../context/AppContext";
 import { verifyData, uploadFiles } from "./uploadFiles";
 import { Categories } from "./Categories";
@@ -18,7 +17,7 @@ export const UpdateForm = () => {
     country: state.event_startUpdate.current.country,
     category: state.event_startUpdate.current.category,
     price_choices: state.event_startUpdate.current.price_choices,
-    Ameities: state.event_startUpdate.current.Amenities,
+    Amenities: state.event_startUpdate.current.Amenities,
     validity: moment(new Date(state.event_startUpdate.current.validity)).format(
       "YYYY-MM-DD"
     ),
@@ -77,6 +76,7 @@ export const UpdateForm = () => {
     e.preventDefault();
     let nData = { ...data, category, price_choices: priceNum,Amenities:amenities };
     if (!verifyData(nData, changeErr)) {
+      console.log("error", nData)
       return;
     }
     try {
@@ -104,7 +104,7 @@ export const UpdateForm = () => {
     }
   };
   const changeErr = (err) => {
-    updateError("event", err);
+    updateError(err);
   };
   return (
     <Main onSubmit={(e) => handleSubmit(e)}>

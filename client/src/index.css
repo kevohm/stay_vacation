@@ -58,8 +58,9 @@ display:flex;
 }
 #root{
     width:100%;
-    max-width:1440px;
     min-height:100%;
+    background: rgba(138, 154, 234, .3);
+    
 }
 @media (max-width: 500px) {
     html, body {

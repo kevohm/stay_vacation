@@ -1,7 +1,7 @@
 const User = require("../models/User")
 const { NotFound,BadRequest, NotAuthorized } = require("../errors/index");
 const { StatusCodes } = require("http-status-codes");
-const cookieSet = require("../utils/cookie")
+const cookieSet = require("../utils/cookie");
 
 const register = async (req, res) => {
   const { email, password, username, phone_number, createdAt } = req.body;
@@ -9,7 +9,7 @@ const register = async (req, res) => {
     throw new BadRequest("Please provide all information");
   }
   const user = await User.create({
-    email,
+    email, 
     password,
     username,
     phone_number,
@@ -34,7 +34,8 @@ const login = async (req, res) => {
   const isMatch = await user.comparePass(password)
   if (isMatch) {
     const token = user.createJWT();
-    cookieSet({res, token})
+    const oneDay = 1000 * 60 * 60 * 24;
+    cookieSet({res,key:"token",value:token,time:oneDay})
     res
       .status(StatusCodes.OK)
       .json({
@@ -45,10 +46,8 @@ const login = async (req, res) => {
   }
 };
 const logout = async (req, res) => { 
-  res.cookie("token", "logout", {
-    httpOnly: true, 
-    expires: new Date(Date.now() + 1000),
-  });
+  const oneDay = 1000;
+  cookieSet({res,key:"token",value:"logout",time:oneDay})
   res.status(StatusCodes.OK).json({ msg: "user logged out!" });
 };
 module.exports = { register, login, logout };

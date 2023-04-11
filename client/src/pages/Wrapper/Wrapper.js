@@ -3,7 +3,6 @@ import { Outlet} from "react-router-dom";
 import { Breadcrumbs, Navbar, Footer } from "../../components/Wrapper/index"
 import {GlobalError} from "../../components/smaller/error/GlobalError"
 import { Main } from "./css/Wrapper";
-import { useGlobal } from "../../context/AppContext";
 import { useEvent } from "../../components/Events/context/EventContext";
 
 const Wrapper = () => {

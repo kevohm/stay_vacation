@@ -1,9 +1,8 @@
-const addCookie = ({ res, token }) => {
-  const oneDay = 1000 * 60 * 60 * 24;
 
-  res.cookie('token', token, {
+const addCookie = ({ res, key ,value,time }) => {
+  res.cookie(key, value, {
     httpOnly: true,
-    expires: new Date(Date.now() + oneDay),
+    expires: new Date(Date.now() + time),
     secure: process.env.SECURE,
     sameSite: process.env.SAMESITE
   });

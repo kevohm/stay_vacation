@@ -53,6 +53,7 @@ export const verifyData = (body, changeErr) => {
             ...err,
             msg: "Name must be atleast 40 alphabets",
         })
+        return false
     }
     if (description.length < 300) {
         changeErr({
@@ -64,7 +65,7 @@ export const verifyData = (body, changeErr) => {
     if (description.length > 1000) {
         changeErr({
             ...err,
-            msg: "Description must be atmost 1000 alphabets",
+            msg: "Description must be atmost 1000 characters",
         })
         return false
     }
