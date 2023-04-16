@@ -44,7 +44,7 @@ app.disable("x-powered-by");
  }
 
 const corOpt = {
-  origin: ["http://localhost:3000","https://stay-vacation.netlify.app"],
+  origin: ["http://localhost:3000","https://stay-vacation.netlify.app","https://stay-vacations.tyrantx.me"],
   credentials: true,
 };
 
