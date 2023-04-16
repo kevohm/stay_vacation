@@ -43,7 +43,7 @@ const Single = () => {
       </div>
       <div className='info'>
         <div>
-        <header className='title'>{currentEvent.data.name}, {currentEvent.data.city}</header>
+        <header className='title'><p>{currentEvent.data.name}</p><p>{`, ${currentEvent.data.city}`}</p></header>
         <p>{currentEvent.data.description}</p>
         </div>
         <div>
@@ -95,7 +95,7 @@ const Single = () => {
           <p>You can only book an event 24hrs before it expires <Link to="/info/contact">contact Us</Link></p>
         </div>
         {!currentEvent.isExpired && <div className='book'>
-          <Link to={`/events/${name}/${currentEvent.id}`}>Book now</Link> 
+          <Link to={`/events/${name}/book`}>Book now</Link> 
         </div>
         }
           
@@ -131,7 +131,11 @@ box-shadow:0px 2px 6px 0px rgba(1, 49, 91, .25);
   }
   .title{
     font-family:montserratSemi;
-    ${tw`text-lg text-darkBlue`}
+    ${tw`flex items-center text-lg text-darkBlue`}
+    >p{
+      font-family:montserratSemi; 
+    ${tw`w-auto text-lg capitalize text-darkBlue`}
+    }
   }
   >div{
     ${tw`w-full flex flex-col space-y-2 `}

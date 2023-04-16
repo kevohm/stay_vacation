@@ -8,8 +8,8 @@ export const StatsCard = ({ icon, title, color, data }) => {
       <Main>
           <div className="stats" style={{background:color}}>{icon}</div>
           <div className='title'>
-              <h5>{text}</h5>
-              <p>{title}</p>
+              <p className='detail'>{text}</p>
+              <p className='title'>{title}</p>
           </div>
     </Main>
   )
@@ -22,13 +22,13 @@ const Main = styled.div`
   }
   .title {
     ${tw`flex flex-col items-start`}
-    p {
+    .title{
       ${tw`text-sm text-[rgba(0,0,0,.5)]`}
       font-family:poppinsMedium;
     }
-    h5 {
-      ${tw`text-lg`}
-      font-family:montserratSemi;
+    .detail{
+      ${tw`text-base`}
+      font-family:poppinsSemi;
     }
   }
 `;

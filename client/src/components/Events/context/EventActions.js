@@ -1,5 +1,5 @@
 import { getCookie } from "../../../context/utils"
-import moment from "moment"
+import { minDate } from "./utils"
 
 export const initialState = {
     events:{ data: [], pages: 1, currentPage: 1, loading: true },
@@ -9,13 +9,14 @@ export const initialState = {
         search: getCookie("search") || "",
         category: getCookie("category") || "",
         price: { min: getCookie("min") || 0, max: getCookie("max") || 300000 },
-        validity:getCookie("validity") || moment(new Date).format("YYYY-MM-DD")
+        validity:getCookie("validity") || minDate,
+        expired: getCookie("expired") === "true" || false
       },
     categories:{
         data:[],
         loading:true
     },
-    sortBy:{sort:"createdAt",arrange:"desc",data:["createdAt desc","createdAt asc","name asc", "name desc"]},
+    sortBy:{sort:"createdAt",arrange:"desc",data:["newest","oldest","name"]},
     currentEvent:{data:{},id:getCookie("current") || null, loading:true,isExpired:false},
     MemberError:{msg:"",show:false,type:"warning"},
     current_categories:getCookie("categories") || null,

@@ -28,12 +28,10 @@ const Comments = () => {
         if(currentEvent.loading)return
         getComments(currentEvent.data._id).then((res)=>{
             const {data} = res
-            console.log(data)
             setComments(data.comments)
             setLoading(false)
         }).catch((err)=>{
             setLoading(false)
-            console.log(err)
         })
     }
     const handleSubmit = (e)=>{

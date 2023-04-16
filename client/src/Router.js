@@ -36,7 +36,7 @@ const Router = () => {
                 <Route path="profile" element={<Profile />} />
                 <Route path="events" element={<Events />} />
                 <Route path="events/:name" element={<SingleEvent />} />
-                <Route path="events/:name/:eventId" element={<BookEvent />} />
+                <Route path="events/:name/book" element={<BookEvent />} />
                 <Route path="info/about" element={<SiteDetails><About /></SiteDetails>} />
                 <Route path="info/contact" element={<SiteDetails><Contacts /></SiteDetails>} />
                 <Route path="info" element={<SiteDetails><Terms /></SiteDetails>} />

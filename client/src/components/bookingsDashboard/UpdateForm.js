@@ -82,7 +82,7 @@ export const UpdateForm = () => {
     try {
       changeErr({
         msg: "Please wait while we process your data...",
-        state: "success",
+        type: "success",
         show: true,
       });
       let newData = { ...nData};
@@ -98,7 +98,7 @@ export const UpdateForm = () => {
     } catch (error) {
       changeErr({
         msg: "Error occurred while uploading images",
-        state: "",
+        type: "warning",
         show: true,
       });
     }

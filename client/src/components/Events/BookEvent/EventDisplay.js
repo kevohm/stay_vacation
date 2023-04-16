@@ -10,12 +10,10 @@ import { useEvent } from '../context/EventContext'
 import { NoData } from '../../smaller/error/NoData'
 
 const EventDisplay = () => {
-    const {eventId} = useParams()
-
-    const {getSingleById,book_event} = useEvent()
+    const {getSingleById,book_event, book_event_id} = useEvent()
     useEffect(()=>{
-        getSingleById(eventId)
-    },[eventId])
+        getSingleById( book_event_id)
+    },[ book_event_id])
     if(book_event.loading){
         return <Main>
             <Loader/>
@@ -33,7 +31,7 @@ const EventDisplay = () => {
       </div>
         <div className='details'>
         <div>
-            <header>{`${book_event.data.name}, ${book_event.data.city}`}</header>
+            <header><p>{book_event.data.name}</p><p>{`, ${book_event.data.city}`}</p></header>
             <p>{book_event.data.description}</p>
         </div>
         <div>
@@ -75,7 +73,11 @@ box-shadow:0px 2px 6px 0px rgba(1, 49, 91, .25);
         ${tw` md:px-0 py-2.5`}
         >header{
             font-family:montserratSemi;
-            ${tw`text-darkBlue text-base mb-2.5`}
+            ${tw`text-darkBlue text-base mb-2.5 flex items-center w-full justify-start`}
+            >p{
+              font-family:montserratSemi;
+            ${tw`text-darkBlue text-base capitalize w-auto`}
+            }
         }
         >p{
             font-family:montserratMedium;

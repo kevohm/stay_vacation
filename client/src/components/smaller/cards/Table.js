@@ -44,7 +44,7 @@ export const Table = ({data=[], title=[], type}) => {
                   <td>0{index + 1}</td>
                   <td><button className={`status ${state === "Paid" && "active"}`}>{state}</button></td>
                   <td>{category}</td>
-                  <td>{`${amount} ${currency}`}</td>
+                  <td>{`${currency}. ${Number(amount).toLocaleString()}`}</td>
                   <td>{item.event.name}</td>
                 </tr>
               );

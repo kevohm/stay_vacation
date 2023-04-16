@@ -10,10 +10,10 @@ const Event = ({name,city,description,image}) => {
           <img src={image[0]} alt="event"/>
           </Link>
           <div className='information'>
-          <header>{`${name}, ${city}`}</header>
+          <header><p>{name}</p><p>{`, ${city}`}</p></header>
           <p>{description.length < 220?description:`${description.slice(0,220)}...`}</p>
           </div>
-    </Main>
+    </Main> 
   )
 }
 
@@ -31,8 +31,12 @@ const Main = styled.div`
     .information{
       ${tw`p-2.5 flex flex-col space-y-2.5`}
       header{
-        ${tw`text-sm capitalize text-darkBlue`}
+        ${tw`flex items-center justify-start text-sm text-darkBlue`}
         font-family:montserratSemi;
+        >p{
+          ${tw`w-auto text-sm capitalize text-darkBlue`}
+        font-family:montserratSemi;
+        }
       }p{
         font-family:montserratMedium;
         ${tw`text-sm w-full text-black`}

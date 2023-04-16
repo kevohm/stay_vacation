@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
 import RangeSlider from "react-range-slider-input";
@@ -6,6 +6,7 @@ import "react-range-slider-input/dist/style.css";
 import { useEvent } from "../context/EventContext";
 import { getCookie } from "../../../context/utils";
 import Categories from "./Categories";
+import { minDate,currentDate } from "../context/utils";
 
 const Search = ({handleRefresh,filter}) => {
   const {removeFilterLocal} = useEvent()
@@ -14,10 +15,17 @@ const Search = ({handleRefresh,filter}) => {
       search: getCookie("search") || filter.search,
       category: getCookie("category") || filter.category,
       price: { min: getCookie("min") || filter.price.min, max: getCookie("max") || filter.price.max},
-      validity:getCookie("validity") || filter.validity
+      validity: getCookie("validity") || filter.validity,
+      expired: getCookie("expired") === "true" ||  true
     }
   );
-  
+  const changeExpired = (val)=>{
+    if(val){
+      setfilterData({...filterData,expired:val,validity:minDate})
+    }else{
+      setfilterData({...filterData,expired:val,validity:currentDate})
+    }
+  }
   const handleChange = (e) => {
     const { name, value } = e.target;
     setfilterData({ ...filterData, [name]: value });
@@ -30,11 +38,12 @@ const Search = ({handleRefresh,filter}) => {
     removeFilterLocal()
     handleRefresh({...filterData})
   };
-  useEffect(()=>{
-
-  },[])
   return (
     <Main onSubmit={(e) => handleSubmit(e)}>
+      <div className="classification">
+        <button type="button" className={`${filterData.expired && "active"}`} onClick={()=>changeExpired(true)}>upcoming</button>
+        <button type="button" className={`${filterData.expired || "active"}`} onClick={()=>changeExpired(false)}>past events</button>
+      </div>
       <div className="input">
         <label>Search</label>
         <div className="search">
@@ -45,7 +54,7 @@ const Search = ({handleRefresh,filter}) => {
             value={filterData.search}
             onChange={(e) => handleChange(e)}
           />
-          <input className="submit" type="submit" value="Search" />
+          <input className="submit" type="submit" value="Apply" />
         </div>
       </div>
       <div className="input">
@@ -60,19 +69,21 @@ const Search = ({handleRefresh,filter}) => {
             onInput={handlePrice}
           />
           <div>
-            <label>Ksh {filterData.price.min}</label>
-            <label>ksh {filterData.price.max}</label>
+            <label>Ksh. {Number(filterData.price.min).toLocaleString()}</label>
+            <label>ksh. {Number(filterData.price.max).toLocaleString()}</label>
           </div>
         </div>
       </div>
       <Categories handleChange={handleChange} category={filterData.category}/>
       <div className="input">
-        <label>Validity</label>
+        <label>date</label>
         <div className="validity">
           <input
             type="date"
             name="validity"
             value={filterData.validity}
+            min={filterData.expired ? minDate : ""}
+            max={filterData.expired? "":currentDate}
             onChange={(e) => handleChange(e)}
           />
         </div>
@@ -84,13 +95,23 @@ const Search = ({handleRefresh,filter}) => {
 export default Search;
 
 const Main = styled.form`
-${tw`bg-white h-auto md:h-[30rem] w-full max-w-none min-w-min md:min-w-[270px] lg:max-w-[424px] rounded-lg p-10 lg:p-12 flex flex-col space-y-6`}
+${tw`bg-white h-auto md:h-[34.5rem] w-full max-w-none min-w-min md:min-w-[270px] lg:max-w-[424px] rounded-lg p-10 lg:p-12 flex flex-col space-y-6`}
 box-shadow:0px 2px 6px 0px rgba(1, 49, 91, .25);
+.classification{
+  ${tw`flex items-center justify-evenly w-full`}
+  > button{
+    ${tw`cursor-pointer p-2 px-2.5 rounded-lg bg-white border border-lightBlue border-solid text-lightBlue`}
+  }
+  .active{
+    ${tw`bg-lightBlue text-white`}
+  }
+}
+
 .input{
   ${tw`flex flex-col space-y-4 `}
   >label{
     font-family:montserratSemi;
-    ${tw`text-darkBlue`}
+    ${tw`text-darkBlue capitalize`}
   }
   >div{
     ${tw`flex items-center space-x-2`}
@@ -168,6 +189,19 @@ box-shadow:0px 2px 6px 0px rgba(1, 49, 91, .25);
       input:checked::before {
         transform: scale(1);
       }
+    }
+  }
+}
+.error{
+  ${tw`w-full`}
+  >label{
+    font-family:montserratSemi;
+    ${tw`text-darkBlue`}
+  }
+  >div{
+    ${tw`w-full flex items-center justify-center h-full max-h-[4rem]`}
+    p{
+      ${tw`text-sm text-darkBlue`}
     }
   }
 }

@@ -2,16 +2,16 @@ export const footerData = [
   {
     data: [
       {
-        text: "privacy",
-        url: "/info",
+        text: "contact us",
+        url: "/info/contact",
       },
       {
         text: "about",
-        url: "/info",
+        url: "/info/about",
       },
       {
         text: "terms and condition",
-        url: "/info",
+        url: "/info/",
       },
     ],
     title: "INFORMATION",

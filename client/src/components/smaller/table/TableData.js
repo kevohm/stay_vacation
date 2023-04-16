@@ -160,7 +160,7 @@ export const TableData = ({type, handleUpdate, handleDelete}) => {
             <td>{i.event.name}</td>
             <td>{i.event.city}</td>
             <td>{i.event.country}</td>
-            <td>{`${amount} ${currency}`}</td>
+            <td>{`${currency}. ${Number(amount).toLocaleString()}`}</td>
             <td>{category}</td>
             <td className="status"><button className={state === "Pending" ? "pending":"paid"}>{state}</button></td>
             <td>{i.user.username}</td>

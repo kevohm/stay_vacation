@@ -7,12 +7,19 @@ import { useEvent } from "../context/EventContext";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import Categories from "../All/Categories";
+import { minDate,currentDate } from "../context/utils";
 
 const Search = () => {
   const {filter,removeFilterLocal,storeFilter} = useEvent()
   const [filterData, setfilterData] = useState(filter);
   const navigate = useNavigate()
-  
+  const changeExpired = (val)=>{
+    if(val){
+      setfilterData({...filterData,expired:val,validity:minDate})
+    }else{
+      setfilterData({...filterData,expired:val,validity:currentDate})
+    }
+  }
   const handleChange = (e) => {
     const { name, value } = e.target;
     setfilterData({ ...filterData, [name]: value });
@@ -22,7 +29,7 @@ const Search = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    storeFilter(filterData.search,filterData.validity,filterData.price.min,filterData.price.max,filterData.category)
+    storeFilter(filterData.search,filterData.validity,filterData.price.min,filterData.price.max,filterData.category,filterData.expired)
     navigate("/events")
   };
   useEffect(()=>{
@@ -30,6 +37,10 @@ const Search = () => {
   },[])
   return (
     <Main onSubmit={(e) => handleSubmit(e)}>
+      <div className="classification">
+        <button type="button" className={`${filterData.expired && "active"}`} onClick={()=>changeExpired(true)}>upcoming</button>
+        <button type="button" className={`${filterData.expired || "active"}`} onClick={()=>changeExpired(false)}>past events</button>
+      </div>
       <div className="input">
         <label>Search</label>
         <div className="search">
@@ -55,19 +66,20 @@ const Search = () => {
             onInput={handlePrice}
           />
           <div>
-            <label>Ksh {filterData.price.min}</label>
-            <label>ksh {filterData.price.max}</label>
+          <label>Ksh. {Number(filterData.price.min).toLocaleString()}</label>
+            <label>ksh. {Number(filterData.price.max).toLocaleString()}</label>
           </div>
         </div>
       </div>
       <Categories handleChange={handleChange} category={filterData.category}/>
       <div className="input">
-        <label>Validity</label>
+        <label>date</label>
         <div className="validity">
           <input
             type="date"
             name="validity"
-            min={moment(new Date).format("YYYY-MM-DD")}
+            min={filterData.expired ? minDate : ""}
+            max={filterData.expired? "":currentDate}
             value={filterData.validity}
             onChange={(e) => handleChange(e)}
           />
@@ -80,13 +92,22 @@ const Search = () => {
 export default Search;
 
 const Main = styled.form`
-${tw`bg-white h-auto md:h-[30rem] w-full max-w-none min-w-min md:min-w-[270px] lg:max-w-[424px] rounded-lg p-10 lg:p-12 flex flex-col space-y-6`}
+${tw`bg-white h-auto md:h-[34.5rem] w-full max-w-none min-w-min md:min-w-[270px] lg:max-w-[424px] rounded-lg p-10 lg:p-12 flex flex-col space-y-6`}
 box-shadow:0px 2px 6px 0px rgba(1, 49, 91, .25);
+.classification{
+  ${tw`flex items-center justify-evenly w-full`}
+  > button{
+    ${tw`cursor-pointer p-2 px-2.5 rounded-lg bg-white border border-lightBlue border-solid text-lightBlue`}
+  }
+  .active{
+    ${tw`bg-lightBlue text-white`}
+  }
+}
 .input{
   ${tw`flex flex-col space-y-4 `}
   >label{
     font-family:montserratSemi;
-    ${tw`text-darkBlue`}
+    ${tw`text-darkBlue capitalize`}
   }
   >div{
     ${tw`flex items-center space-x-2`}
@@ -164,6 +185,19 @@ box-shadow:0px 2px 6px 0px rgba(1, 49, 91, .25);
       input:checked::before {
         transform: scale(1);
       }
+    }
+  }
+}
+.error{
+  ${tw`w-full`}
+  >label{
+    font-family:montserratSemi;
+    ${tw`text-darkBlue`}
+  }
+  >div{
+    ${tw`w-full flex items-center justify-center h-full max-h-[4rem]`}
+    p{
+      ${tw`text-sm text-darkBlue`}
     }
   }
 }

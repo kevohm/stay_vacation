@@ -83,7 +83,7 @@ const getSingleEvent = async (req, res) => {
     res.status(StatusCodes.OK).json({ msg:"Event found", event });
 }
 const getEvents = async (req, res) => {
-  const { sort, arrange, page, limit, category, price_start, price_end, valid, name, search,invalid,categories,eventId} = req.query
+  const { sort, arrange, page, limit, category, price_start, price_end, date, validity, expiry, name, search,categories,eventId} = req.query
   const sortData = {
     [sort || "createdAt"]: arrange || "desc",
   };
@@ -108,11 +108,17 @@ const getEvents = async (req, res) => {
     const price = { $gte: Number(price_start), $lte: Number(price_end) };
     filter["price_choices.price"] = price
   }
-  if(invalid){
-      filter['validity'] = {$lte:invalid}
+  if(expiry){
+    const valid = (validity === "lte")?{$lte:expiry}:{$gte:expiry}
+    filter['validity'] = valid
   }
-  if(valid){
-    filter['validity'] = {$gte:valid}
+  if(date){
+    filter['validity'] = {$gte:date}
+  }
+  if(expiry && date){
+    const valid = (validity === "lte")?{$lte:expiry}:{$gte:expiry}
+    const actual = (validity === "lte")?{$gte:date}:{$lte:date}
+    filter['validity'] = {...valid,...actual}
   }
   if(name){
     filter['name'] = name

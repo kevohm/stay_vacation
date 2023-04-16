@@ -14,7 +14,7 @@ const Error = () => {
 
 export default Error
 const Main = styled.section`
-${tw`w-full min-h-screen flex flex-col items-center justify-start pt-12 space-y-10`}
+${tw`w-full min-h-screen bg-white flex flex-col items-center justify-start pt-12 space-y-10`}
 img{
   ${tw`w-full max-w-[600px]`}
 }

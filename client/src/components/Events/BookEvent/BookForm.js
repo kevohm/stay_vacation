@@ -18,7 +18,7 @@ const body = {
 
 const BookForm = () => {
   const [data,setData] = useState(body)
-  const {book_event,stages,setBookingError,registerBoookingUser,getBookingUser,setBookingData,setBookingStage} = useEvent()
+  const { book_event_id,book_event,stages,setBookingError,registerBoookingUser,getBookingUser,setBookingData,setBookingStage} = useEvent()
   const {state} = useGlobal()
   const handleData = (e)=>{
     const {name,value} = e.target
@@ -42,7 +42,6 @@ const handleSubmut = (e)=>{
   useEffect(()=>{
     getBookingUser().then((res)=>{
       const {data} = res
-      console.log(data)
       setBookingStage(2)
       setBookingData("user",data.details)
     }).catch((err)=>{
@@ -51,7 +50,7 @@ const handleSubmut = (e)=>{
 },[state.user.id,state.user.role]) 
   if(book_event.loading){
     return <Main>
-       <header>payment details</header>
+       <header>user details</header>
         <Loader/>
     </Main>
 }
@@ -61,7 +60,7 @@ if(stages.level && Number(stages.level) === 2 && stages.user !== null){
 }
   return (
     <Main onSubmit={(e)=>handleSubmut(e)}>
-      <header>payment details</header>
+      <header>User details</header>
       {stages.err.show && <div className="error">
         <FormError {...stages.err}/>
       </div>}

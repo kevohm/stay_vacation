@@ -2,11 +2,10 @@ import React from 'react'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import { Link } from 'react-router-dom'
-import { useEvent } from '../context/EventContext'
+
 const SingleEvent = ({grid, event}) => {
-    const {setCurrentEvent} = useEvent()
   return (
-    <Main grid={grid}>
+    <Main grid={grid} to={`${event.name}`}>
         <Link to={`${event.name}`}>
         <img src={event.image[0]} alt={event.name}/>
         </Link>
@@ -15,7 +14,10 @@ const SingleEvent = ({grid, event}) => {
             <header>{event.name}</header>
             <Link to={`${event.name}`} className="links">Details</Link>
             </div>
-            <p>{event.description.length <= 100 ?event.description:`${event.description.slice(0,100)}...`}</p>
+            <p>{
+                grid ? event.description.length <= 100 ? event.description:`${event.description.slice(0,100)}...`
+                : event.description.length <= 200 ? event.description:`${event.description.slice(0,200)}...`
+            }</p>
         </div>
     </Main>
   )
@@ -23,7 +25,7 @@ const SingleEvent = ({grid, event}) => {
 
 export default SingleEvent
 
-const Main =styled.div`
+const Main =styled(Link)`
 ${tw`w-full rounded-lg bg-white flex`}
 ${(props)=>props.grid ? tw`flex-col max-w-none md:max-w-[415px] `:tw` h-[150px] sm:h-[200px] items-start space-x-2 md:space-x-5`}
 box-shadow:0px 2px 6px 0px rgba(1, 49, 91, .25);
@@ -42,7 +44,7 @@ box-shadow:0px 2px 6px 0px rgba(1, 49, 91, .25);
         ${tw`w-full flex items-center justify-between pr-5`}
         header{
             font-family:montserratSemi;
-            ${tw`text-darkBlue`}
+            ${tw`text-darkBlue capitalize`}
         }
         a{
             ${tw`border-orange p-1 text-orange border-solid border rounded-lg`}

@@ -53,7 +53,7 @@ const UserDetails = () => {
       </div>
       <div className='submit'>
         <FaInfoCircle/>
-        <p>Contact Admin for any updates to the above information</p>
+        <p><Link to="/info/contact">Contact Us</Link> for any updates to the above information</p>
       </div>
     </Main>
   )
@@ -85,6 +85,12 @@ ${tw`h-full order-2 md:order-1 p-5 flex flex-col space-y-5 row-span-2`}
   p{
     font-family:poppins;
     ${tw`text-lightBlue rounded-lg border-none`}
+    a{
+      a{
+        font-family:poppins;
+        ${tw`text-sm hover:underline `}
+      }
+    }
   }
 }
 `

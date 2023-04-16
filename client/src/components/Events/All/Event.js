@@ -30,7 +30,7 @@ div:last-child{
     ${tw`w-full flex flex-col space-y-2.5 p-2.5 text-sm pt-0`}
     header{
         font-family:montserratSemi;
-        ${tw`text-sm`}
+        ${tw`text-sm capitalize`}
     }
     p{
         font-family:montserrat;

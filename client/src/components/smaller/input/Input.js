@@ -2,6 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import moment from "moment"
 import tw from 'twin.macro'
+import { minDate } from '../../Events/context/utils'
+
 export const Input = ({
   type,
   placeholder,
@@ -19,7 +21,7 @@ export const Input = ({
         <input
           type={type}
           placeholder={placeholder}
-          min={moment(new Date()).format("YYYY-MM-DD")}
+          min={minDate}
           name={name}
           value={value}
           onChange={(e) => handleChange(e)}

@@ -9,6 +9,7 @@ import {Email} from "./Email"
 import { useLocation } from 'react-router-dom'
 const Footer = () => {
   const location = useLocation()
+  const year = new Date().getFullYear()
   
   return (
     <Main>
@@ -28,7 +29,7 @@ const Footer = () => {
           <Contact data={contactData} />
         </div>
         <div className="copyright">
-          <p>&copy; 2018-2022 Stay Vacations - All Rights Reserved.</p>
+          <p>&copy; 2018-{year} Stay Vacations - All Rights Reserved.</p>
         </div>
       </div>
     </Main>

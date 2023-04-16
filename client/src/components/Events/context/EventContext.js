@@ -40,12 +40,13 @@ const EventContext = ({ children }) => {
       payload: { status, type },
     });
   };
-  const setFilterLocal = (search,validity,min,max,category)=>{
+  const setFilterLocal = (search,validity,min,max,category,expired=false)=>{
     setCookie("search",search)
     setCookie("min",min)
     setCookie("max",max)
     setCookie("validity",validity)
     setCookie("category",category)
+    setCookie("expired",expired)
   }
   const removeFilterLocal = ()=>{
     removeCookie("search")
@@ -65,18 +66,19 @@ const EventContext = ({ children }) => {
       type:actions.SET_LOCAL_FILTER
     })
   }
-  const storeFilter = (city,date,min,max,category)=>{
+  const storeFilter = (city,date,min,max,category,expired)=>{
     const maximum = (max === 0)?'300000':max
         setFilter({
           search: city,
           category: category,
           price: { min, max:maximum},
-          validity: date
+          validity: date,
+          expired
         })
-        setFilterLocal(city,date,min,maximum,category)
+        setFilterLocal(city,date,min,maximum,category,expired)
   }
   const setFilter = (data) => {
-    setFilterLocal(data.search,data.validity,data.price.min,data.price.max,data.category)
+    setFilterLocal(data.search,data.validity,data.price.min,data.price.max,data.category,data.expired)
     dispatch({
       type: actions.SET_FILTER,
       payload: { data },
@@ -127,7 +129,6 @@ const EventContext = ({ children }) => {
       if( state.book_event_id !== event._id && !state.stages){
         removeBookingState()
       }
-      setCookie("book",event._id)
       dispatch({
         type:actions.SET_BOOK_EVENT,
         payload:{data:event}
@@ -145,6 +146,7 @@ const EventContext = ({ children }) => {
     try {
       const { data } = await client.get(`event/all?name=${id}`);
       const {events} = data
+      setCookie("book",events[0]._id)
       if(events.length === 0){
         setCurrentEvent({_id:""})
       }else{
@@ -153,7 +155,6 @@ const EventContext = ({ children }) => {
       }
       setCurrentLoading(false)
     } catch (error) {
-      console.log(error);
       setCurrentEvent({_id:""})
       setCurrentLoading(false)
     }
@@ -167,16 +168,12 @@ const EventContext = ({ children }) => {
     max = 900000,
     category = "",
     search = "",
-    validity={valid:new Date().toISOString(),invalid:null},
+    validity="lte",
+    date = new Date().toISOString()
   ) => {
     setLoading(true, "events");
-    const {valid,invalid} = validity
-    let url = `/event/all?page=${page}&limit=${limit}&sort=${sort}&arrange=${arrange}&price_start=${min}&price_end=${max}&category=${category}&search=${search}`;
-    if(invalid){
-      url += `&invalid=${invalid}`
-    }else{
-      url += `&valid=${valid}`
-    }
+    const expiry = new Date().toISOString()
+    let url = `/event/all?page=${page}&limit=${limit}&sort=${sort}&arrange=${arrange}&price_start=${min}&price_end=${max}&category=${category}&search=${search}&validity=${validity}&date=${date}&expiry=${expiry}`;
     try {
       const { data } = await client.get(url);
       const { events, pages } = data;

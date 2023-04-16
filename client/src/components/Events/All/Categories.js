@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { Loader } from '../../smaller/load/Loader'
+import { BiLoaderAlt } from 'react-icons/bi'
 import { useEvent } from '../context/EventContext'
 
 const Categories = ({handleChange,category}) => {
@@ -8,9 +9,13 @@ const Categories = ({handleChange,category}) => {
         getCategories()
       },[])
       if(categories.loading){
-        return <div className="input">
+        return <div className="error">
         <label>Category</label>
-        <Loader/>
+        <div>
+          <div>
+          <p>loading...</p>
+          </div>
+        </div>
       </div>
       }
   return (

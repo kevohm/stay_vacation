@@ -61,7 +61,7 @@ export const Table = ({ data, current, total, loading, handleChange}) => {
               <td>{event.name}</td>
               <td>{event.city}</td>
               <td>{event.country}</td>
-              <td>{amount}</td>
+              <td>{`ksh. ${amount.toLocaleString()}`}</td>
               <td>{category}</td>
               <td className="status"><button className={`${state.toLowerCase()}`}>
               {state}

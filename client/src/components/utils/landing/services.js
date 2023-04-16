@@ -1,5 +1,6 @@
 import { FaCameraRetro, FaHotel, FaTrain, FaCar } from "react-icons/fa";
 import moment from "moment";
+import { minDate } from "../../Events/context/utils";
 
 export const servicesData = [
   {
@@ -45,7 +46,7 @@ export const inputData = [
     placeholder: "",
     name: "Date",
     title: "Date",
-    value: moment(new Date()).format("YYYY-MM-DD"),
+    value: minDate,
     error: false,
   },
   {

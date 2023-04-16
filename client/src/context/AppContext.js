@@ -64,7 +64,7 @@ const AppContext = ({ children }) => {
       
   } 
 //--------------------------EVENTS----------------------------------------------------------------------
-  const getEvents = async (page=1, limit=5,sort="created at",arrange="desc", validity={valid:new Date().toISOString(),invalid:null}) => {
+  const getEvents = async (page=1, limit=5,sort="created at",arrange="desc", validity="", expiry="") => {
     const mapSort = {
       name:"name",
       description:"descripton",
@@ -74,13 +74,7 @@ const AppContext = ({ children }) => {
       "created at": "createdAt",
       "updated at": "updatedAt",
     };
-    let url = `event/all?page=${page}&limit=${limit}&sort=${mapSort[sort]}&arrange=${arrange}`
-    const {valid,invalid} = validity
-    if(invalid){
-      url += `&invalid=${invalid}`
-    }else{
-      url += `&valid=${valid}`
-    }
+    let url = `event/all?page=${page}&limit=${limit}&sort=${mapSort[sort]}&arrange=${arrange}&expiry=${expiry}&validity=${validity}`
     try {
       const { data } = await client.get(url);
       const { events, pages } = data;

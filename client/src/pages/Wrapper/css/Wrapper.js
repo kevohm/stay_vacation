@@ -1,11 +1,10 @@
 import styled from "styled-components"
 import tw from "twin.macro"
+import back from "../../../assets/img/back.jpg"
 
 const Main = styled.main`
-  ${tw`relative w-full max-w-[1440px] mx-auto bg-white`}
-  box-shadow:0px 4px 6px 0px rgba(138, 154, 234, .25);
-  border-left:1px solid #8A9AEA;
-  border-right:1px solid #8A9AEA;
-  
+background: rgba(138, 154, 234, .2); 
+  ${tw`flex items-start justify-center w-full min-h-screen mx-auto bg-no-repeat bg-center bg-cover bg-blend-screen`}
+  background-image:url(${back});
 `;
 export {Main}

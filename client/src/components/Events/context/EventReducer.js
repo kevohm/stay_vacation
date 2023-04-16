@@ -68,7 +68,6 @@ export const reducer = (state,action)=>{
             const min = getCookie("min")
             const max = getCookie("max")
             const validity = getCookie("validity")
-
             return {...state, filter:{
                 search:  search || "",
                 category: "",

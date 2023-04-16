@@ -6,10 +6,9 @@ import { FormError } from '../../smaller/error/FormError'
 import {Main} from "./BookForm"
 
 export const BookFormReadOnly = () => {
-    const {stages,payNow,setGlobalErrors,setGlobalResponse,book_event,setBookingError} = useEvent()
+    const { book_event_id,stages,payNow,setGlobalErrors,setGlobalResponse,book_event,setBookingError} = useEvent()
     const [data,setData] = useState({price:0,category:""})
-    const {state} = useGlobal()
-    const {eventId,name} = useParams()
+    const {name} = useParams()
     const navigate= useNavigate()
     const handlePrice = (price,category)=>{
       setData({price,category})
@@ -19,15 +18,15 @@ export const BookFormReadOnly = () => {
         if(data.price === 0){
           setBookingError({
             msg:"Please choose a price plan.",
-            type:"warning",
+            state:"warning",
             show:true
           })
           return
         }
-        payNow(eventId, stages.user.id,data.category).then((res)=>{
+        payNow( book_event_id, stages.user.id,data.category).then((res)=>{
           setBookingError({
             msg:"Paid for Event. Check Profile for details.",
-            type:"success",
+            state:"success",
             show:true
           })
             setGlobalErrors({
@@ -40,7 +39,7 @@ export const BookFormReadOnly = () => {
           if(error.response && error.response.data){
             setBookingError({
               msg:error.response.data.msg,
-              type:"warning",
+              state:"warning",
               show:true
             })
           }

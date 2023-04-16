@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import styled from 'styled-components'
 import {FaAngleLeft, FaAngleRight, FaList} from "react-icons/fa"
 import {BsFillGrid3X3GapFill} from "react-icons/bs"
@@ -10,6 +10,7 @@ import noevents from "../../../assets/svg/noevents.svg"
 
 const Events = ({loading,eventsData, page, changePage, handleCategory}) => {
   const {sortBy,events} = useEvent()
+  const section = useRef()
   const [filter, setFilter] = useState(sortBy)
   const [currentPage, setCurrentPage] = useState(page)
   const [grid,setGrid] = useState(false)
@@ -18,15 +19,17 @@ const Events = ({loading,eventsData, page, changePage, handleCategory}) => {
   }
   const handlePages = (val)=>{
     const pages = Number(events.pages)
-      const num = Number(val)
-      if(num <= pages && num > 0){
-        changePage(num)
-      }
-      if(!isNaN(num) || num == ""){
+    const num = Number(val)
+    if(num <= pages && num > 0){
+      section.current.scrollIntoView({ behavior: 'smooth' });
+      changePage(num)
+    }
+    if(!isNaN(num) || num == ""){
         setCurrentPage(val)
       }
   }
   const handleDir = (dir)=>{
+    section.current.scrollIntoView({ behavior: 'smooth' });
     const current = Number(events.currentPage)
     const max = Number(events.pages)
     if(1 !== max){
@@ -50,18 +53,28 @@ const Events = ({loading,eventsData, page, changePage, handleCategory}) => {
     }
 
   }
+  const mapper = {
+    "createdAt desc":"newest",
+    "createdAt asc":"oldest",
+    "name desc":"name"
+  }
   const changeCategory = (val)=>{
-    const arr = val.split(" ")
-    const data = {...sortBy, arrange:arr[1],sort:arr[0]}
+    const mapper = {
+      "newest":"createdAt desc",
+      "oldest":"createdAt asc",
+      "name":"name desc"
+    }
+    const sortData = mapper[val].split(" ")
+    const data = {...sortBy,sort:sortData[0],arrange:sortData[1]}
     setFilter(data)
-    handleCategory(arr[0],arr[1])
+    handleCategory(sortData[0],sortData[1])
   }
   return (
-    <Main grid={grid}>
+    <Main grid={grid} ref={section}>
      <div className='heading-sort'>
       <div>
         <label>Sort By</label>
-        <select value={`${filter.sort} ${filter.arrange}`} onChange={(e)=>changeCategory(e.target.value)}>
+        <select value={mapper[`${filter.sort} ${filter.arrange}`]} onChange={(e)=>changeCategory(e.target.value)}>
         <option disabled={true} value="">Category</option>
         {
           filter.data.map((i,index)=><option key={index} value={i}>{i}</option>)

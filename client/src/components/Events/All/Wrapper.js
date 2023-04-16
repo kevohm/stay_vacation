@@ -22,12 +22,13 @@ const Wrapper = () => {
     setSort(sort, arrange)
   }
   useEffect(()=>{
-    const validity = new Date(`${getCookie("validity") || filter.validity} ${new Date().toLocaleTimeString()}`).toISOString()
+    const validity = (getCookie("expired") === "true" || filter.expired)? "gte" : "lte"
+    const date = new Date(`${getCookie("validity") || filter.validity} ${new Date().toLocaleTimeString()}`).toISOString()
     const max = getCookie("max") || filter.price.max
     const min = getCookie("min") || filter.price.min
     const category = getCookie("category") || filter.category
     const search = getCookie("search") || filter.search
-    getAll(page,6,sortBy.sort,sortBy.arrange,min,max,category,search,{valid:validity,invalid:null})
+    getAll(page,6,sortBy.sort,sortBy.arrange,min,max,category,search,validity,date)
   },[filter,sortBy,page])
   return (
     <Main>
@@ -45,5 +46,5 @@ ${tw`w-full`}
 `
 
 const Main =styled.div`
-${tw`flex flex-col space-y-12 md:space-y-0  md:grid  md:grid-cols-[repeat(3, 1fr)] grid-flow-col-dense md:grid-rows-[30rem, 780px, 1fr] gap-5 items-start`}
+${tw`flex flex-col space-y-12 md:space-y-0  md:grid  md:grid-cols-[repeat(3, 1fr)] grid-flow-col-dense md:grid-rows-[34.5rem, 780px, 1fr] gap-5 items-start`}
 `
