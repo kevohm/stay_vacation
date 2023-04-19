@@ -1,5 +1,6 @@
 const Event = require("../models/Event")
-const Report = require("../models/Report")
+const Like = require("../models/Like")
+const Dislike = require("../models/Dislike")
 const Category = require("../models/Category")
 const { NotFound, NotAuthorized, BadRequest } = require("../errors/index")
 const { StatusCodes } = require("http-status-codes")
@@ -206,10 +207,114 @@ const updateEvent = async (req, res) => {
     res.status(StatusCodes.OK).json({ msg: "Event updated"});
 }
 
+const likeEvent = async (req,res)=>{
+  const {eventId} = req.params
+  const {userId} = req.user
+  const event = await Event.findOne({_id:eventId})
+  if(!event){
+    throw new NotFound("Event not found")
+  }
+  const dislike = await Dislike.findOne({event:eventId,user:userId})
+  if(dislike){
+    await Dislike.findOneAndDelete(dislike._id)
+    if(event.dislike > 0){
+      await Event.findByIdAndUpdate(eventId,{
+        dislike:event.dislike - 1,
+      },{
+        runValidators: true,
+        new: true,
+      })
+    }
+  }
+  const like = await Like.findOne({event:eventId,user:userId})
+  if(like){
+    throw new BadRequest("Already liked event")
+  }
+  await Like.create({event:eventId,user:userId})
+  const newEvent = await Event.findByIdAndUpdate(eventId,{
+    like:event.like + 1
+  },{
+    runValidators: true,
+    new: true,
+  })
+  res.status(StatusCodes.OK).json({msg:"Event liked", event:newEvent})
+}
+const removeLike = async (req,res)=>{
+  const {eventId} = req.params
+  const {userId} = req.user
+  const event = await Event.findOne({_id:eventId})
+  if(!event){
+    throw new NotFound("Event not found")
+  }
+  const like = await Like.findOne({event:eventId,user:userId})
+  if(!like){
+    throw new BadRequest("Event not liked")
+  }
+  await Like.findOneAndDelete({_id:like._id})
+  await Event.findByIdAndUpdate(eventId,{like:event.like - 1},{runValidators:true,new:true})
+  res.status(StatusCodes.OK).json({msg:"Event unliked"})
+}
+
+const removeDislike = async (req,res)=>{
+  const {eventId} = req.params
+  const {userId} = req.user
+  const event = await Event.findOne({_id:eventId})
+  if(!event){
+    throw new NotFound("Event not found")
+  }
+  const dislike = await Dislike.findOne({event:eventId,user:userId})
+  if(!dislike){
+    throw new BadRequest("Event not disliked")
+  }
+  await Dislike.findOneAndDelete({_id:dislike._id})
+  await Event.findByIdAndUpdate(eventId,{dislike:event.dislike - 1},{runValidators:true,new:true})
+  res.status(StatusCodes.OK).json({msg:"Event undisliked"})
+}
+
+const dislikeEvent = async (req,res)=>{
+  const {eventId} = req.params
+  const {userId} = req.user
+
+  const event = await Event.findOne({_id:eventId})
+  if(!event){
+    throw new NotFound("Event not found")
+  }
+  const like = await Like.findOne({event:eventId,user:userId})
+  if(like){
+    await Like.findOneAndDelete({_id:like._id})
+    if(event.like > 0){
+      await Event.findByIdAndUpdate(eventId,{like:event.like - 1},{runValidators:true,new:true})
+    }
+  }
+  const dislike = await Dislike.findOne({event:eventId,user:userId})
+  if(dislike){
+    throw new BadRequest("Already disliked event")
+  }
+  await Dislike.create({event:eventId,user:userId})
+  const newEvent = await Event.findByIdAndUpdate(eventId,{dislike:event.dislike + 1},{runValidators:true,new:true})
+  res.status(StatusCodes.OK).json({msg:"Event disiked", event:newEvent})
+}
+
+const getCurrentReaction = async(req,res)=>{
+  const {userId} = req.user
+  const {eventId} = req.params
+  const reaction = {}
+  const like = await Like.findOne({event:eventId,user:userId})
+  const dislike = await Dislike.findOne({event:eventId,user:userId})
+  reaction["like"] = (like)?true:false
+  reaction["dislike"] = (dislike)?true:false
+  res.status(StatusCodes.OK).json({msg:"User reactions found", reaction})
+}
+
 module.exports = {
   createEvent,
   getSingleEvent,
   getEvents,
   deleteEvent,
   updateEvent,
+  dislikeEvent,
+  likeEvent,
+  getCurrentReaction,
+  removeLike,
+  removeDislike
 };

@@ -62,6 +62,14 @@ const Event = new mongoose.Schema({
     type: [String],
     required: [true, "Please provide Amenities"],
   },
+  like:{
+    type:Number,
+    default:0
+  },
+  dislike:{
+    type:Number,
+    default:0
+  },
   validity: {
     type: Date,
     required: [true, "Please provide validity of Event"],

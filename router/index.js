@@ -6,6 +6,7 @@ const statsRouter = require("./stats")
 const reportRouter = require("./report")
 const commentsRouter = require("./comments")
 const CategoryRouter = require("./Category")
+const PosterRouter = require("./poster")
 module.exports = {
   authRouter,
   eventRouter,
@@ -14,5 +15,6 @@ module.exports = {
   statsRouter,
   reportRouter,
   commentsRouter,
-  CategoryRouter
+  CategoryRouter,
+  PosterRouter
 };

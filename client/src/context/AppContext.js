@@ -87,6 +87,10 @@ const AppContext = ({ children }) => {
       console.log(error);
     }
   };
+  const getPopular = ()=>client.get(`event/all?page=1&limit=8&sort=like&arrange=desc`)
+  const getAllEvents = (page,limit,name="")=>client.get(`event/all?page=${page}&limit=${limit}&name=${name}`)
+  const getSingle = (id)=>client.get(`event/${id}`)
+
   const addEvent = async (body, page=1)=>{
     const {image,max_people,name,description,city,country,
       category,price_choices,validity,Amenities} = body
@@ -560,6 +564,26 @@ const createPayment = async (id, userId,category,currency)=>{
     }
     
   }
+  //----------POSTERS---------------------
+  const getPosters = async()=>{
+    dispatch({type:actions.SET_POSTERS_LOAD})
+    try {
+      const {data} = await client.get("posters")
+      dispatch({
+        type:actions.SET_POSTERS,
+        payload:{posters:data.posters}
+      })
+    } catch (error) {
+      setOtherErrors(error)
+      dispatch({
+        type:actions.SET_POSTERS,
+        payload:{posters:[]}
+      })
+    }
+  }
+  const createPoster = (eventId,body)=>client.post(`posters/${eventId}`,body)
+  const deletePoster = (posterId)=>client.delete(`posters/${posterId}`)
+
   useEffect(() => {
     getUser()
   },[])
@@ -602,7 +626,14 @@ const createPayment = async (id, userId,category,currency)=>{
         updateCategory,
         updateError,
         closeGlobalErr,
-        setupUser
+        setupUser,
+        getPopular,
+        getAllEvents,
+        getSingle,
+        getPosters,
+        createPoster,
+        setOtherErrors,
+        deletePoster
       }}
     >
       {children}

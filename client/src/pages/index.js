@@ -4,8 +4,10 @@ import Error from "./Error/Error"
 import Wrapper from "./Wrapper/Wrapper"
 import Register from "./Register/Register"
 import Profile from "./Profile/Profile"
-import {Dashboard,DashboardWrapper,Booking,User,Report,Payment,Protection} from "./Dashboard/index"
+import {Dashboard,DashboardWrapper,Booking,User,Report,Payment,Protection,Others,Poster} from "./Dashboard/index"
 export {
+  Poster,
+  Others,
   Protection,
   Landing,
   Booking,

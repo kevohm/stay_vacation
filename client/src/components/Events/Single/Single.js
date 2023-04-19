@@ -8,8 +8,10 @@ import { Loader } from '../../smaller/load/Loader'
 import { useParams } from 'react-router-dom'
 import {BsCheck2Circle} from "react-icons/bs"
 import {FaInfoCircle} from "react-icons/fa"
+
 import err from "../../../assets/svg/error.svg"
 import dot from "../../../assets/svg/dot.svg"
+import Likes from './Likes'
 
 const Single = () => {
   const {currentEvent,getSingle} = useEvent()
@@ -84,6 +86,7 @@ const Single = () => {
           </div>
           
         </div>
+        <Likes eventId={currentEvent.data._id}/>
         <div>
           <header  className='title'>Expires at</header>
           <p>{`${moment(currentEvent.data.validity).format("dddd, MMMM DD YYYY")}`}</p>
@@ -160,11 +163,45 @@ box-shadow:0px 2px 6px 0px rgba(1, 49, 91, .25);
         }
       }
     }
-    
+    .reaction{
+      ${tw`flex space-x-5 text-xl items-center`}
+      >div{
+        ${tw`flex items-center space-x-2.5`}
+        p{
+          font-family:poppins;
+          ${tw`text-sm text-[rgba(0,0,0,.5)]`}
+          {cursor: default;}
+        }
+        .icon{
+          ${tw`cursor-pointer text-[rgba(0,0,0,.7)] hover:text-[rgba(0,0,0,.9)]`}
+        }
+        .active{
+          ${tw`text-lightBlue hover:text-lightBlue`}
+        }
+        .disabled{
+          ${tw`text-[rgba(0,0,0,.5)] hover:text-[rgba(0,0,0,.5)]`}
+          {cursor: wait;}
+        }.inactive{
+          ${tw`text-[rgba(0,0,0,.5)] hover:text-[rgba(0,0,0,.5)]`}
+          {cursor: not-allowed;}
+        }
+      }
+    }
     
   }
   div:first-child{
     ${tw`pt-0`}
+  }
+  .header-likes{
+    font-family:montserratSemi;
+    ${tw`flex items-center justify-start space-x-2.5 text-lg text-darkBlue`}
+    >p{
+      font-family:montserratSemi; 
+    ${tw`w-auto text-lg capitalize text-darkBlue`}
+    }
+    >span{
+      ${tw`text-lightBlue text-sm`}
+    }
   }
   .submit{
     ${tw`py-10 flex space-y-5 items-start`}

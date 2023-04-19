@@ -49,6 +49,7 @@ export const initialState = {
     "state": ""
   }, err:{ msg: "", state: "", show: false }},
   event_category:{data:[],loading:true},
+  posters:{data:[],loading:true},
   GlobalError:{msg:"",show:false,type:"warning"}
 };
 export const actions = {
@@ -75,7 +76,9 @@ export const actions = {
   SET_EVENT_CATEGORY:"SET_EVENT_CATEGORY",
   SET_EVENT_CATEGORY_DEFAULT:"SET_EVENT_CATEGORY_DEFAULT",
   SET_GLOBAL_ERR:"SET_GLOBAL_ERR",
-  CLOSE_GLOBAL_ERR:"CLOSE_GLOBAL_ERR"
+  CLOSE_GLOBAL_ERR:"CLOSE_GLOBAL_ERR",
+  SET_POSTERS:"SET_POSTERS",
+  SET_POSTERS_LOAD:"SET_POSTERS_LOAD"
 };
 
 export const env = {ADMIN:"96e0c255-1643-48d2-9c60-08a115fbda91",MEMBER:"e213ee27-cb78-4b61-bd8c-296546738f08"}

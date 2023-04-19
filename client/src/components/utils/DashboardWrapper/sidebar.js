@@ -3,6 +3,8 @@ import { FaUsers, FaHome } from "react-icons/fa";
 import { MdLibraryBooks } from "react-icons/md"
 import { HiDocumentReport } from "react-icons/hi"
 import {AiTwotoneReconciliation} from "react-icons/ai"
+import {AiFillFileAdd} from "react-icons/ai"
+
 export const sidebarData = [
   {
     text: "dashboard",
@@ -28,6 +30,11 @@ export const sidebarData = [
     text: "payments",
     icon: <AiTwotoneReconciliation />,
     url: "/admin/payments",
+  },
+  {
+    text: "additionals",
+    icon: <AiFillFileAdd/>,
+    url: "/admin/additional",
   },
   {
     text: "home",

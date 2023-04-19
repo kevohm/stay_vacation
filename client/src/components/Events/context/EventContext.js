@@ -214,6 +214,12 @@ const EventContext = ({ children }) => {
       console.log(error);
     }
   };
+  const getReaction = (id)=>client.get(`event/reaction/${id}`)
+  const likeEvent= (id)=>client.post(`event/like/${id}`)
+  const dislikeEvent = (id)=>client.post(`event/dislike/${id}`)
+  const unlikeEvent= (id)=>client.delete(`event/unlike/${id}`)
+  const undislikeEvent = (id)=>client.delete(`event/undislike/${id}`)
+  const fetchEvent = (id)=>client.get(`event/${id}`)
   const getCategories = async()=>{
     try {
       const { data } = await client.get("categories");
@@ -342,7 +348,13 @@ const EventContext = ({ children }) => {
         addComment,
         deleteComment,
         updateComment,
-        storeFilter
+        storeFilter,
+        getReaction,
+        likeEvent,
+        dislikeEvent,
+        fetchEvent,
+        undislikeEvent,
+        unlikeEvent
       }}
     >
       {children}

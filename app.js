@@ -4,6 +4,7 @@ require("express-async-errors");
 const cookieParser = require("cookie-parser");
 const mongoSanitize = require("express-mongo-sanitize");
 const express = require("express")
+const fileParser = require("express-fileupload")
 const helmet = require("helmet");
 const xss = require("xss-clean")
 var morgan = require("morgan");
@@ -18,7 +19,8 @@ const {
   statsRouter,
   reportRouter,
   commentsRouter,
-  CategoryRouter 
+  CategoryRouter,
+  PosterRouter
 } = require("./router/index");
 const connectDB = require("./db/connect")
 const {
@@ -57,6 +59,10 @@ app.use(cors(corOpt));
 app.use(cookieParser());
 app.use(mongoSanitize());
 app.use(xss())
+app.use(fileParser({
+  limits: { fileSize: 50 * 1024 * 1024 },
+  useTempFiles : true,
+})) 
 
 //routes
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
@@ -68,6 +74,7 @@ app.use("/v1/stats", authenticate, authAdmin, statsRouter);
 app.use("/v1/reports", authenticate, authAdmin, reportRouter);
 app.use("/v1/comments",commentsRouter)
 app.use("/v1/categories",CategoryRouter)
+app.use("/v1/posters",PosterRouter)
 
 //middleware
 app.use(notFound)

@@ -4,7 +4,6 @@ import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import moment from "moment"
 import { uploadFiles,verifyData} from './uploadFiles';
 import { useGlobal } from '../../context/AppContext';
-import { FormError } from '../smaller/error/FormError';
 import { Categories } from './Categories';
 const body = {
   "image": [],

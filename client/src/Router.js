@@ -1,5 +1,7 @@
 import React from 'react'
 import {
+    Poster,
+    Others,
     Protection,
     Landing,
     Booking,
@@ -49,6 +51,8 @@ const Router = () => {
                 <Route path="users" element={<User />} />
                 <Route path="reports" element={<Report />} />
                 <Route path="payments" element={<Payment />} />
+                <Route path="additional" element={<Others/>}/>
+                <Route path="additional/:eventId" element={<Poster/>}/>
             </Route>
             <Route path="*" element={<Error />} />
         </Routes>

@@ -152,6 +152,13 @@ export const reducer = (state, action) => {
       const err = {msg:"",show:false,type:"warning"}
       return {...state, GlobalError:err}
     }
+    case actions.SET_POSTERS:{
+      const {posters} = action.payload
+      return {...state, posters:{data:posters,loading:false},}
+    }
+    case actions.SET_POSTERS_LOAD:{
+      return {...state, posters:{...state.posters,loading:true},}
+    }
     default:
       return state;
   }
