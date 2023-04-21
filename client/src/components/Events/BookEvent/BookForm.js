@@ -18,7 +18,7 @@ const body = {
 
 const BookForm = () => {
   const [data,setData] = useState(body)
-  const { book_event_id,book_event,stages,setBookingError,registerBoookingUser,getBookingUser,setBookingData,setBookingStage} = useEvent()
+  const { book_event,stages,setBookingError,registerBoookingUser,getBookingUser,setBookingData,setBookingStage} = useEvent()
   const {state} = useGlobal()
   const handleData = (e)=>{
     const {name,value} = e.target

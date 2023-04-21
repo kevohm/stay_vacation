@@ -30,7 +30,7 @@ const Recent = () => {
 export default Recent
 
 const Main = styled.div`
-${tw`order-4 md:order-3 row-span-2 p-5`}
+${tw`h-max order-4 md:order-3 row-span-2 p-5`}
 >div{
   ${tw`flex flex-col space-y-5`}
 }

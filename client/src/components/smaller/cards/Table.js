@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
+import {StateCheck} from "../table/TableData"
+ 
 export const Table = ({data=[], title=[], type}) => {
   return (
     <Main type={type}>
@@ -42,7 +44,7 @@ export const Table = ({data=[], title=[], type}) => {
               return (
                 <tr key={index}>
                   <td>0{index + 1}</td>
-                  <td><button className={`status ${state === "Paid" && "active"}`}>{state}</button></td>
+                 <StateCheck state={state} id={item._id}/>
                   <td>{category}</td>
                   <td>{`${currency}. ${Number(amount).toLocaleString()}`}</td>
                   <td>{item.event.name}</td>
@@ -70,11 +72,20 @@ const Main = styled.table`
         img{
           ${tw`w-12 h-12 object-cover rounded-lg`}
         }
-        .status{
-          ${tw`w-[80px] p-1 px-2 border-solid  bg-white rounded-full border border-orange text-sm text-orange`}
+        .pending, .paid, .failed{
+          ${tw`w-[80px] p-1 px-2 border-solid bg-white border text-sm rounded-full`}
         }
-        .active{
-          ${tw`text-green border-green`}
+        .pending{
+          ${tw`text-orange border-orange`}
+        }
+        .paid{
+          ${tw`border-green text-green`}
+        }
+        .failed{
+          ${tw`border-red-400 text-red-400`}
+        }
+        .icon{
+          ${tw`animate-spin`}
         }
       }
       

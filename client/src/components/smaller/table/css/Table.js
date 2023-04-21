@@ -53,7 +53,7 @@ export const Main = styled.table`
       }
       .status{
         ${tw`flex items-center`}
-        .pending, .paid{
+        .pending, .paid, .failed{
           ${tw`w-[80px] p-1 px-2 border-solid bg-white border text-sm rounded-full`}
         }
         .pending{
@@ -61,6 +61,12 @@ export const Main = styled.table`
         }
         .paid{
           ${tw`border-green text-green`}
+        }
+        .failed{
+          ${tw`border-red-400 text-red-400`}
+        }
+        .icon{
+          ${tw`animate-spin`}
         }
       }
       .page {

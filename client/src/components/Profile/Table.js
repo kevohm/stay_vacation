@@ -1,36 +1,40 @@
 import React, { useState } from "react";
 import { Main } from "./css/Table";
 import  {Loader} from "../smaller/load/Loader"
-import { Link } from "react-router-dom";
 import { FaArrowLeft, FaArrowRight} from "react-icons/fa";
-import moment from "moment";
+import TableRow from "./TableRow";
 
-export const Table = ({ data, current, total, loading, handleChange}) => {
+export const Table = ({ data, setLoading, current, total, loading, handleChange}) => {
   const headings = ["#","image","Name","city","country","amount","category","state","expires on","created at","actions"]
+  const [page,setPage] = useState(current)
   const handleInput = (e) => {
     e.preventDefault();
     const { value } = e.target;
       const num = Number(value);
     if (num <= Number(total) && num > 0) {
         handleChange(value);
-    }
+        setLoading(true)
+    }if(!isNaN(num)){setPage(num)}
   };
     const handleDir = (mov) => {
-        const total = Number(total);
-        const current = Number(current);
-        if (mov === "next") {
-            if (current < total) {
-                handleChange(current + 1);
-            } else if (current === total && total !== 1) {
-                handleChange(1);
-            }
-        }
-        if(mov === "prev"){
-            if ((current > 1)) {
-                handleChange(current - 1);
-            } else if (current === 1 && total !== 1) {
-              handleChange(total);
-            }
+        const newTotal = Number(total);
+        const newCurrent = Number(current);
+        if(newTotal !== 1){
+          if (mov === "next") {
+            setLoading(true)
+              if (newCurrent < newTotal) {
+                  handleChange(newCurrent + 1);
+              } else if (newCurrent === newTotal) {
+                  handleChange(1);
+              }
+          }else if(mov === "prev"){
+            setLoading(true)
+              if ((newCurrent > 1)) {
+                  handleChange(newCurrent - 1);
+              } else if (newCurrent === 1) {
+                handleChange(newTotal);
+              }
+          }
         }
   }
   if (loading) {
@@ -53,23 +57,8 @@ export const Table = ({ data, current, total, loading, handleChange}) => {
             </td>
           </tr> 
         ) : (
-            data.map((item, index)=>{
-              const {amount,category,createdAt,state,event} = item
-              return <tr key={index}>
-              <td>0{index + 1}</td>
-              <td><img src={event.image[0]} alt="event"/></td>
-              <td>{event.name}</td>
-              <td>{event.city}</td>
-              <td>{event.country}</td>
-              <td>{`ksh. ${amount.toLocaleString()}`}</td>
-              <td>{category}</td>
-              <td className="status"><button className={`${state.toLowerCase()}`}>
-              {state}
-                </button></td>
-              <td>{moment(event.validity).format("ddd, MMM DD YYYY")}</td>
-              <td>{moment(createdAt).format("ddd, MMM DD YYYY")}</td>
-              <td  className="status"><Link to={`/events/${event.name}`}>view</Link></td>
-              </tr>
+            data.map((item,index)=>{
+              return <TableRow key={index} index={index} {...item}/>
             })
         )}
       </tbody>
@@ -81,12 +70,12 @@ export const Table = ({ data, current, total, loading, handleChange}) => {
               <p>previous</p>
             </div>
           </td>
-          <td colSpan={8} className="page">
+          <td colSpan={9} className="page">
             <div>
               <input
                 id="input"
                 type="text"
-                value={current}
+                value={page}
                 onChange={(e) => handleInput(e)}
               />
               <p>of {total}</p>

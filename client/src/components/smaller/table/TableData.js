@@ -1,7 +1,9 @@
 import moment from "moment";
 import { ImBin } from "react-icons/im"
 import {FaEdit} from "react-icons/fa"
+import {BiLoaderAlt} from "react-icons/bi"
 import { useGlobal } from "../../../context/AppContext";
+import { useEffect, useState } from "react";
 
 export const TableData = ({type, handleUpdate, handleDelete}) => {
   const {state} = useGlobal()
@@ -162,7 +164,7 @@ export const TableData = ({type, handleUpdate, handleDelete}) => {
             <td>{i.event.country}</td>
             <td>{`${currency}. ${Number(amount).toLocaleString()}`}</td>
             <td>{category}</td>
-            <td className="status"><button className={state === "Pending" ? "pending":"paid"}>{state}</button></td>
+            <StateCheck state={state} id={i._id}/>
             <td>{i.user.username}</td>
             <td>{i.user.phone_number}</td>
             <td>
@@ -191,4 +193,41 @@ export const TableData = ({type, handleUpdate, handleDelete}) => {
         );
       })}</>
     }
+}
+
+export const StateCheck = ({state,id})=>{
+  const {checkPayments} = useGlobal()
+  const [currentState,setCurrentState] = useState(state)
+  const [loading,setLoading] = useState(false)
+  const checkPay = ()=>{
+    setLoading(true)
+    if(state === "Pending"){
+      checkPayments(id).then((res)=>{
+        const {status} = res.data
+        if(status){
+          setCurrentState("Paid")
+        }else{
+          setCurrentState("Pending")
+        }
+        setLoading(false)
+      }).catch(err=>{
+        setLoading(false)
+      })
+    }else{
+      setCurrentState(state)
+      setLoading(false)
+    }
+  }
+  useEffect(()=>{
+    const timeout = setInterval(checkPay,10000)
+    return ()=>clearInterval(timeout)
+  },[currentState])
+  if(loading){
+    return <td className="status">
+      <button className={currentState.toLowerCase()}>
+        <BiLoaderAlt className="icon"/>
+      </button>
+      </td>
+  }
+return <td className="status"><button className={currentState.toLowerCase()}>{currentState}</button></td>
 }

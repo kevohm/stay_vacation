@@ -583,7 +583,10 @@ const createPayment = async (id, userId,category,currency)=>{
   }
   const createPoster = (eventId,body)=>client.post(`posters/${eventId}`,body)
   const deletePoster = (posterId)=>client.delete(`posters/${posterId}`)
-
+  const checkPayments = (paymentId) => client.post("payments",{
+    paymentId,
+    current: new Date().toISOString()
+  })
   useEffect(() => {
     getUser()
   },[])
@@ -633,7 +636,8 @@ const createPayment = async (id, userId,category,currency)=>{
         getPosters,
         createPoster,
         setOtherErrors,
-        deletePoster
+        deletePoster,
+        checkPayments
       }}
     >
       {children}

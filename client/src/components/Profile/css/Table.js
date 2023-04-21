@@ -56,14 +56,20 @@ export const Main = styled.table`
         >a{
           ${tw`bg-orange text-white p-1 px-2 rounded-lg`}
         }
-        .pending, .paid{
+        .pending, .paid, .failed{
           ${tw`w-[80px] h-[30px] border-solid bg-white border rounded-full`}
+          .icon{
+            ${tw`mx-auto animate-spin`}
+          }
         }
         .pending{
           ${tw`text-orange border-orange`}
         }
         .paid{
           ${tw`border-green text-green`}
+        }
+        .failed{
+          ${tw`border-red-400 text-red-400`}
         }
       }
       .page {

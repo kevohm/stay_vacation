@@ -6,7 +6,7 @@ import { Navigate } from 'react-router-dom'
 
 const Wrapper = () => {
   const { book_event_id} = useEvent()
-  if(! book_event_id)return <Navigate to="/events"/>
+  if(!book_event_id)return <Navigate to="/events"/>
   return (
     <RelatedWrapper element={<BookSingle/>}/>
   )

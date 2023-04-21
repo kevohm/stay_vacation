@@ -1,7 +1,6 @@
 const { StatusCodes } = require("http-status-codes")
 const Poster = require("../models/Poster")
 const Event = require("../models/Event")
-const { rimraf } = require('rimraf')
 const {uploadImage} = require("../utils/cloudinary")
 const {BadRequest, NotFound} = require("../errors/index")
 
@@ -33,8 +32,15 @@ const createPoster = async(req,res) => {
 }
 
 const getPosters = async(req,res) => {
-    const posters = await Poster.find({})
-    res.status(StatusCodes.OK).json({msg:"All posters", posters})
+    const {limit,page,sort,arrange} = req.query
+    const currentLimit = Number(limit) || 12 
+    const currentPage =  Number(page) || 1
+    const skip = (currentPage - 1) * currentLimit
+    const currentSort = {[sort || "createdAt"]:arrange || "desc"}
+    const count = await Poster.find({}).count()
+    const posters = await Poster.find({}).skip(skip).sort(currentSort)
+    const pages = Math.ceil(count / currentLimit)
+    res.status(StatusCodes.OK).json({msg:"All posters", posters, pages:{currentPage,pages}})
 }
 
 const getPoster = async(req,res) => {

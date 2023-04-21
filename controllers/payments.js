@@ -1,6 +1,8 @@
 const Payment = require("../models/Payments")
 const Event = require("../models/Event")
 const User = require("../models/User");
+const Mpesa = require("../utils/PayMpesa")
+
 const { NotFound, NotAuthorized, BadRequest } = require("../errors/index")
 const {StatusCodes} = require("http-status-codes")
 const getAll = async (req, res) => {
@@ -45,6 +47,31 @@ const getAll = async (req, res) => {
         throw new NotFound("Payments not found")
     }
     res.status(StatusCodes.OK).json({ msg: "All Payments", payments, pages:{currentPage, pages}});
+}
+
+const getPaymentResponse = async(req,res)=>{
+  const {paymentId, current} = req.body
+  const filter = {_id:paymentId}
+    const payment = await Payment.findOne(filter)
+    if (!payment) {
+        throw new NotFound("Payments not found")
+    }
+    if(!current){
+      throw new NotFound("Current time required")
+    }
+    if(!payment.requestId){
+      throw new BadRequest("invalid details provided")
+    }
+    const {ResultCode} = await Mpesa.stkQuery(payment.requestId)
+    if(ResultCode !== "0"){
+      if(new Date(current) - new Date(payment.createdAt) > 15 * 60 * 1000){
+        await Payment.findOneAndUpdate(filter,{state:"Failed"},{runValidators:true})
+      }
+      res.status(StatusCodes.OK).json({ msg: "Payment pending", status:false})
+    }else{
+      await Payment.findOneAndUpdate(filter,{state:"Paid"},{runValidators:true})
+      res.status(StatusCodes.OK).json({ msg: "Payment found", status:true});
+    }
 }
 
 const getOne = async (req, res) => {
@@ -122,25 +149,25 @@ const addUser = async (req, res) => {
   if (!amount) {
     throw new BadRequest("Invalid event category provided");
   }
+  //make payments
   const paid = await Payment.findOne({ event: eventId, user: userId });
-
-  if (paid) {
-    const { _id } = paid;
-    const category_chosen = paid.event.price_choices.find(
-      (item) => item.price === paid.amount
-    ).category;
-    if (paid.state === "Pending" && category_chosen !== category) {
-      await Payment.findByIdAndDelete({ _id });
-    } else {
-      throw new NotFound("Already booked");
-    }
+  if(paid && paid.state === "Pending"){
+    throw new BadRequest("Wait for payment to be processed");
   }
+  if(paid && paid.state === "Paid"){
+    throw new BadRequest("Already booked");
+  }
+
+  const phone = Number(user.phone_number.slice(1))
+  const currentAmount = 1
+  const {CheckoutRequestID} = await Mpesa.stkPush(phone,currentAmount)
   const current = await Payment.create({
     event: event._id,
     user: user._id,
     amount: amount.price,
     category,
     currency,
+    requestId:CheckoutRequestID,
     createdAt:currentTime,
     updatedAt:currentTime
   });
@@ -165,4 +192,4 @@ const removeUser = async (req, res) => {
   }
   res.status(StatusCodes.OK).json({ msg: "Event was unbooked" });
 };
-module.exports = { getAll, getOne, updateOne, addUser, removeUser,deleteOne };
+module.exports = { getAll, getOne, updateOne, addUser, removeUser,deleteOne,getPaymentResponse };

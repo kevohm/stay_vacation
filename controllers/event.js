@@ -172,8 +172,8 @@ const updateEvent = async (req, res) => {
   if(!oldEvent){
     throw new BadRequest("invalid event");
   }
-  //prevent updating with a date before event was created
-  const diffAt = new Date(updatedAt) - new Date(oldEvent.createdAt)
+  //prevent updating with a date before event was created 
+  const diffAt = new Date(updatedAt) - new Date(oldEvent.createdAt) 
   if(diffAt < 0){
     throw new BadRequest("invalid updatedAt time");
   }

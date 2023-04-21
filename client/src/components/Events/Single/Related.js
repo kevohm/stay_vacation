@@ -45,9 +45,9 @@ p{
   font-family:montserratMedium;
 }
 .all-events{
-  ${tw`grid grid-cols-[repeat(auto-fit, minmax(300px, 1fr))]  md:grid-cols-[repeat(auto-fit, 300px)] items-start gap-5 justify-items-center items-start`}
+  ${tw`grid grid-cols-[repeat(auto-fit, minmax(300px, 1fr))]  md:grid-cols-[repeat(auto-fit, minmax(300px, 1fr))] items-start gap-5 justify-items-center items-start`}
   .no-data{
-    ${tw`w-full h-full flex items-center justify-center rounded-lg bg-white `}
+    ${tw`w-full h-[250px] md:h-[300px] flex items-center justify-center rounded-lg bg-white `}
     box-shadow:0px 2px 6px 0px rgba(1, 49, 91, .25);
     >div{
       ${tw`text-orange text-lg space-x-2.5 flex items-center`}

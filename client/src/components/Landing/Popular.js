@@ -40,7 +40,7 @@ const Popular = () => {
     );
   }
   return (
-    <Main>
+    data.length === 0 || <Main>
       <Header text="Popular destinations" />
       <div className="popular-cards">
         {data.map((item) => (

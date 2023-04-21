@@ -15,7 +15,7 @@ const Payments = mongoose.Schema(
     state: {
       type: String,
       enum: {
-        values: ["Paid", "Pending"],
+        values: ["Paid", "Pending","Failed"],
         message: "{VALUE} is not supported",
       },
       default: "Pending",
@@ -35,6 +35,9 @@ const Payments = mongoose.Schema(
         message: "{VALUE} is not supported",
       },
       default: "ksh",
+    },requestId:{
+      type:String,
+      required: [true, "Please provide requestId"],
     },
     createdAt: {
       type: Date,

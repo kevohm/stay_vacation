@@ -5,7 +5,10 @@ const opts ={
     path:"/",
     expires:new Date(new Date().getTime() + 24 * 60 * 60 * 1000)
 }
+
 export const setCookie = (key,value)=>cookie.set(key,value,opts)
+
+export const setSessionCookie = (key,value)=>cookie.set(key,value,{path:"/"})
 
 export const getCookie = (key) => cookie.get(key)
 

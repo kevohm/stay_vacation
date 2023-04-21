@@ -5,7 +5,6 @@ import Recent from './Recent'
 import styled from 'styled-components'
 import tw from 'twin.macro'
 import {useEvent} from "../context/EventContext"
-import { Loader } from '../../smaller/load/Loader'
 import { getCookie } from '../../../context/utils'
 
 const Wrapper = () => {
@@ -46,5 +45,5 @@ ${tw`w-full`}
 `
 
 const Main =styled.div`
-${tw`flex flex-col space-y-12 md:space-y-0  md:grid  md:grid-cols-[repeat(3, 1fr)] grid-flow-col-dense md:grid-rows-[34.5rem, 780px, 1fr] gap-5 items-start`}
+${tw`flex flex-col space-y-12 md:space-y-0  md:grid  md:grid-cols-[repeat(3, 1fr)] grid-flow-col-dense md:grid-rows-[38.958rem, 780px, 1fr] gap-5 items-start`}
 `

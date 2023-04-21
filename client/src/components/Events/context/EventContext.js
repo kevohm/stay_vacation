@@ -2,7 +2,7 @@ import React, { useContext, useReducer } from "react";
 import { actions, initialState } from "./EventActions";
 import { reducer } from "./EventReducer";
 import {  client,useGlobal } from "../../../context/AppContext";
-import { removeCookie, setCookie } from "../../../context/utils";
+import { removeCookie, setSessionCookie } from "../../../context/utils";
 import moment from "moment";
 
 const AppProvider = React.createContext();
@@ -41,12 +41,12 @@ const EventContext = ({ children }) => {
     });
   };
   const setFilterLocal = (search,validity,min,max,category,expired=false)=>{
-    setCookie("search",search)
-    setCookie("min",min)
-    setCookie("max",max)
-    setCookie("validity",validity)
-    setCookie("category",category)
-    setCookie("expired",expired)
+    setSessionCookie("search",search)
+    setSessionCookie("min",min)
+    setSessionCookie("max",max)
+    setSessionCookie("validity",validity)
+    setSessionCookie("category",category)
+    setSessionCookie("expired",expired)
   }
   const removeFilterLocal = ()=>{
     removeCookie("search")
@@ -91,7 +91,7 @@ const EventContext = ({ children }) => {
     });
   };
   const setCurrentEvent = (data, isExpired=false) => {
-    setCookie("current", data._id);
+    setSessionCookie("current", data._id);
     dispatch({
       type: actions.SET_CURRENT,
       payload: { data, id: data._id , isExpired},
@@ -141,15 +141,22 @@ const EventContext = ({ children }) => {
       })
     }
   };
-  const getSingle = async (id) => {
+  const setBookId = (id)=>{
+    dispatch({
+      type:actions.SET_BOOK_ID,
+      payload:{id}
+    })
+    setSessionCookie("book",id)
+  }
+  const getSingle = async (name) => {
     setCurrentLoading(true)
     try {
-      const { data } = await client.get(`event/all?name=${id}`);
+      const { data } = await client.get(`event/all?name=${name}`);
       const {events} = data
-      setCookie("book",events[0]._id)
       if(events.length === 0){
         setCurrentEvent({_id:""})
       }else{
+        setBookId(events[0]._id)
         const isExpired = (new Date(events[0].validity) - new Date() - (24 * 60 * 60 * 1000)) < 0
         setCurrentEvent(events[0],isExpired)
       }
@@ -241,7 +248,7 @@ const EventContext = ({ children }) => {
       type:actions.SET_BOOKING_STAGE,
       payload:{level}
     })
-    setCookie("stage",2)
+    setSessionCookie("stage",2)
   }
   const setBookingError = (err)=>{
     const defaultErr = {msg:"",show:false,state:""}
@@ -259,7 +266,7 @@ const EventContext = ({ children }) => {
       type:actions.SET_BOOKING_DATA,
       payload:{type,data}
     })
-    setCookie(type,JSON.stringify(data))
+    setSessionCookie(type,JSON.stringify(data))
   }
   const removeBookingState = ()=>{
     dispatch({
@@ -307,7 +314,7 @@ const EventContext = ({ children }) => {
     const currentTime = new Date().toISOString()
     return client.post(`payments/pay/${eventId}/${userId}?data=${data}`,{currentTime})
   }
-  const userPayments = (id)=>client.get(`payments?userId=${id}`)
+  const userPayments = async (id,page)=>client.get(`payments?userId=${id}&page=${page}`)
 
   //-------------COMMENTS------------------
   const getComments = (id)=>client.get(`comments?event=${id}`)
@@ -318,6 +325,10 @@ const EventContext = ({ children }) => {
   const updateComment = (id,data)=>{
     const updatedAt = new Date().toISOString()
       return client.patch(`comments/${id}`,{...data,updatedAt})}
+  const checkPayment = (paymentId)=>client.post("payments",{
+    paymentId,
+    current:new Date().toISOString()
+  })
   return (
     <AppProvider.Provider
       value={{
@@ -354,7 +365,8 @@ const EventContext = ({ children }) => {
         dislikeEvent,
         fetchEvent,
         undislikeEvent,
-        unlikeEvent
+        unlikeEvent,
+        checkPayment 
       }}
     >
       {children}

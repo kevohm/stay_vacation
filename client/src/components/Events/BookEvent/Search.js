@@ -4,7 +4,7 @@ import tw from "twin.macro";
 import RangeSlider from "react-range-slider-input";
 import "react-range-slider-input/dist/style.css";
 import { useEvent } from "../context/EventContext";
-import moment from "moment";
+import {FaInfoCircle} from "react-icons/fa"
 import { useNavigate } from "react-router-dom";
 import Categories from "../All/Categories";
 import { minDate,currentDate } from "../context/utils";
@@ -79,11 +79,21 @@ const Search = () => {
             type="date"
             name="validity"
             min={filterData.expired ? minDate : ""}
-            max={filterData.expired? "":currentDate}
+            max={filterData.expired? "":minDate}
             value={filterData.validity}
             onChange={(e) => handleChange(e)}
           />
         </div>
+      </div>
+      <div className="info">
+        <FaInfoCircle/>
+        {
+          filterData.expired?<p>
+            will show events that are valid till the date provided above
+          </p>:<p>
+          will show events that expired between now and the date provided above
+          </p>
+        }
       </div>
     </Main>
   );
@@ -92,7 +102,7 @@ const Search = () => {
 export default Search;
 
 const Main = styled.form`
-${tw`bg-white h-auto md:h-[34.5rem] w-full max-w-none min-w-min md:min-w-[270px] lg:max-w-[424px] rounded-lg p-10 lg:p-12 flex flex-col space-y-6`}
+${tw`bg-white h-auto md:h-[38.958rem] w-full max-w-none min-w-min md:min-w-min rounded-lg p-10 lg:p-12 flex flex-col space-y-6`}
 box-shadow:0px 2px 6px 0px rgba(1, 49, 91, .25);
 .classification{
   ${tw`flex items-center justify-evenly w-full`}
@@ -101,6 +111,12 @@ box-shadow:0px 2px 6px 0px rgba(1, 49, 91, .25);
   }
   .active{
     ${tw`bg-lightBlue text-white`}
+  }
+}
+.info{
+  ${tw`w-full text-sm text-lightBlue flex items-start space-x-2 justify-start`}
+  >p{
+    ${tw`text-xs`}
   }
 }
 .input{

@@ -34,7 +34,7 @@ export const BookFormReadOnly = () => {
                 type:"success",
                 show:true
               })
-            setTimeout(()=>navigate(`/events/${name}`),3000)
+            setTimeout(()=>navigate(`/profile`),3000)
         }).catch((error)=>{
           if(error.response && error.response.data){
             setBookingError({

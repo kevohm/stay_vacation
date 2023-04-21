@@ -81,6 +81,10 @@ export const reducer = (state,action)=>{
             const {err} = action.payload
             return {...state, MemberError:err}
         }
+        case actions.SET_BOOK_ID:{
+            const {id} = action.payload
+            return {...state, book_event_id:id}
+        }
         default:
             return state
     }
