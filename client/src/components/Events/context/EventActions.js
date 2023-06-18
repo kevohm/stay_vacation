@@ -9,7 +9,7 @@ export const initialState = {
         search: getCookie("search") || "",
         category: getCookie("category") || "",
         price: { min: getCookie("min") || 0, max: getCookie("max") || 300000 },
-        validity:getCookie("validity") || minDate,
+        validity: getCookie("validity") || minDate,
         expired: getCookie("expired") === "true" || false
       },
     categories:{

@@ -51,7 +51,7 @@ const Search = () => {
             value={filterData.search}
             onChange={(e) => handleChange(e)}
           />
-          <input className="submit" type="submit" value="Search" />
+          <input className="submit" type="submit" value="Apply" />
         </div>
       </div>
       <div className="input">
@@ -172,7 +172,7 @@ box-shadow:0px 2px 6px 0px rgba(1, 49, 91, .25);
     }
     .submit{
       font-family:poppinsSemi;
-      ${tw`w-max px-2.5 py-[7.5px] bg-orange text-white border-orange border-solid border rounded-none rounded-r-lg`}
+      ${tw`w-max cursor-pointer px-2.5 py-[7.5px] bg-orange text-white border-orange border-solid border rounded-none rounded-r-lg`}
     }
   }
   .radio{

@@ -10,28 +10,41 @@ import { getCookie } from '../../../context/utils'
 const Wrapper = () => {
   const {events,sortBy,filter,getAll,setFilter,setSort } = useEvent()
   const [page,setPage] = useState(events.currentPage)
+  const [filterData, setfilterData] = useState(
+    {
+      search: getCookie("search") || filter.search,
+      category: getCookie("category") || filter.category,
+      price: { min: getCookie("min") || filter.price.min, max: getCookie("max") || filter.price.max},
+      validity: getCookie("validity") || filter.validity,
+      expired: getCookie("expired") === "true" ||  true
+    }
+  );
 
   const changePage = (value)=>{
     setPage(Number(value))
   }
   const handleRefresh = (data)=>{
+    setfilterData(data)
     setFilter(data)
   }
   const handleSort = (sort, arrange)=>{
     setSort(sort, arrange)
   }
-  useEffect(()=>{
-    const validity = (getCookie("expired") === "true" || filter.expired)? "gte" : "lte"
-    const date = new Date(`${getCookie("validity") || filter.validity} ${new Date().toLocaleTimeString()}`).toISOString()
-    const max = getCookie("max") || filter.price.max
-    const min = getCookie("min") || filter.price.min
-    const category = getCookie("category") || filter.category
-    const search = getCookie("search") || filter.search
+  const handleFetch = ()=>{
+    const validity = (filterData.expired) ? "gte" : "lte"
+    const date = new Date(`${filterData.validity} ${new Date().toLocaleTimeString()}`).toISOString()
+    const max = filterData.price.max
+    const min = filterData.price.min
+    const category = filterData.category
+    const search = filterData.search
     getAll(page,6,sortBy.sort,sortBy.arrange,min,max,category,search,validity,date)
-  },[filter,sortBy,page])
+}
+  useEffect(()=>{
+  handleFetch()
+  },[filterData,sortBy,page])
   return (
     <Main>
-        <Search handleRefresh={handleRefresh} filter={filter}/>
+        <Search handleRefresh={handleRefresh} filter={filterData}/>
         <Events loading={events.loading} eventsData={events.data} page={page} changePage={changePage} handleCategory={handleSort}/>
         <Recent/>
     </Main>

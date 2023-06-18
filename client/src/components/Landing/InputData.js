@@ -11,9 +11,9 @@ import { minDate } from '../Events/context/utils';
 
 const InputData = () => {
     const [data, setData] = useState(inputData);
-    const [body,setBody] = useState({city:"",date:minDate,min:0,max:0})
+    const [body,setBody] = useState({city:"",date:minDate,min:0,max:300000})
     const navigate = useNavigate()
-    const {storeFilter} = useEvent()
+    const {storeFilter,setFilter} = useEvent()
     const handleChange = (e) => {
         const { name , value} = e.target
         setBody({...body,[name.toLowerCase()]:value})
@@ -28,6 +28,13 @@ const InputData = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
         storeFilter(body.city,body.date,body.min,body.max,"",false)
+        setFilter({
+          search: body.city,
+          category: "",
+          price: { min: body.min, max: body.max},
+          validity: body.date,
+          expired: false
+        })
         navigate("/events")
     }
   return (

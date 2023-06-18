@@ -5,21 +5,12 @@ import RangeSlider from "react-range-slider-input";
 import "react-range-slider-input/dist/style.css";
 import {FaInfoCircle} from "react-icons/fa"
 import { useEvent } from "../context/EventContext";
-import { getCookie } from "../../../context/utils";
 import Categories from "./Categories";
 import { minDate,currentDate } from "../context/utils";
 
 const Search = ({handleRefresh,filter}) => {
   const {removeFilterLocal} = useEvent()
-  const [filterData, setfilterData] = useState(
-    {
-      search: getCookie("search") || filter.search,
-      category: getCookie("category") || filter.category,
-      price: { min: getCookie("min") || filter.price.min, max: getCookie("max") || filter.price.max},
-      validity: getCookie("validity") || filter.validity,
-      expired: getCookie("expired") === "true" ||  true
-    }
-  );
+  const [filterData, setfilterData] = useState(filter);
   const changeExpired = (val)=>{
     if(val){
       setfilterData({...filterData,expired:val,validity:minDate})
@@ -177,7 +168,7 @@ box-shadow:0px 2px 6px 0px rgba(1, 49, 91, .25);
     }
     .submit{
       font-family:poppinsSemi;
-      ${tw`w-max px-2.5 py-[7.5px] bg-orange text-white border-orange border-solid border rounded-none rounded-r-lg`}
+      ${tw`w-max px-2.5 cursor-pointer py-[7.5px] bg-orange text-white border-orange border-solid border rounded-none rounded-r-lg`}
     }
   }
   .radio{
