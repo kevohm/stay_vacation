@@ -1,15 +1,14 @@
-
-require("dotenv").config()
+require("dotenv").config();
 require("express-async-errors");
 const cookieParser = require("cookie-parser");
 const mongoSanitize = require("express-mongo-sanitize");
-const express = require("express")
-const fileParser = require("express-fileupload")
+const express = require("express");
+const fileParser = require("express-fileupload");
 const helmet = require("helmet");
-const xss = require("xss-clean")
+const xss = require("xss-clean");
 var morgan = require("morgan");
 const app = express();
-const fs = require("fs")  
+const fs = require("fs");
 const path = require("path");
 const {
   authRouter,
@@ -20,72 +19,76 @@ const {
   reportRouter,
   commentsRouter,
   CategoryRouter,
-  PosterRouter
+  PosterRouter,
 } = require("./router/index");
-const connectDB = require("./db/connect")
+const connectDB = require("./db/connect");
 const {
   errorHandler,
   notFound,
   authenticate,
   authAdmin,
 } = require("./middleware/index");
-const cors = require("cors")
+const cors = require("cors");
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./docs.json");
 
-
-app.disable("x-powered-by"); 
+app.disable("x-powered-by");
 
 //logs
- if (process.env.NODE_ENV === "production") {
-   const accessLogStream = fs.createWriteStream( 
-     __dirname + "/logs/" + "access.log",
-     { flags: "a" }
-   );
-   app.use(morgan("combined", { stream: accessLogStream }));
- }
+if (process.env.NODE_ENV === "production") {
+  const accessLogStream = fs.createWriteStream(
+    __dirname + "/logs/" + "access.log",
+    { flags: "a" }
+  );
+  app.use(morgan("combined", { stream: accessLogStream }));
+}
 
 const corOpt = {
-  origin: ["http://localhost:3000","https://stay-vacation.netlify.app","https://stay-vacations.tyrantx.me"],
+  origin: [
+    "http://localhost:5173",
+    "http://localhost:3000",
+    "https://stay-vacation.netlify.app",
+    "https://stay-vacations.tyrantx.me",
+    "https://stay-vacation.vercel.app",
+  ],
   credentials: true,
 };
 
-
-
-
 //utils
-app.use(express.json()); 
+app.use(express.json());
 app.use(cors(corOpt));
 app.use(cookieParser());
 app.use(mongoSanitize());
-app.use(xss())
-app.use(fileParser({
-  limits: { fileSize: 50 * 1024 * 1024 },
-  useTempFiles : true,
-})) 
+app.use(xss());
+app.use(
+  fileParser({
+    limits: { fileSize: 50 * 1024 * 1024 },
+    useTempFiles: true,
+  })
+);
 
 //routes
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-app.use("/v1/auth", authRouter)
+app.use("/v1/auth", authRouter);
 app.use("/v1/event", eventRouter);
 app.use("/v1/users", authenticate, usersRouter);
 app.use("/v1/payments", authenticate, paymentRouter);
 app.use("/v1/stats", authenticate, authAdmin, statsRouter);
 app.use("/v1/reports", authenticate, authAdmin, reportRouter);
-app.use("/v1/comments",commentsRouter)
-app.use("/v1/categories",CategoryRouter)
-app.use("/v1/posters",PosterRouter)
+app.use("/v1/comments", commentsRouter);
+app.use("/v1/categories", CategoryRouter);
+app.use("/v1/posters", PosterRouter);
 
 //middleware
-app.use(notFound)
-app.use(errorHandler)
-const port = process.env.PORT || 5000
+app.use(notFound);
+app.use(errorHandler);
+const port = process.env.PORT || 5000;
 const start = async () => {
-    try {
-        await connectDB(process.env.MONGO_URL)
-        app.listen(port, () => console.log(`server listening at ${port}...`));
-    } catch (error) {
-        console.log(error)
-    }
-}
+  try {
+    await connectDB(process.env.MONGO_URL);
+    app.listen(port, () => console.log(`server listening at ${port}...`));
+  } catch (error) {
+    console.log(error);
+  }
+};
 start();
