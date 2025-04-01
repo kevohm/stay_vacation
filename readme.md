@@ -52,7 +52,35 @@ StayVacation is a full-stack MERN vacation rental platform with **M-Pesa mobile 
 
 ## 🔧 Installation & Setup
 
-1. **Clone the repo**
+1.  **Clone the repo**
    ```bash
    git clone https://github.com/kevohm/stay_vacation.git
    cd stay_vacation
+```
+2. **setup .env**
+   Should have the following
+   ## M-Pesa Credentials (from Safaricom Developer Portal)
+   ```
+   MPESA_CONSUMER_KEY=your_consumer_key
+   MPESA_CONSUMER_SECRET=your_consumer_secret
+   MPESA_PASSKEY=your_passkey
+   MPESA_BUSINESS_SHORTCODE=your_shortcode
+   MPESA_CALLBACK_URL=https://your-backend-url/mpesa-callback
+   ```
+   ## Database & Auth
+   ```
+   MONGO_URI=your_mongodb_uri
+   JWT_SECRET=your_jwt_secret
+   ```
+3. **install packages using node.js**
+   ```
+   npm i
+   ```
+4. **start dev server**
+   ```
+   npm run dev
+   ```
+6.  **run frontend**
+   ```
+   cd client && npm i && npm run dev
+   ```
