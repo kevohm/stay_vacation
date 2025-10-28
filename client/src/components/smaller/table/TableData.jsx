@@ -28,21 +28,19 @@ export const TableData = ({type, handleUpdate, handleDelete}) => {
           <td>{email}</td>
           <td>{username}</td>
           <td>{phone_number}</td>
+          <td>{moment(new Date(createdAt)).format("ddd, MMM Do YYYY")}</td>
+          <td>{moment(new Date(updatedAt)).format("ddd, MMM Do YYYY")}</td>
           <td>
-            {moment(new Date(createdAt)).format("ddd, MMM Do YYYY")}
+            {role === import.meta.env.VITE_ADMIN_DEFAULT
+              ? "Admin"
+              : "Member"}
           </td>
-          <td>
-            {moment(new Date(updatedAt)).format("ddd, MMM Do YYYY")}
-          </td>
-          <td>{role === process.env.REACT_APP_ADMIN_DEFAULT ? "Admin" : "Member"}</td>
           <td>
             <div className="edit">
               <FaEdit
                 className="edit"
                 title="edit"
-                onClick={() =>
-                  handleUpdate(i)
-                }
+                onClick={() => handleUpdate(i)}
               />
               <ImBin
                 className="delete"

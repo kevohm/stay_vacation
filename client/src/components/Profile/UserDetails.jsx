@@ -29,11 +29,11 @@ const UserDetails = () => {
     }
   return (
     <Main>
-       <div className='header-div'>
-      <header className='header'>your profile</header>
-      {
-        user.role === process.env.REACT_APP_ADMIN && <Link to="/admin/">view Dashboard</Link>
-      }
+      <div className="header-div">
+        <header className="header">your profile</header>
+        {user.role === import.meta.env.VITE_ADMIN && (
+          <Link to="/admin/">view Dashboard</Link>
+        )}
       </div>
       <div>
         <p>Username</p>
@@ -51,12 +51,15 @@ const UserDetails = () => {
         <p>Joined Us at</p>
         <p>{moment(user.createdAt).format("ddd, MMM DD YYYY")}</p>
       </div>
-      <div className='submit'>
-        <FaInfoCircle/>
-        <p><Link to="/info/contact">Contact Us</Link> for any updates to the above information</p>
+      <div className="submit">
+        <FaInfoCircle />
+        <p>
+          <Link to="/info/contact">Contact Us</Link> for any updates to the
+          above information
+        </p>
       </div>
     </Main>
-  )
+  );
 }
 
 export default UserDetails

@@ -7,7 +7,7 @@ import { reducer } from "./appReducer"
 import {removeCookie, setCookie} from "./utils"
 const appContext = createContext();
 const client = axios.create({
-  baseURL: process.env.REACT_APP_BASE_URL,
+  baseURL: import.meta.env.VITE_BASE_URL,
   withCredentials: true,
 });
 

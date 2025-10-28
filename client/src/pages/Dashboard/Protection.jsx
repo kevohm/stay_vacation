@@ -4,9 +4,9 @@ import { useGlobal } from '../../context/AppContext'
 
 const Protection = ({children}) => {
     const {state} = useGlobal()
-    if (state.user.role !== process.env.REACT_APP_ADMIN) {
-        return <Navigate to="/" />
-      }
+    if (state.user.role !== import.meta.env.VITE_ADMIN) {
+      return <Navigate to="/" />;
+    }
   return (
     children
   )
