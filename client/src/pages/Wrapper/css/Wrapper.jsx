@@ -1,5 +1,4 @@
-import styled from "styled-components"
-import tw from "twin.macro"
+import tw, {styled} from "twin.macro"
 import back from "../../../assets/img/back.jpg"
 
 const Main = styled.main`

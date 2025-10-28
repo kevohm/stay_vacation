@@ -1,10 +1,20 @@
-import Landing from "./Landing/Landing"
-import {Events,SingleEvent,SiteDetails,BookEvent} from "./Events/index"
-import Error from "./Error/Error"
-import Wrapper from "./Wrapper/Wrapper"
-import Register from "./Register/Register"
-import Profile from "./Profile/Profile"
-import {Dashboard,DashboardWrapper,Booking,User,Report,Payment,Protection,Others,Poster} from "./Dashboard/index"
+import Landing from "./Landing/Landing.jsx";
+import { Events, SingleEvent, SiteDetails, BookEvent } from "./Events/index";
+import Error from "./Error/Error.jsx";
+import Wrapper from "./Wrapper/Wrapper.jsx";
+import Register from "./Register/Register.jsx";
+import Profile from "./Profile/Profile.jsx";
+import {
+  Dashboard,
+  DashboardWrapper,
+  Booking,
+  User,
+  Report,
+  Payment,
+  Protection,
+  Others,
+  Poster,
+} from "./Dashboard/index";
 export {
   Poster,
   Others,
@@ -23,5 +33,5 @@ export {
   Report,
   Payment,
   Profile,
-  BookEvent
+  BookEvent,
 };

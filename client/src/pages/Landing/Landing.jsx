@@ -5,16 +5,16 @@ import {Slider, Services, Popular, Faq, Reviews, Events} from "../../components/
 const Landing = () => {
   return (
     <EventContext>
-    <Main>
-      <Slider />
-      <Services />
-      <Popular />
-      <Faq />
-      <Reviews />
-      <Events/>
-    </Main>
+      <section className="flex flex-col items-center h-full">
+        <Slider />
+        <Services />
+        <Popular />
+        <Faq />
+        <Reviews />
+        <Events />
+      </section>
     </EventContext>
-  )
+  );
 }
 
 export default Landing

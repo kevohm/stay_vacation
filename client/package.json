@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -15,16 +17,16 @@
     "react-range-slider-input": "^3.0.7",
     "react-router-dom": "^6.8.0",
     "styled-components": "^5.3.6",
-    "twin.macro": "^3.1.0",
+    "twin.macro": "^3.4.1",
     "universal-cookie": "^4.0.4",
     "validator": "^13.9.0",
     "web-vitals": "^2.1.4"
   },
-"scripts": {
-  "dev": "vite",
-  "build": "vite build",
-  "preview": "vite preview"
-},
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -45,10 +47,18 @@
   },
   "devDependencies": {
     "@craco/craco": "^7.0.0",
+    "@emotion/babel-plugin-jsx-pragmatic": "^0.3.0",
     "@vitejs/plugin-react": "^5.1.0",
-    "autoprefixer": "^10.4.13",
-    "postcss": "^8.4.21",
-    "tailwindcss": "^3.2.4",
-    "vite": "^7.1.12"
+    "autoprefixer": "^10.4.21",
+    "babel-plugin-macros": "^3.1.0",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.16",
+    "vite": "^7.1.12",
+    "vite-plugin-babel-macros": "^1.0.6"
+  },
+  "babelMacros": {
+    "twin": {
+      "preset": "styled-components"
+    }
   }
 }

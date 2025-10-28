@@ -16,17 +16,41 @@ const Slider = () => {
     return ()=>clearTimeout(time)
   },[index])
   return (
-    <Main>
-      <div className='image'>
-        <div className='images' >
-          <div className='single '><img src={sliderData[index]} alt="front pic" /></div>
+    <section className="md:h-[704px] h-[50vh] sm:h-[500px] w-full relative">
+      <div className="image md:h-[704px] h-[50vh] sm:h-[500px]">
+        <div className="images h-full flex items-center justify-start whitespace-nowrap">
+          <div className="single ease-in-out duration-700 transition-all min-w-full h-full ">
+            <img
+              src={sliderData[index]}
+              className="w-full h-full  object-cover "
+              style={{ filter: "brightness(40%)" }}
+              alt="front pic"
+            />
+          </div>
         </div>
       </div>
-      <div  className='details'>
-        <p className="bold">Plan your trip with stay vacations</p>
-        <p className="light">Experience the best travel journeys </p>
+      <div
+        className="details z-10 text-white absolute w-max flex flex-col items-center space-y-5 md:space-y-10 top-1/2 left-1/2"
+        style={{ transform: "translate(-50%, -50%)" }}
+      >
+        <p
+          className="bold text-xl sm:text-4xl md:text-5xl"
+          style={{
+            fontFamily: "montserratBold",
+          }}
+        >
+          Plan your trip with stay vacations
+        </p>
+        <p
+          className="light text-base sm:text-xl md:text-2xl"
+          style={{
+            fontFamily: "poppinsMedium",
+          }}
+        >
+          Experience the best travel journeys{" "}
+        </p>
       </div>
-    </Main>
+    </section>
   );
 }
 export default Slider

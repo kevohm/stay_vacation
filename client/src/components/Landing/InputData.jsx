@@ -38,19 +38,22 @@ const InputData = () => {
         navigate("/events")
     }
   return (
-    <Main onSubmit={(e) => handleSubmit(e)}>
+    <form
+      onSubmit={(e) => handleSubmit(e)}
+      className="z-10 w-[calc(100% - 16px)] sm:w-full max-w-[450px]  md:max-w-[550px] lg:max-w-[700px] absolute top-0 left-1/2 flex flex-col items-start space-y-3 sm:space-y-5 bg-white rounded-lg text-darkBlue py-5 px-4 sm:px-6 md:px-12"
+    >
       <header>
         <p>Where are you traveling to ?</p>
-          </header>
+      </header>
       <div className="inputData">
         {data.map((item) => (
-          <Input key={item.title} {...item} handleChange={handleChange}/>
+          <Input key={item.title} {...item} handleChange={handleChange} />
         ))}
       </div>
       <div className="submitData">
         <InputBtnRounded text="Search" bg="#FFA402" />
       </div>
-    </Main>
+    </form>
   );
 }
 
