@@ -1,6 +1,5 @@
-import React from 'react'
-import tw from "twin.macro"
-import styled from 'styled-components'
+import React from "react";
+
 export const BtnRounded = ({
   text,
   color = "white",
@@ -8,18 +7,16 @@ export const BtnRounded = ({
   hover = "rgba(1, 49, 91, .8)",
 }) => {
   return (
-    <Button color={color} bg={bg} hover={hover}>
+    <button
+      className="px-3 py-2 text-base sm:text-lg rounded-lg border-none transition-colors duration-200"
+      style={{
+        background: bg,
+        color: color,
+      }}
+      onMouseEnter={(e) => (e.target.style.background = hover)}
+      onMouseLeave={(e) => (e.target.style.background = bg)}
+    >
       {text}
-    </Button>
+    </button>
   );
 };
-
-
-const Button = styled.button`
-  ${tw`px-[12px] py-[8px] text-base sm:text-lg rounded-[8px] border-none`}
-  background: ${(props) => props.bg};
-  color: ${(props) => props.color};
-  :hover {
-    background: ${(props) => props.hover};
-  }
-`;

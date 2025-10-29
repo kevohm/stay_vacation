@@ -1,21 +1,39 @@
-import React from 'react'
-import styled from "styled-components";
-import tw from "twin.macro";
-import {Link} from "react-router-dom"
-export const BtnLinkOutline = ({outline, color, hover, text, url}) => {
+import React from "react";
+import { Link } from "react-router-dom";
+
+export const BtnLinkOutline = ({
+  outline = "rgba(1, 49, 91, 1)",
+  color = "rgba(1, 49, 91, 1)",
+  hover = "rgba(1, 49, 91, .8)",
+  text = "button",
+  url = "/",
+}) => {
+  const baseStyle = {
+    padding: "8px 12px",
+    fontSize: "1.125rem",
+    borderRadius: "8px",
+    textTransform: "capitalize",
+    textDecoration: "none",
+    background: "white",
+    outline: `1px solid ${outline}`,
+    color: color,
+    transition: "0.2s ease",
+  };
+
   return (
-    <Main outline={outline} color={color} hover={hover} to={url}>
+    <Link
+      to={url}
+      style={baseStyle}
+      onMouseEnter={(e) => {
+        e.target.style.outline = `1px solid ${hover}`;
+        e.target.style.color = hover;
+      }}
+      onMouseLeave={(e) => {
+        e.target.style.outline = `1px solid ${outline}`;
+        e.target.style.color = color;
+      }}
+    >
       {text}
-    </Main>
+    </Link>
   );
-}
-const Main = styled(Link)`
-  ${tw`capitalize px-[12px] py-[8px] text-lg rounded-[8px] border-none`}
-  background: white;
-  outline: 1px solid ${(props) => props.outline};
-  color: ${(props) => props.color};
-  :hover {
-    outline: 1px solid ${(props) => props.hover};
-    color: ${(props) => props.hover};
-  }
-`;
+};

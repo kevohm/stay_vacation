@@ -1,6 +1,5 @@
-import React from 'react'
-import styled from 'styled-components'
-import tw from 'twin.macro'
+import React from "react";
+
 export const BtnText = ({
   text,
   color = "rgba(1, 49, 91, 1)",
@@ -8,18 +7,17 @@ export const BtnText = ({
   hover = "rgba(1, 49, 91, .8)",
 }) => {
   return (
-    <Button color={color} bg={bg} hover={hover}>
+    <button
+      className="px-3 py-2 text-lg rounded-lg border-none transition-colors duration-200"
+      style={{
+        background: bg,
+        color,
+        fontFamily: "poppins",
+      }}
+      onMouseEnter={(e) => (e.target.style.color = hover)}
+      onMouseLeave={(e) => (e.target.style.color = color)}
+    >
       {text}
-    </Button>
+    </button>
   );
 };
-
-
-const Button = styled.button`
-  ${tw`px-[12px] py-[8px] text-lg rounded-[8px] border-none`}
-  background: ${(props) => props.bg};
-  color: ${(props) => props.color};
-  :hover {
-    color: ${(props) => props.hover};
-  }
-`;

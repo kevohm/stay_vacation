@@ -1,6 +1,4 @@
 import React, { useEffect, useState} from 'react'
-import styled from 'styled-components';
-import tw from 'twin.macro';
 import { TableHolder } from "../smaller/cards/TableHolder";
 import { Table } from '../smaller/table/Table';
 import { useGlobal } from "../../context/AppContext"
@@ -47,8 +45,7 @@ export const SelectTable = ({typeData, update,sortData, headings, typeDataB}) =>
       update={update}
       typeDataB={typeDataB}
     >
-      <Main>
-      
+      <div className='relative rounded-lg border border-[rgba(0,0,0,.1)] border-solid overflow-x-scroll'>
         <Table
           data={state[typeData].data}
           setPage={setPage}
@@ -59,12 +56,7 @@ export const SelectTable = ({typeData, update,sortData, headings, typeDataB}) =>
           typeData={typeDataB}
           headings={headings}
         />
-      </Main>
+      </div>
     </TableHolder>
   );
 }
-
-const Main = styled.div`
-${tw`relative rounded-lg border border-[rgba(0,0,0,.1)] border-solid overflow-x-scroll`}
-
-`

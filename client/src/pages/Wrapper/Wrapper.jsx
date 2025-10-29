@@ -2,51 +2,91 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import { Breadcrumbs, Navbar, Footer } from "../../components/Wrapper/index";
 import { GlobalError } from "../../components/smaller/error/GlobalError";
-import { Main } from "./css/Wrapper";
 import { useEvent } from "../../components/Events/context/EventContext";
-import styled from "styled-components";
-import tw from "twin.macro";
 import plane from "../../assets/img/plane.gif";
 import happy from "../../assets/img/happy.gif";
 import love from "../../assets/img/love.gif";
+import back from "../../assets/img/back.jpg";
 
 const Wrapper = () => {
   const { MemberError, setDefaultGlobal } = useEvent();
+
   return (
     <section
-      className="relative bg-[rgba(138, 154, 234, .2)] flex items-start justify-center w-full min-h-full mx-auto bg-no-repeat bg-center bg-cover bg-blend-screen"
       style={{
+        position: "relative",
+        background: "rgba(138, 154, 234, .2)",
+        display: "flex",
+        justifyContent: "center",
+        width: "100%",
+        minHeight: "100%",
         backgroundImage: `url(${back})`,
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+        backgroundSize: "cover",
+        backgroundBlendMode: "screen",
+        overflow: "hidden",
       }}
     >
+      {/* Floating Images */}
       <img
-        className="animations absolute hidden 2xl:block left-0 top-0"
         src={plane}
         alt="plane"
+        style={{
+          position: "absolute",
+          left: 0,
+          top: 0,
+          display: "none",
+        }}
+        className="animations 2xl:block"
       />
+
       <img
-        className="animations absolute hidden 2xl:block  right-0 top-[20%]"
         src={love}
-        alt="plane"
+        alt="love"
+        style={{
+          position: "absolute",
+          right: 0,
+          top: "20%",
+          display: "none",
+        }}
+        className="animations 2xl:block"
       />
+
       <img
-        className="animations absolute hidden 2xl:block   left-0 top-1/2"
         src={happy}
-        alt="plane"
+        alt="happy"
+        style={{
+          position: "absolute",
+          left: 0,
+          top: "50%",
+          display: "none",
+        }}
+        className="animations 2xl:block"
       />
-      <Section>
+
+      {/* Main content container */}
+      <section
+        style={{
+          height: "100%",
+          width: "100%",
+          position: "relative",
+          background: "white",
+          maxWidth: "1440px",
+          maxHeight: "100vh",
+          overflowY: "auto",
+          overflowX: "auto",
+          paddingBottom: "30px",
+        }}
+      >
         <GlobalError {...MemberError} close={setDefaultGlobal} />
         <Navbar />
         <Breadcrumbs />
         <Outlet />
         <Footer />
-      </Section>
+      </section>
     </section>
   );
 };
 
 export default Wrapper;
-
-const Section = styled.section`
-  ${tw`h-full w-full relative bg-white max-w-[1440px] max-h-screen overflow-y-scroll overflow-x-auto`}
-`;

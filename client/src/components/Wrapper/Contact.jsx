@@ -1,38 +1,29 @@
-import React from 'react'
-import styled from 'styled-components'
-import tw from 'twin.macro'
+import React from "react";
 
-export const Contact = ({data}) => {
+export const Contact = ({ data }) => {
   return (
-    <Main>
-      <header>contacts</header>
-      <div className="link-main">
+    <div className="flex flex-col items-start space-y-5">
+      <header
+        className="uppercase text-white"
+        style={{ fontFamily: "poppinsSemi" }}
+      >
+        contacts
+      </header>
+
+      <div className="flex items-center space-x-5">
         {data.map((item) => (
           <a
+            key={item.to}
             href={item.to}
             target="_blank"
-            key={item.to}
-            style={{ color: item.color }}
             rel="noopener noreferrer"
+            style={{ color: item.color }}
+            className="transition-transform duration-200 hover:scale-110"
           >
             {item.icon}
           </a>
         ))}
       </div>
-    </Main>
+    </div>
   );
-}
-
-const Main = styled.div`
-  ${tw`flex flex-col items-start space-y-5`}
-  header{
-    font-family:poppinsSemi;
-    ${tw`uppercase text-white`}
-  }
-  .link-main{
-    ${tw`flex items-center space-x-5`}
-    a{
-        color:${(props)=>props.color};
-    }
-  }
-`;
+};

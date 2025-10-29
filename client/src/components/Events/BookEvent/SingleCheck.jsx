@@ -1,33 +1,22 @@
-import React from 'react'
-import styled from 'styled-components'
-import {AiOutlineCheckCircle} from 'react-icons/ai'
-import tw from 'twin.macro'
+import React from "react";
+import { AiOutlineCheckCircle } from "react-icons/ai";
 
-const SingleCheck = ({text,check=false}) => {
+const SingleCheck = ({ text, check = false }) => {
   return (
-    <Main check={check}>
-        <div>
-        <AiOutlineCheckCircle className='icon'/>
-        <p>{text}</p>
-        </div>
-    </Main>
-  )
-}
+    <div className="z-10 bg-white">
+      <div className="px-1 bg-[rgba(138,154,234,0.1)] flex items-center space-x-2">
+        <AiOutlineCheckCircle
+          className={`text-lg ${check ? "text-green-500" : "text-[#01315B]"}`}
+        />
+        <p
+          className="text-sm text-[#01315B] capitalize"
+          style={{ fontFamily: "poppinsSemi" }}
+        >
+          {text}
+        </p>
+      </div>
+    </div>
+  );
+};
 
-export default SingleCheck
-
-
-const Main = styled.div`
-${tw`z-10 bg-white`}
->div{
-    ${tw` px-1 bg-[rgba(138, 154, 234, .1)] flex items-center space-x-2`}
-    .icon{
-        ${(props)=>props.check ? tw`text-green`:tw`text-darkBlue`}
-        ${tw`text-lg`}
-    }
-    p{
-        ${tw`text-sm text-darkBlue capitalize`}
-        font-family:poppinsSemi;
-    }
-}
-`
+export default SingleCheck;

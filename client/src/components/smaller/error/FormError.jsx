@@ -1,16 +1,18 @@
-import React from 'react'
-import styled from 'styled-components'
-import tw from 'twin.macro'
+import React from "react";
 
-export const FormError = ({state,msg,show}) => {
-  if(!show)return
+export const FormError = ({ state, msg, show }) => {
+  if (!show) return null;
+
+  const isSuccess = state === "success";
+
   return (
-    <Main success={state}>
-          {msg} 
-    </Main>
-  )
-}
-const Main = styled.div`
-  ${tw`px-2 py-1 bg-red-100 text-red-600 z-50 rounded-lg`}
-  ${(props) => (props.success === "success") && tw`text-[#16a34a] bg-[#dcfce7]`}
-`;
+    <div
+      className={`px-2 py-1 rounded-lg z-50 text-sm ${
+        isSuccess ? "bg-green-100 text-green-600" : "bg-red-100 text-red-600"
+      }`}
+      style={{ transition: "all 0.3s ease" }}
+    >
+      {msg}
+    </div>
+  );
+};

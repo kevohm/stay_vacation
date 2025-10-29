@@ -1,99 +1,122 @@
-import moment from 'moment'
-import React, { useEffect, useState } from 'react'
-import styled from 'styled-components'
-import tw from 'twin.macro'
-import { useEvent } from '../Events/context/EventContext'
-import {Loader} from "../smaller/load/Loader"
-import {FaInfoCircle} from "react-icons/fa"
-import { Link } from 'react-router-dom'
+import moment from "moment";
+import React, { useEffect, useState } from "react";
+import { useEvent } from "../Events/context/EventContext";
+import { Loader } from "../smaller/load/Loader";
+import { FaInfoCircle } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const UserDetails = () => {
-  const {getBookingUser} = useEvent()
-  const [user,setUser] = useState(null)
-  const fetchUser = ()=>{
-    getBookingUser().then((res)=>{
-      const {data} = res
-      setUser({...data.details,role:data.user.role})
-    }).catch((err)=>{
-      setUser([])
-    })
+  const { getBookingUser } = useEvent();
+  const [user, setUser] = useState(null);
+
+  const fetchUser = () => {
+    getBookingUser()
+      .then((res) => {
+        const { data } = res;
+        setUser({ ...data.details, role: data.user.role });
+      })
+      .catch(() => {
+        setUser([]);
+      });
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
+  if (!user) {
+    return (
+      <div className="h-full order-2 md:order-1 p-5 flex flex-col space-y-5 row-span-2">
+        <header
+          className="text-base capitalize text-darkBlue pb-2.5"
+          style={{ fontFamily: "montserratSemi" }}
+        >
+          your profile
+        </header>
+        <Loader />
+      </div>
+    );
   }
-    useEffect(()=>{
-        fetchUser()
-    },[])
-    if(!user){
-      return <Main>
-         <header className='header'>your profile</header>
-         <Loader/>
-      </Main>
-    }
+
   return (
-    <Main>
-      <div className="header-div">
-        <header className="header">your profile</header>
+    <div className="h-full order-2 md:order-1 p-5 flex flex-col space-y-5 row-span-2">
+      {/* Header section */}
+      <div className="w-full flex justify-between items-center">
+        <header
+          className="text-base capitalize text-darkBlue pb-2.5"
+          style={{ fontFamily: "montserratSemi" }}
+        >
+          your profile
+        </header>
         {user.role === import.meta.env.VITE_ADMIN && (
-          <Link to="/admin/">view Dashboard</Link>
+          <Link
+            to="/admin/"
+            className="text-sm hover:underline"
+            style={{ fontFamily: "poppins" }}
+          >
+            view Dashboard
+          </Link>
         )}
       </div>
-      <div>
-        <p>Username</p>
-        <p>{user.username}</p>
+
+      {/* User info rows */}
+      <div
+        className="w-full flex items-center"
+        style={{ fontFamily: "poppinsMedium" }}
+      >
+        <p className="capitalize w-32 text-[rgba(0,0,0,1)] text-sm">Username</p>
+        <p className="text-sm text-[rgba(0,0,0,0.7)]">{user.username}</p>
       </div>
-      <div>
-        <p>Email</p>
-        <p>{user.email}</p>
+
+      <div
+        className="w-full flex items-center"
+        style={{ fontFamily: "poppinsMedium" }}
+      >
+        <p className="capitalize w-32 text-[rgba(0,0,0,1)] text-sm">Email</p>
+        <p className="text-sm text-[rgba(0,0,0,0.7)]">{user.email}</p>
       </div>
-      <div>
-        <p>Phone number</p>
-        <p>{user.phone_number}</p>
+
+      <div
+        className="w-full flex items-center"
+        style={{ fontFamily: "poppinsMedium" }}
+      >
+        <p className="capitalize w-32 text-[rgba(0,0,0,1)] text-sm">
+          Phone number
+        </p>
+        <p className="text-sm text-[rgba(0,0,0,0.7)]">{user.phone_number}</p>
       </div>
-      <div>
-        <p>Joined Us at</p>
-        <p>{moment(user.createdAt).format("ddd, MMM DD YYYY")}</p>
-      </div>
-      <div className="submit">
-        <FaInfoCircle />
-        <p>
-          <Link to="/info/contact">Contact Us</Link> for any updates to the
-          above information
+
+      <div
+        className="w-full flex items-center"
+        style={{ fontFamily: "poppinsMedium" }}
+      >
+        <p className="capitalize w-32 text-[rgba(0,0,0,1)] text-sm">
+          Joined Us at
+        </p>
+        <p className="text-sm text-[rgba(0,0,0,0.7)]">
+          {moment(user.createdAt).format("ddd, MMM DD YYYY")}
         </p>
       </div>
-    </Main>
+
+      {/* Info footer */}
+      <div className="flex text-lightBlue text-xs justify-start space-x-2 items-center">
+        <FaInfoCircle />
+        <p
+          className="text-lightBlue rounded-lg border-none"
+          style={{ fontFamily: "poppins" }}
+        >
+          <Link
+            to="/info/contact"
+            className="text-sm hover:underline"
+            style={{ fontFamily: "poppins" }}
+          >
+            Contact Us
+          </Link>{" "}
+          for any updates to the above information
+        </p>
+      </div>
+    </div>
   );
-}
+};
 
-export default UserDetails
-
-const Main = styled.div`
-${tw`h-full order-2 md:order-1 p-5 flex flex-col space-y-5 row-span-2`}
-.header-div{
-  ${tw`w-full flex justify-between items-center`}
-  a{
-    font-family:poppins;
-    ${tw`text-sm hover:underline `}
-  }
-}
->div{
-  ${tw`w-full flex items-center`}
-  font-family:poppinsMedium;
-  p{
-    ${tw`text-sm text-[rgba(0,0,0,.7)]`}
-  }
-  p:first-child{
-    ${tw`capitalize w-32 text-[rgba(0,0,0,1)]`}
-  }
-}
-.submit{
-  ${tw`flex text-lightBlue text-xs justify-start space-x-2 items-center`}
-  p{
-    font-family:poppins;
-    ${tw`text-lightBlue rounded-lg border-none`}
-    a{
-      a{
-        font-family:poppins;
-        ${tw`text-sm hover:underline `}
-      }
-    }
-  }
-}
-`
+export default UserDetails;

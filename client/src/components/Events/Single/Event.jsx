@@ -1,46 +1,50 @@
-import React from 'react'
-import styled from 'styled-components'
-import { Link } from 'react-router-dom'
-import tw from 'twin.macro'
+import React from "react";
+import { Link } from "react-router-dom";
 
-const Event = ({name,city,description,image}) => {
+const Event = ({ name, city, description, image }) => {
   return (
-    <Main>
-          <Link className='image' to={`/events/${name}`}>
-          <img src={image[0]} alt="event"/>
-          </Link>
-          <div className='information'>
-          <header><p>{name}</p><p>{`, ${city}`}</p></header>
-          <p>{description.length < 220?description:`${description.slice(0,220)}...`}</p>
-          </div>
-    </Main> 
-  )
-}
+    <div
+      className="w-full h-min rounded-lg bg-white"
+      style={{ boxShadow: "0px 2px 6px 0px rgba(1, 49, 91, .25)" }}
+    >
+      <Link className="w-full relative block" to={`/events/${name}`}>
+        <img
+          src={image[0]}
+          alt="event"
+          className="w-full rounded-t-lg h-[200px] object-cover"
+        />
+      </Link>
 
-export default Event
+      <div className="p-2.5 flex flex-col space-y-2.5">
+        <header
+          className="flex items-center justify-start text-sm text-[#01315B]"
+          style={{ fontFamily: "montserratSemi" }}
+        >
+          <p
+            className="w-auto text-sm capitalize text-[#01315B]"
+            style={{ fontFamily: "montserratSemi" }}
+          >
+            {name}
+          </p>
+          <p
+            className="w-auto text-sm capitalize text-[#01315B]"
+            style={{ fontFamily: "montserratSemi" }}
+          >
+            , {city}
+          </p>
+        </header>
 
-const Main = styled.div`
-    ${tw`w-full h-min rounded-lg bg-white `}
-    box-shadow:0px 2px 6px 0px rgba(1, 49, 91, .25);
-    .image{
-      ${tw`w-full relative`}
-      img{
-        ${tw`w-full rounded-t-lg h-[200px] object-cover`}
-      }
-    }
-    .information{
-      ${tw`p-2.5 flex flex-col space-y-2.5`}
-      header{
-        ${tw`flex items-center justify-start text-sm text-darkBlue`}
-        font-family:montserratSemi;
-        >p{
-          ${tw`w-auto text-sm capitalize text-darkBlue`}
-        font-family:montserratSemi;
-        }
-      }p{
-        font-family:montserratMedium;
-        ${tw`text-sm w-full text-black`}
-      }
+        <p
+          className="text-sm w-full text-black"
+          style={{ fontFamily: "montserratMedium" }}
+        >
+          {description.length < 220
+            ? description
+            : `${description.slice(0, 220)}...`}
+        </p>
+      </div>
+    </div>
+  );
+};
 
-    }
-`
+export default Event;

@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react'
 import Events from './Events'
 import Search from './Search'
 import Recent from './Recent'
-import styled from 'styled-components'
-import tw from 'twin.macro'
 import {useEvent} from "../context/EventContext"
 import { getCookie } from '../../../context/utils'
 
@@ -43,20 +41,13 @@ const Wrapper = () => {
   handleFetch()
   },[filterData,sortBy,page])
   return (
-    <Main>
+    <div className='flex flex-col space-y-12 md:space-y-0  md:grid  md:grid-cols-[repeat(3, 1fr)] grid-flow-col-dense md:grid-rows-[38.958rem, 780px, 1fr] gap-5 items-start'>
         <Search handleRefresh={handleRefresh} filter={filterData}/>
         <Events loading={events.loading} eventsData={events.data} page={page} changePage={changePage} handleCategory={handleSort}/>
         <Recent/>
-    </Main>
+    </div>
   )
 }
 
 export default Wrapper
 
-const Err = styled.div`
-${tw`w-full`}
-`
-
-const Main =styled.div`
-${tw`flex flex-col space-y-12 md:space-y-0  md:grid  md:grid-cols-[repeat(3, 1fr)] grid-flow-col-dense md:grid-rows-[38.958rem, 780px, 1fr] gap-5 items-start`}
-`

@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
-import tw from "twin.macro";
+
 export const BtnLink = ({
   text = "sign up",
   url = "/register",
@@ -9,19 +8,24 @@ export const BtnLink = ({
   bg = "rgba(1, 49, 91, 1)",
   hover = "rgba(1, 49, 91, .8)",
 }) => {
+  const baseStyle = {
+    padding: "8px 12px",
+    fontSize: "1.125rem",
+    borderRadius: "8px",
+    background: bg,
+    color: color,
+    textDecoration: "none",
+    transition: "0.2s ease",
+  };
+
   return (
-      <Main color={color} bg={bg} hover={hover} to={url}>
+    <Link
+      to={url}
+      style={baseStyle}
+      onMouseEnter={(e) => (e.target.style.background = hover)}
+      onMouseLeave={(e) => (e.target.style.background = bg)}
+    >
       {text}
-    </Main>
+    </Link>
   );
 };
-
-
-const Main = styled(Link)`
-  ${tw`px-[12px] py-[8px] text-lg rounded-[8px]`}
-  background: ${(props) => props.bg};
-  color: ${(props) => props.color};
-  :hover {
-    background: ${(props) => props.hover};
-  }
-`;

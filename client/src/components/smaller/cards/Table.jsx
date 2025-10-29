@@ -1,105 +1,81 @@
 import React from "react";
-import styled from "styled-components";
-import tw from "twin.macro";
-import {StateCheck} from "../table/TableData"
- 
-export const Table = ({data=[], title=[], type}) => {
+import { StateCheck } from "../table/TableData";
+
+export const Table = ({ data = [], title = [], type }) => {
+  const isUserTable = type === "users";
+  const isPaymentTable = type === "payments";
+  const isEventTable = type === "events";
+
   return (
-    <Main type={type}>
+    <table
+      className={`text-sm border-collapse ${
+        isPaymentTable ? "w-full" : "w-max"
+      }`}
+    >
       <thead>
-        <tr>
+        <tr className="border-b border-black/5">
           {title.map((text) => (
-            <th key={text}>{text.replace("_", " ")}</th>
+            <th
+              key={text}
+              className="capitalize p-5 text-left text-black/70 font-poppinsMedium"
+            >
+              {text.replace("_", " ")}
+            </th>
           ))}
         </tr>
       </thead>
+
       <tbody>
-        {type === "users" && data.map((item, index) => {
-              return (
-                <tr key={index}>
-                  <td>0{index + 1}</td>
-                  <td>{item[title[1]]}</td>
-                  <td>{item[title[2]]}</td>
-                  <td>{item[title[3]]}</td>
-                </tr>
-              );
-            })}
-          {type === "events" &&  data.map((item, index) => {
-            const { name, description, image, city, country } =
-              item;
-              return (
-                <tr key={index}>
-                  <td>{name}</td>
-                  <td>
-                    <img src={image[0]} alt={name} />
-                  </td>
-                  <td>{(description.length > 45)?`${description.slice(0,45)}...`:description}</td>
-                  <td>{city}</td>
-                  <td>{country}</td>
-                </tr>
-              );
-            })}
-            {type === "payments" &&  data.map((item, index) => {
-            const { state, category , amount, currency} = item;
-              return (
-                <tr key={index}>
-                  <td>0{index + 1}</td>
-                 <StateCheck state={state} id={item._id}/>
-                  <td>{category}</td>
-                  <td>{`${currency}. ${Number(amount).toLocaleString()}`}</td>
-                  <td>{item.event.name}</td>
-                </tr>
-              );
-            })}
+        {/* USERS TABLE */}
+        {isUserTable &&
+          data.map((item, index) => (
+            <tr key={index} className="border-b border-black/5">
+              <td className="p-4 text-black/50 py-8">0{index + 1}</td>
+              <td className="p-4 text-black/50">{item[title[1]]}</td>
+              <td className="p-4 text-black/50">{item[title[2]]}</td>
+              <td className="p-4 text-black/50">{item[title[3]]}</td>
+            </tr>
+          ))}
+
+        {/* EVENTS TABLE */}
+        {isEventTable &&
+          data.map((item, index) => (
+            <tr key={index} className="border-b border-black/5">
+              <td className="p-4 text-black/50">{item.name}</td>
+              <td className="p-4 text-black/50">
+                <img
+                  src={item.image[0]}
+                  alt={item.name}
+                  className="w-12 h-12 object-cover rounded-lg"
+                />
+              </td>
+              <td className="p-4 text-black/50">
+                {item.description.length > 45
+                  ? `${item.description.slice(0, 45)}...`
+                  : item.description}
+              </td>
+              <td className="p-4 text-black/50">{item.city}</td>
+              <td className="p-4 text-black/50">{item.country}</td>
+            </tr>
+          ))}
+
+        {/* PAYMENTS TABLE */}
+        {isPaymentTable &&
+          data.map((item, index) => (
+            <tr key={index} className="border-b border-black/5">
+              <td className="p-4 text-black/50">0{index + 1}</td>
+
+              {/* Status Component */}
+              <StateCheck state={item.state} id={item._id} />
+
+              <td className="p-4 text-black/50">{item.category}</td>
+              <td className="p-4 text-black/50">
+                {`${item.currency}. ${Number(item.amount).toLocaleString()}`}
+              </td>
+              <td className="p-4 text-black/50">{item.event.name}</td>
+            </tr>
+          ))}
       </tbody>
-    </Main>
+    </table>
   );
 };
-
-const Main = styled.table`
-  ${tw`w-max text-sm`}
-  ${(props)=>props.type === "payments" && tw`w-full`}
-  border-collapse:collapse;
-  thead,
-  tbody > tr{
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  }
-  tbody,
-  tfoot {
-    tr {
-      td {
-        ${tw`p-4 text-start text-[rgba(0,0,0,.5)]`}
-        img{
-          ${tw`w-12 h-12 object-cover rounded-lg`}
-        }
-        .pending, .paid, .failed{
-          ${tw`w-[80px] p-1 px-2 border-solid bg-white border text-sm rounded-full`}
-        }
-        .pending{
-          ${tw`text-orange border-orange`}
-        }
-        .paid{
-          ${tw`border-green text-green`}
-        }
-        .failed{
-          ${tw`border-red-400 text-red-400`}
-        }
-        .icon{
-          ${tw`animate-spin`}
-        }
-      }
-      
-    }
-  }
-  tbody tr td{
-    ${(props)=>props.type === "users" && tw`py-8`}
-  }
-  thead {
-    tr {
-      th {
-        font-family: poppinsMedium;
-        ${tw`capitalize p-5 text-start text-[rgba(0,0,0,.7)]`}
-      }
-    }
-  }
-`;

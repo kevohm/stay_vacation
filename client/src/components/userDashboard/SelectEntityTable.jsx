@@ -1,6 +1,4 @@
 import React, { useEffect, useState} from 'react'
-import styled from 'styled-components';
-import tw from 'twin.macro';
 import {TableEntity} from "../smaller/frame/TableEntity"
 import { TableEntityHolder } from '../smaller/frame/TableEntityHolder';
 import { useGlobal } from "../../context/AppContext"
@@ -44,7 +42,7 @@ export const SelectEntityTable = ({changeOpen, update, typeData, sortData, headi
       typeDataB={typeDataB}
       changeOpen={changeOpen}
     >
-      <Main>
+      <div className='relative rounded-lg border border-[rgba(0,0,0,.1)] border-solid overflow-x-scroll'>
       
         <TableEntity
           data={state[typeData].data}
@@ -57,12 +55,8 @@ export const SelectEntityTable = ({changeOpen, update, typeData, sortData, headi
           headings={headings}
           validation={validation}
         />
-      </Main>
+      </div>
     </TableEntityHolder>
   );
 }
 
-const Main = styled.div`
-${tw`relative rounded-lg border border-[rgba(0,0,0,.1)] border-solid overflow-x-scroll`}
-
-`

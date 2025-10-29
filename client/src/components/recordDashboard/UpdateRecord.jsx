@@ -1,198 +1,114 @@
-import React, {useState}from 'react'
-import styled from 'styled-components'
+import React, { useState } from "react";
 import { useGlobal } from "../../context/AppContext";
-import { FaTimes } from 'react-icons/fa';
-import tw from 'twin.macro'
+import { FaTimes } from "react-icons/fa";
+
 const UpdateRecord = () => {
-  const {state,updateError,toggleUpdate,updateReport} = useGlobal()
-  const reportId = state.report_startUpdate.current._id
+  const { state, updateError, toggleUpdate, updateReport } = useGlobal();
+  const reportId = state.report_startUpdate.current._id;
+
   const [data, setData] = useState({
     description: state.report_startUpdate.current.description,
-    state: state.report_startUpdate.current.state
+    state: state.report_startUpdate.current.state,
   });
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setData({ ...data, [name]: value });
   };
-  const handleSubmit = (e)=>{
-    e.preventDefault()
-    const {description,state} = data
-    if(!description || !state){
-      changeErr({
-          msg: "All fields are required",
-          type: "warning",
-          show: true,
-        })
-        return
-    }if(description.length < 60){
-      changeErr({
-        msg: "Description must be atleast 60 characters",
-        type: "warning",
-        show: true,
-      })
-      return
-    }
-    if(description.length > 400){
-      changeErr({
-        msg: "Description must be atmost 400 characters",
-        type: "warning",
-        show: true,
-      })
-      return
-    }
-        updateReport(reportId ,{description,state})
-  }
+
   const changeErr = (err) => {
-    updateError(err)
-}
+    updateError(err);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const { description, state: reportState } = data;
+
+    if (!description || !reportState) {
+      return changeErr({
+        msg: "All fields are required",
+        type: "warning",
+        show: true,
+      });
+    }
+    if (description.length < 60) {
+      return changeErr({
+        msg: "Description must be at least 60 characters",
+        type: "warning",
+        show: true,
+      });
+    }
+    if (description.length > 400) {
+      return changeErr({
+        msg: "Description must be at most 400 characters",
+        type: "warning",
+        show: true,
+      });
+    }
+
+    updateReport(reportId, { description, state: reportState });
+  };
+
   return (
-    <Main onSubmit={(e)=>handleSubmit(e)}>
-      <div className="header">
-                <p>Update</p>
-                <FaTimes
-                    className="icon"
-                    onClick={() =>
-                        toggleUpdate("report", {
-                          "description": "",
-                          "state": "",
-                          "event":{}
-                        })
-                    }
-                />
-            </div>
-      <div>
-        <p>{data.description.length} characters</p>
+    <form
+      onSubmit={handleSubmit}
+      className="relative w-full max-w-[300px] md:max-w-xl bg-white p-5 space-y-5 rounded-lg"
+    >
+      {/* Header */}
+      <div className="flex flex-row justify-between items-center py-1">
+        <p className="font-medium text-darkBlue text-base">Update</p>
+        <FaTimes
+          className="text-darkBlue text-base cursor-pointer"
+          onClick={() =>
+            toggleUpdate("report", {
+              description: "",
+              state: "",
+              event: {},
+            })
+          }
+        />
+      </div>
+
+      {/* Description */}
+      <div className="flex flex-col space-y-2">
+        <p className="font-medium capitalize text-sm text-[rgba(1,49,91,0.9)]">
+          {data.description.length} characters
+        </p>
         <textarea
           placeholder="Description of event"
           value={data.description}
           name="description"
-          onChange={(e) => handleChange(e)}
+          onChange={handleChange}
+          className="w-full text-sm py-2.5 px-5 rounded-lg border border-[rgba(1,49,91,0.5)] text-[rgba(1,49,91,0.7)] outline-none resize-vertical font-medium placeholder:text-[rgba(1,49,91,0.5)]"
         />
       </div>
-      <div>
+
+      {/* State selection */}
+      <div className="flex flex-col space-y-2">
         <select
           value={data.state}
           name="state"
-          onChange={(e) => handleChange(e)}
+          onChange={handleChange}
+          className="w-full text-sm py-2.5 px-5 rounded-lg border border-[rgba(1,49,91,0.5)] text-[rgba(1,49,91,0.7)] font-medium outline-none"
         >
-          <option value="" disabled={true}>
+          <option value="" disabled>
             Choose How The Event Was
           </option>
           <option value="Success">Successful</option>
-          <option value="Fail">Failled</option>
+          <option value="Fail">Failed</option>
         </select>
       </div>
-      <div className="submit">
-        <input type="submit" value="Update" />
+
+      {/* Submit button */}
+      <div className="w-full flex items-center justify-end">
+        <input
+          type="submit"
+          value="Update"
+          className="cursor-pointer w-full md:w-auto bg-green text-darkBlue border-none font-medium text-sm py-2.5 px-5 rounded-lg hover:bg-[rgba(113,242,139,0.9)]"
+        />
       </div>
-    </Main>
-  )
-}
+    </form>
+  );
+};
 
-export default UpdateRecord
-
-
-const Main = styled.form`
-${tw`relative w-full bg-white max-w-[300px] md:max-w-max space-y-5 p-5 rounded-lg`}
-      > div {
-        ${tw`w-full max-w-none sm:max-w-[440px] flex flex-col space-y-2`}
-        p{
-            font-family: poppinsMedium;
-            ${tw`capitalize text-sm text-[rgba(1, 49, 91, .9)]`}
-        }
-        textarea, input, select {
-          font-family: poppinsMedium;
-          ${tw`w-full text-sm py-2.5 px-5 rounded-lg border border-solid text-[rgba(1, 49, 91, .7)] border-[rgba(1, 49, 91, .5)]`}
-          ::placeholder {
-            ${tw`text-sm text-[rgba(1, 49, 91, .5)]`}
-          }
-        }
-        textarea {
-          ${tw`w-full`}
-          resize: vertical;
-        }
-      }
-  .flex-row{
-    ${tw`flex-row`}
-  }
-  .file {
-    ${tw``}
-    label {
-      ${tw`relative flex items-center`}
-      span {
-        font-family: poppinsMedium;
-        ${tw`absolute h-full text-center text-sm flex items-center px-5 pr-3 text-[rgba(1, 49, 91, .6)] bg-[rgba(1, 49, 91, .1)] rounded-l-lg`}
-      }
-      input {
-        ${tw`bg-white cursor-pointer`}
-        ::file-selector-button {
-          ${tw`cursor-pointer pl-8 `}
-          opacity: 0;
-        }
-      }
-    }
-    .info{
-        ${tw`flex items-center space-x-1 pt-2`}
-        p{
-            ${tw`text-xs text-[rgba(1, 49, 91, .5)]`}
-        }.info-icon{
-            ${tw`text-xs text-[rgba(1, 49, 91, .7)]`}
-        }
-    }
-  }
-  .lined-up-now {
-    ${tw`flex flex-col md:flex-row items-start space-y-5 md:items-center md:space-y-0 space-x-0 md:space-x-5 `}
-  }
-  .lined-up {
-    ${tw`text-[rgba(1, 49, 91, 1)] flex items-center space-x-5 mb-5`}
-    > input {
-      ${tw``}
-    }
-
-    p {
-      ${tw`p-2 text-[rgba(1, 49, 91, .5)]`}
-    }
-    .div-icon-add {
-      ${tw`flex items-center text-[rgba(1, 49, 91, 1)]`}
-    }
-    .icon-add {
-      ${tw`p-2 rounded-full border-solid border border-[rgba(1, 49, 91, 1)] text-[rgba(1, 49, 91, 1)] text-4xl `}
-    }
-  }
-  .header {
-    ${tw`flex flex-row justify-between items-center py-1`}
-    p { 
-      font-family: poppinsMedium;
-      ${tw`text-darkBlue text-base`}
-    }
-    .icon {
-      ${tw`text-darkBlue text-base`}
-    }
-  }
-  .submit {
-    
-    ${tw`w-full flex items-center justify-end`}
-    input {
-        font-family: poppinsMedium;
-          ${tw`w-full text-sm py-2.5 px-5 rounded-lg border border-solid text-[rgba(1, 49, 91, .7)] border-[rgba(1, 49, 91, .5)]`}
-          ::placeholder {
-            ${tw`text-sm text-[rgba(1, 49, 91, .5)]`}
-          }
-      ${tw`cursor-pointer bg-green border-none text-darkBlue w-full hover:bg-[rgba(113, 242, 139, .9)]`}
-    }
-  }
-  .header {
-    ${tw`flex flex-row justify-between items-center space-y-0 space-x-0 py-1`}
-    p { 
-      font-family: poppinsMedium;
-      ${tw`text-darkBlue text-base`}
-    }
-    .icon {
-      ${tw`text-darkBlue text-base cursor-pointer`}
-    }
-  }
-  .update-message{
-    ${tw`py-5 border border-[rgba(0,0,0,.2)] border-solid w-3/4 min-w-[200px] flex items-center rounded-lg bg-white absolute top-1/2 left-1/2`}
-    transform:translate(-50%, -50%);
-  }
-`;
+export default UpdateRecord;

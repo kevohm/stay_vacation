@@ -1,21 +1,24 @@
-import React from 'react'
-import styled from 'styled-components'
-import tw from "twin.macro"
-export const BtnOutline = ({text, color, hover, outline}) => {
+import React from "react";
+
+export const BtnOutline = ({ text, color, hover, outline }) => {
   return (
-      <Main outline={outline} color={color} hover={hover}>
-          {text}</Main>
-  )
-}
-
-
-const Main = styled.button`
-  ${tw`capitalize px-[12px] py-[8px] text-lg rounded-[8px] border-none`}
-  background: white;
-  outline: 1px solid ${(props) => props.outline};
-  color: ${(props) => props.color};
-  :hover {
-    outline: 1px solid ${(props) => props.hover};
-    color: ${(props) => props.hover};
-  }
-`;
+    <button
+      className="capitalize px-3 py-2 text-lg rounded-lg border-none transition-colors duration-200"
+      style={{
+        background: "white",
+        outline: `1px solid ${outline}`,
+        color: color,
+      }}
+      onMouseEnter={(e) => {
+        e.target.style.outline = `1px solid ${hover}`;
+        e.target.style.color = hover;
+      }}
+      onMouseLeave={(e) => {
+        e.target.style.outline = `1px solid ${outline}`;
+        e.target.style.color = color;
+      }}
+    >
+      {text}
+    </button>
+  );
+};

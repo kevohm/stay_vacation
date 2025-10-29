@@ -1,27 +1,16 @@
-import React from 'react'
-import styled from 'styled-components'
-import tw from 'twin.macro'
+import React from "react";
 
-export const Term = ({title,info}) => {
+export const Term = ({ title, info }) => {
   return (
-    <Main>
-        <header>{title}</header>
-        <ul>
-            {info.map((i, index)=><li key={index}>{i}</li>)}
-        </ul>
-    </Main>
-  )
-}
-const Main = styled.div`
-${tw`text-[rgba(0,0,0,.7)] text-sm flex flex-col space-y-2.5`}
->header{
-    font-family:poppinsSemi;
-    ${tw``}
-}
->ul{
-    ${tw`pl-5`}
-    >li{
-        ${tw`w-full`}
-    }
-}
-`
+    <div className="text-[rgba(0,0,0,.7)] text-sm flex flex-col space-y-2.5">
+      <header className="font-[poppinsSemi]">{title}</header>
+      <ul className="pl-5">
+        {info.map((i, index) => (
+          <li key={index} className="w-full">
+            {i}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};

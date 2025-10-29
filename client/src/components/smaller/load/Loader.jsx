@@ -1,19 +1,25 @@
-import React from 'react'
-import styled from "styled-components";
-import tw from "twin.macro";
+import React from "react";
 import { BiLoaderAlt } from "react-icons/bi";
 
-export const Loader = ({color="rgba(0, 0, 0, 0.3)"}) => {
+export const Loader = ({ color = "rgba(0, 0, 0, 0.3)" }) => {
+  const containerStyle = {
+    width: "100%",
+    minWidth: "100%",
+    height: "150px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  };
+
+  const iconStyle = {
+    fontSize: "2.25rem", // text-4xl
+    color,
+    animation: "spin 1s linear infinite",
+  };
+
   return (
-    <Load color={color}>
-      <BiLoaderAlt className="loading" />
-    </Load>
+    <div style={containerStyle}>
+      <BiLoaderAlt style={iconStyle} />
+    </div>
   );
-}
-const Load = styled.div`
-  ${tw`min-w-full w-full h-[150px]  flex items-center justify-center`}
-  .loading {
-    ${tw`animate-spin text-4xl`}
-    color:${(props)=>props.color};
-  }
-`;
+};

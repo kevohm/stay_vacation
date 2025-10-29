@@ -1,6 +1,4 @@
 import React,{useState} from 'react'
-import styled from 'styled-components'
-import tw from 'twin.macro'
 import UpdateUser from "../userDashboard/UpdateUser"
 import { UpdateForm } from '../bookingsDashboard/UpdateForm'
 import { ManageData } from '../smaller/frame/ManageData'
@@ -30,23 +28,52 @@ const CreatePayment = () => {
       setOpenUsers(!openUsers)
   }
   return (
-    <Main>
-        {open && <div className='popup'>
-        <SelectEntityTable changeOpen={handleChange} typeDataB="event" typeData="events" update={<UpdateForm/> } sortData={sortData} headings={headings} validation={false}/>
-        </div>}
-        {openUsers && <div className='popup'>
-        <SelectEntityTable changeOpen={changeUsers} typeDataB="user" typeData="users" update={<UpdateUser/> } sortData={sortDataUsers} headings={headingsUsers} validation={false}/>
-        </div>}
-        <ManageData element={<PaymentForm changeOpen={handleChange} changeOpenUsers={changeUsers}/>} img={payment} title="Create Payment" />
-    </Main>)
+    <div className='relative'>
+      {open && (
+        <div
+          className="rounded-lg absolute top-1/2 left-1/2 w-full h-full bg-white z-20"
+          style={{ transform: "translate(-50%,-50%)" }}
+        >
+          <SelectEntityTable
+            changeOpen={handleChange}
+            typeDataB="event"
+            typeData="events"
+            update={<UpdateForm />}
+            sortData={sortData}
+            headings={headings}
+            validation={false}
+          />
+        </div>
+      )}
+      {openUsers && (
+        <div
+          className="rounded-lg absolute top-1/2 left-1/2 w-full h-full bg-white z-20"
+          style={{ transform: "translate(-50%,-50%)" }}
+        >
+          <SelectEntityTable
+            changeOpen={changeUsers}
+            typeDataB="user"
+            typeData="users"
+            update={<UpdateUser />}
+            sortData={sortDataUsers}
+            headings={headingsUsers}
+            validation={false}
+          />
+        </div>
+      )}
+      <ManageData
+        element={
+          <PaymentForm
+            changeOpen={handleChange}
+            changeOpenUsers={changeUsers}
+          />
+        }
+        img={payment}
+        title="Create Payment"
+      />
+    </div>
+  );
 }
 
 export default CreatePayment
 
-const Main = styled.div`
-${tw`relative`}
-.popup{
-    ${tw`rounded-lg absolute top-1/2 left-1/2 w-full h-full bg-white z-20`}
-    transform:translate(-50%,-50%);
-}
-`

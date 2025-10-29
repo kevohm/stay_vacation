@@ -1,6 +1,4 @@
-import React, {useEffect, useState} from "react";
-import styled from "styled-components";
-import tw from "twin.macro";
+import React, { useEffect, useState } from "react";
 import { Loader } from "../../smaller/load/Loader";
 import { FormError } from "../../smaller/error/FormError";
 import { useEvent } from "../context/EventContext";
@@ -8,187 +6,159 @@ import { verifyData } from "../../utils/Events/BookForm";
 import { BookFormReadOnly } from "./BookFormReadOnly";
 import { useGlobal } from "../../../context/AppContext";
 
-const body = {
-  username:"",
-  email:"",
-  password:"",
-  phone_number:"",
-  confirmPassword:""
-}
+const initialState = {
+  username: "",
+  email: "",
+  password: "",
+  phone_number: "",
+  confirmPassword: "",
+};
 
 const BookForm = () => {
-  const [data,setData] = useState(body)
-  const { book_event,stages,setBookingError,registerBoookingUser,getBookingUser,setBookingData,setBookingStage} = useEvent()
-  const {state} = useGlobal()
-  const handleData = (e)=>{
-    const {name,value} = e.target
-    setData({...data, [name]:value})
-  }
-const handleSubmut = (e)=>{
-  e.preventDefault()
-  if(verifyData({...data, changeErr})){
-    changeErr({
-      msg:"Processing your data. This may take a minute...",
-      state:"success",
-      show:true
-    })
-    const {email,username,password,phone_number} = data
-    registerBoookingUser({email,username,password,phone_number})
-  }
-}
-  const changeErr = (err)=>{
-    setBookingError(err)
-  }
-  useEffect(()=>{
-    getBookingUser().then((res)=>{
-      const {data} = res
-      setBookingStage(2)
-      setBookingData("user",data.details)
-    }).catch((err)=>{
-      setBookingStage(1)
-    })
-},[state.user.id,state.user.role]) 
-  if(book_event.loading){
-    return <Main>
-       <header>user details</header>
-        <Loader/>
-    </Main>
-}
+  const [data, setData] = useState(initialState);
+  const {
+    book_event,
+    stages,
+    setBookingError,
+    registerBoookingUser,
+    getBookingUser,
+    setBookingData,
+    setBookingStage,
+  } = useEvent();
+  const { state } = useGlobal();
 
-if(stages.level && Number(stages.level) === 2 && stages.user !== null){
-  return <BookFormReadOnly/>
-}
+  const handleChange = (e) => {
+    setData({ ...data, [e.target.name]: e.target.value });
+  };
+
+  const changeErr = (err) => {
+    setBookingError(err);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (verifyData({ ...data, changeErr })) {
+      changeErr({
+        msg: "Processing your data. This may take a minute...",
+        state: "success",
+        show: true,
+      });
+
+      const { email, username, password, phone_number } = data;
+      registerBoookingUser({ email, username, password, phone_number });
+    }
+  };
+
+  useEffect(() => {
+    getBookingUser()
+      .then((res) => {
+        setBookingStage(2);
+        setBookingData("user", res.data.details);
+      })
+      .catch(() => setBookingStage(1));
+  }, [state.user.id, state.user.role]);
+
+  if (book_event.loading) {
+    return (
+      <div className="bg-white p-5 rounded-lg shadow-md">
+        <header className="mb-4 font-semibold text-darkBlue">
+          User details
+        </header>
+        <Loader />
+      </div>
+    );
+  }
+
+  if (stages.level === 2 && stages.user) {
+    return <BookFormReadOnly />;
+  }
+
   return (
-    <Main onSubmit={(e)=>handleSubmut(e)}>
-      <header>User details</header>
-      {stages.err.show && <div className="error">
-        <FormError {...stages.err}/>
-      </div>}
-      <div className="all-input">
-        <div className="left">
-        <div className="input">
-            <label>username</label>
-            <input type="text" name="username" value={data.username} onChange={(e)=>handleData(e)} placeholder="(e.g) John254"/>
-          </div>
-          <div className="input">
-            <label>password</label>
-            <input type="password" name="password" value={data.password} onChange={(e)=>handleData(e)}  placeholder="Please use a strong password" />
-          </div>
-          <div className="input">
-            <label>confirm password</label>
-            <input type="password" name="confirmPassword" value={data.confirmPassword} onChange={(e)=>handleData(e)}  placeholder="Confirm your password" />
-          </div>
-          
+    <form
+      onSubmit={handleSubmit}
+      className="bg-white p-5 rounded-lg shadow-md w-full"
+    >
+      <header className="text-darkBlue font-semibold mb-5">User details</header>
+
+      {stages.err.show && (
+        <div className="mb-3 text-red-500">
+          <FormError {...stages.err} />
         </div>
-        <div className="right"> 
-          <div className="input">
-            <label>phone number</label>
-            <input type="text" value={data.phone_number} name="phone_number" onChange={(e)=>handleData(e)}  placeholder="(e.g) +254712121212"/>
-          </div>
-          <div className="input">
-            <label>email</label>
-            <input type="email" name="email" value={data.email} onChange={(e)=>handleData(e)}  placeholder="(e.g) john@gmail.com" />
-          </div>
+      )}
+
+      <div className="flex flex-col md:flex-row gap-5">
+        {/* Left side */}
+        <div className="flex flex-col gap-5">
+          <InputField
+            label="username"
+            name="username"
+            value={data.username}
+            onChange={handleChange}
+            placeholder="John254"
+          />
+
+          <InputField
+            label="password"
+            type="password"
+            name="password"
+            value={data.password}
+            onChange={handleChange}
+            placeholder="Strong password"
+          />
+
+          <InputField
+            label="confirm password"
+            type="password"
+            name="confirmPassword"
+            value={data.confirmPassword}
+            onChange={handleChange}
+            placeholder="Confirm password"
+          />
+        </div>
+
+        {/* Right side */}
+        <div className="flex flex-col gap-5">
+          <InputField
+            label="phone number"
+            name="phone_number"
+            value={data.phone_number}
+            onChange={handleChange}
+            placeholder="+254712121212"
+          />
+
+          <InputField
+            label="email"
+            type="email"
+            name="email"
+            value={data.email}
+            onChange={handleChange}
+            placeholder="john@gmail.com"
+          />
         </div>
       </div>
-      <div className="submit">
-        <input type="submit" value="next"/>
+
+      <div className="flex justify-end mt-5">
+        <input
+          type="submit"
+          value="Next"
+          className="bg-green text-darkBlue py-2 px-4 rounded-lg cursor-pointer"
+        />
       </div>
-    
-    </Main>
+    </form>
   );
 };
 
-export default BookForm;
-export const Main = styled.form`
-  box-shadow: 0px 2px 6px 0px rgba(1, 49, 91, 0.25);
-  ${tw`bg-white w-full rounded-lg p-5`}
-  >header {
-    font-family: montserratSemi;
-    ${tw`capitalize text-darkBlue text-base mb-5`}
-  }
-  .error{
-    ${tw`my-2`}
-  }
-  .all-input {
-    ${tw`w-full max-w-[400px] md:max-w-none flex flex-col md:flex-row space-x-0 space-y-5 md:space-y-0 md:space-x-5`}
-    >div{
-      ${tw`flex flex-col space-y-5`}
-      .input {
-        ${tw`flex flex-col space-y-2 items-start`}
-        label {
-          font-family: montserratSemi;
-          ${tw`capitalize text-darkBlue text-sm`}
-        }
-        input {
-          ${tw`w-full py-2 text-sm px-2.5 rounded-lg border text-[rgba(0,0,0,.7)] border-solid border-[rgba(138, 154, 234, .5)]`}
-          font-family:poppinsMedium;
-          ::placeholder {
-            ${tw`text-sm text-[rgba(0,0,0,.3)]`}
-          }
-        }
-        input:focus {
-          ${tw`border border-solid border-[rgba(138, 154, 234, .5)]`}
-        }
-        input:-webkit-autofill {
-          -webkit-text-fill-color: rgba(0, 0, 0, 0.7) !important;
-        }
-        input:-webkit-autofill,
-        input:-webkit-autofill:hover,
-        input:-webkit-autofill:focus,
-        input:-webkit-autofill:active {
-          -webkit-box-shadow: 0 0 0 30px white inset !important;
-        }
-        .prices{
-          ${tw`flex flex-wrap`}
-          .price{
-            ${tw`w-max mr-2.5 mb-2.5 flex space-x-2`}
-            label{
-              font-family:montserratMedium;
-              ${tw`text-sm text-[rgba(0,0,0,.8)]`}
-            }
-            input{
-              ${tw`text-white border-orange border border-solid`}
-              appearance: none;
-              width:.5em;
-              height:.8em;
-              ${tw`bg-white`}
-              ${tw`flex items-center justify-center`}
-            }
-            input::before {
-              content: "✔";
-              ${tw`text-xs`}
-              transform: scale(0);
-              transition: 120ms transform ease-in-out;
-            }
-            input:checked{
-              ${tw`bg-orange`}
-            }
-            input:checked::before {
-              transform: scale(1);
-            }
-          }
-        }
-      }
-    }
-  }
+// ✅ Reusable input component
+const InputField = ({ label, ...props }) => (
+  <div className="flex flex-col gap-1">
+    <label className="capitalize text-darkBlue text-sm font-semibold">
+      {label}
+    </label>
+    <input
+      {...props}
+      className="w-full px-3 py-2 border border-lightBlue/40 rounded-lg text-gray-700 text-sm focus:outline-orange"
+    />
+  </div>
+);
 
-  .submit{
-    ${tw`flex items-center justify-end mt-5`}
-    input {
-          ${tw`w-max py-2 text-sm px-2.5 rounded-lg border-none bg-green text-darkBlue`}
-          font-family:poppinsMedium;
-        }
-  }
-  .total{
-    ${tw`flex space-x-2 text-sm`}
-    p{
-      font-family:poppinsMedium;
-      ${tw`text-[rgba(0,0,0,.5)]`}
-    }
-    span{
-      font-family:montserratSemi;
-      ${tw`text-darkBlue capitalize`}
-    }
-  }
-`;
+export default BookForm;

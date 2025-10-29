@@ -1,19 +1,14 @@
-import React from 'react'
-import styled from 'styled-components'
-import tw from "twin.macro"
-import Users from "./Users"
-import Bookings from './Bookings'
+import React from "react";
+import Users from "./Users";
+import Bookings from "./Bookings";
 const Graph = () => {
   return (
-    <Main>
-          <Users />
-          <Bookings/>
-    </Main>
-  )
-}
+    <div className="w-full grid grid-cols-1 sm:grid-cols-[repeat(auto-fit, minmax(300px, 1fr))] gap-5">
+      <Users />
+      <Bookings />
+    </div>
+  );
+};
 
-export default Graph
+export default Graph;
 
-const Main = styled.div`
-${tw`w-full grid grid-cols-1 sm:grid-cols-[repeat(auto-fit, minmax(300px, 1fr))] gap-5`}
-`

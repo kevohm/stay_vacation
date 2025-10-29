@@ -1,20 +1,23 @@
-import React from 'react'
-import styled from 'styled-components'
-import tw from 'twin.macro'
+import React from "react";
 
-export const Contact = ({title,url,text,color,bg}) => {
+export const Contact = ({ title, url, text, color, bg }) => {
   return (
-    <Main color={color} bg={bg}>
-        <p>{title}</p>
-        <a href={url}>{text}</a>
-    </Main>
-  )
-}
-const Main =styled.div`
-${tw``}
-a{
-    border:1px solid ${(props)=>props.color};
-    color:${(props)=>props.color};
-    background:${(props)=>props.bg};
-}
-`
+    <div className="flex items-center space-x-2">
+      <p className="w-24 text-[rgba(0,0,0,.7)]">{title}</p>
+
+      <a
+        href={url}
+        className="p-2.5 rounded-lg border"
+        style={{
+          borderColor: color,
+          color: color,
+          background: bg,
+        }}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {text}
+      </a>
+    </div>
+  );
+};
