@@ -28,7 +28,7 @@ const UserDetails = () => {
     return (
       <div className="h-full order-2 md:order-1 p-5 flex flex-col space-y-5 row-span-2">
         <header
-          className="text-base capitalize text-darkBlue pb-2.5"
+          className="text-base capitalize text-dark-blue pb-2.5"
           style={{ fontFamily: "montserratSemi" }}
         >
           your profile
@@ -43,7 +43,7 @@ const UserDetails = () => {
       {/* Header section */}
       <div className="w-full flex justify-between items-center">
         <header
-          className="text-base capitalize text-darkBlue pb-2.5"
+          className="text-base capitalize text-dark-blue pb-2.5"
           style={{ fontFamily: "montserratSemi" }}
         >
           your profile
@@ -99,10 +99,10 @@ const UserDetails = () => {
       </div>
 
       {/* Info footer */}
-      <div className="flex text-lightBlue text-xs justify-start space-x-2 items-center">
+      <div className="flex text-light-blue text-xs justify-start space-x-2 items-center">
         <FaInfoCircle />
         <p
-          className="text-lightBlue rounded-lg border-none"
+          className="text-light-blue rounded-lg border-none"
           style={{ fontFamily: "poppins" }}
         >
           <Link

@@ -13,7 +13,7 @@ export const Input = ({
   value,
 }) => {
   const baseInputClass =
-    "w-full text-xs sm:text-sm p-1 sm:p-2 text-darkBlue bg-white rounded-lg border-none outline-none";
+    "w-full text-xs sm:text-sm p-1 sm:p-2 text-dark-blue bg-white rounded-lg border-none outline-hidden";
   const baseLabelClass = "font-poppins text-sm sm:text-base";
   const wrapperClass = "w-full flex flex-col space-y-2 sm:space-y-4";
 

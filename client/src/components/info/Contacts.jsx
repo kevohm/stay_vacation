@@ -55,7 +55,7 @@ const Contacts = () => {
 
   return (
     <div className="w-full p-5 flex flex-col space-y-5">
-      <header className="font-[montserratSemi] text-base text-darkBlue">
+      <header className="font-[montserratSemi] text-base text-dark-blue">
         Contact Us
       </header>
 

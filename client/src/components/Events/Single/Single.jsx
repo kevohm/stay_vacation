@@ -38,7 +38,7 @@ const Single = () => {
 
   return (
     <div
-      className="w-full bg-white rounded-lg p-2.5 flex flex-col items-center md:items-start space-y-5 md:grid md:grid-cols-[48%,52%] md:gap-2.5"
+      className="w-full bg-white rounded-lg p-2.5 flex flex-col items-center md:items-start space-y-5 md:grid md:grid-cols-[48%_52%] md:gap-2.5"
       style={{
         boxShadow: "0px 2px 6px 0px rgba(1, 49, 91, 0.25)",
       }}
@@ -68,13 +68,13 @@ const Single = () => {
         {/* Title & Description */}
         <div className="flex flex-col space-y-2">
           <header
-            className="flex items-center text-lg text-darkBlue"
+            className="flex items-center text-lg text-dark-blue"
             style={{ fontFamily: "montserratSemi" }}
           >
-            <p className="text-lg capitalize text-darkBlue">
+            <p className="text-lg capitalize text-dark-blue">
               {currentEvent.data.name}
             </p>
-            <p className="text-lg capitalize text-darkBlue">{`, ${currentEvent.data.city}`}</p>
+            <p className="text-lg capitalize text-dark-blue">{`, ${currentEvent.data.city}`}</p>
           </header>
           <p className="text-sm" style={{ fontFamily: "montserratMedium" }}>
             {currentEvent.data.description}
@@ -84,7 +84,7 @@ const Single = () => {
         {/* Price Section */}
         <div className="flex flex-col space-y-2">
           <header
-            className="text-lg text-darkBlue"
+            className="text-lg text-dark-blue"
             style={{ fontFamily: "montserratSemi" }}
           >
             Price
@@ -110,7 +110,7 @@ const Single = () => {
         {/* Amenities */}
         <div className="flex flex-col space-y-2">
           <header
-            className="text-lg text-darkBlue"
+            className="text-lg text-dark-blue"
             style={{ fontFamily: "montserratSemi" }}
           >
             Amenities
@@ -128,7 +128,7 @@ const Single = () => {
         {/* Category */}
         <div className="flex flex-col space-y-2">
           <header
-            className="text-lg text-darkBlue"
+            className="text-lg text-dark-blue"
             style={{ fontFamily: "montserratSemi" }}
           >
             Category
@@ -142,7 +142,7 @@ const Single = () => {
             {currentEvent.data.category.map((item, index) => (
               <div
                 key={index}
-                className="w-max rounded-xl border border-darkBlue text-darkBlue p-2 px-2.5 text-sm"
+                className="w-max rounded-xl border border-dark-blue text-dark-blue p-2 px-2.5 text-sm"
               >
                 <p>{item.name}</p>
               </div>
@@ -156,7 +156,7 @@ const Single = () => {
         {/* Expiry */}
         <div className="flex flex-col space-y-2">
           <header
-            className="text-lg text-darkBlue"
+            className="text-lg text-dark-blue"
             style={{ fontFamily: "montserratSemi" }}
           >
             Expires at
@@ -168,11 +168,11 @@ const Single = () => {
 
         {/* Submit Section */}
         <div className="py-10 flex flex-col md:flex-row items-start justify-between space-y-5 md:space-y-0">
-          <div className="flex flex-row items-center space-x-2 text-lightBlue text-sm">
-            <FaInfoCircle className="text-lightBlue text-sm w-max" />
+          <div className="flex flex-row items-center space-x-2 text-light-blue text-sm">
+            <FaInfoCircle className="text-light-blue text-sm w-max" />
             <p className="w-full">
               You can only book an event 24hrs before it expires{" "}
-              <Link to="/info/contact" className="text-lightBlue underline">
+              <Link to="/info/contact" className="text-light-blue underline">
                 contact Us
               </Link>
             </p>
@@ -182,7 +182,7 @@ const Single = () => {
             <div className="flex items-center justify-end w-full">
               <Link
                 to={`/events/${name}/book`}
-                className="p-2.5 py-2 rounded-lg bg-green text-sm text-darkBlue border-none"
+                className="p-2.5 py-2 rounded-lg bg-green text-sm text-dark-blue border-none"
                 style={{ fontFamily: "montserratMedium" }}
               >
                 Book now

@@ -44,7 +44,7 @@ const Event = ({ name, image, city, description, category, _id }) => {
       <div className="w-full p-2.5 px-0 flex justify-center items-center">
         <Link
           to={`/admin/additional/${_id}`}
-          className="px-2 py-1 text-xs bg-green-400 cursor-pointer text-[rgba(1,49,91,1)] border-none rounded font-poppins hover:bg-green-300 transition"
+          className="px-2 py-1 text-xs bg-green-400 cursor-pointer text-[rgba(1,49,91,1)] border-none rounded-sm font-poppins hover:bg-green-300 transition"
         >
           Add posters
         </Link>

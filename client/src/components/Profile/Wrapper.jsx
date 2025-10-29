@@ -33,7 +33,7 @@ export default Wrapper
 //     box-shadow:0px 2px 6px 0px rgba(1, 49, 91, .25);
 //     .header{
 //       font-family:montserratSemi;
-//       ${tw`text-base  capitalize text-darkBlue pb-2.5`}
+//       ${tw`text-base  capitalize text-dark-blue pb-2.5`}
 //     }
 // }
 // `

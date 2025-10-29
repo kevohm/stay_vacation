@@ -84,7 +84,7 @@ const Form = () => {
     >
       {/* Title */}
       <div className="w-full flex justify-center items-center">
-        <header className="text-xl uppercase text-darkBlue font-semibold">
+        <header className="text-xl uppercase text-dark-blue font-semibold">
           {login ? "log in" : "sign up"}
         </header>
       </div>
@@ -104,7 +104,7 @@ const Form = () => {
           name="email"
           onChange={changeData}
           value={data.email}
-          className="w-full py-2 px-4 text-sm rounded-lg border border-lightBlue text-[rgba(0,0,0,.8)] outline-none focus:border-darkBlue"
+          className="w-full py-2 px-4 text-sm rounded-lg border border-light-blue text-[rgba(0,0,0,.8)] outline-hidden focus:border-dark-blue"
           style={{ fontFamily: "poppinsSemi" }}
         />
         {!login && (
@@ -115,7 +115,7 @@ const Form = () => {
               name="username"
               value={data.username}
               onChange={changeData}
-              className="w-full py-2 px-4 text-sm rounded-lg border border-lightBlue text-[rgba(0,0,0,.8)] outline-none focus:border-darkBlue"
+              className="w-full py-2 px-4 text-sm rounded-lg border border-light-blue text-[rgba(0,0,0,.8)] outline-hidden focus:border-dark-blue"
               style={{ fontFamily: "poppinsSemi" }}
             />
             <input
@@ -124,7 +124,7 @@ const Form = () => {
               name="phone_number"
               value={data.phone_number}
               onChange={changeData}
-              className="w-full py-2 px-4 text-sm rounded-lg border border-lightBlue text-[rgba(0,0,0,.8)] outline-none focus:border-darkBlue"
+              className="w-full py-2 px-4 text-sm rounded-lg border border-light-blue text-[rgba(0,0,0,.8)] outline-hidden focus:border-dark-blue"
               style={{ fontFamily: "poppinsSemi" }}
             />
           </>
@@ -135,7 +135,7 @@ const Form = () => {
           name="password"
           value={data.password}
           onChange={changeData}
-          className="w-full py-2 px-4 text-sm rounded-lg border border-lightBlue text-[rgba(0,0,0,.8)] outline-none focus:border-darkBlue"
+          className="w-full py-2 px-4 text-sm rounded-lg border border-light-blue text-[rgba(0,0,0,.8)] outline-hidden focus:border-dark-blue"
           style={{ fontFamily: "poppinsSemi" }}
         />
         {!login && (
@@ -145,7 +145,7 @@ const Form = () => {
             name="confirm"
             value={data.confirm}
             onChange={changeData}
-            className="w-full py-2 px-4 text-sm rounded-lg border border-lightBlue text-[rgba(0,0,0,.8)] outline-none focus:border-darkBlue"
+            className="w-full py-2 px-4 text-sm rounded-lg border border-light-blue text-[rgba(0,0,0,.8)] outline-hidden focus:border-dark-blue"
             style={{ fontFamily: "poppinsSemi" }}
           />
         )}
@@ -156,7 +156,7 @@ const Form = () => {
         <input
           type="submit"
           value={login ? "login" : "sign up"}
-          className="w-full text-sm px-3 py-2 bg-darkBlue text-white rounded-lg border-none cursor-pointer"
+          className="w-full text-sm px-3 py-2 bg-dark-blue text-white rounded-lg border-none cursor-pointer"
           style={{ fontFamily: "poppinsSemi" }}
         />
       </div>
@@ -169,7 +169,7 @@ const Form = () => {
               Don't have an account?{" "}
               <Link
                 to="/register"
-                className="text-xs text-darkBlue font-medium underline-offset-2 hover:underline"
+                className="text-xs text-dark-blue font-medium underline-offset-2 hover:underline"
                 style={{ fontFamily: "poppinsMedium" }}
               >
                 sign up
@@ -180,7 +180,7 @@ const Form = () => {
               Already have an account?{" "}
               <Link
                 to="/register/login"
-                className="text-xs text-darkBlue font-medium underline-offset-2 hover:underline"
+                className="text-xs text-dark-blue font-medium underline-offset-2 hover:underline"
                 style={{ fontFamily: "poppinsMedium" }}
               >
                 login

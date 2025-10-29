@@ -35,17 +35,17 @@ export const TableHolder = ({
           <select
             onChange={changeArrange}
             value={arrange}
-            className="capitalize bg-transparent border-none text-sm text-darkBlue px-2 font-poppinsMedium"
+            className="capitalize bg-transparent border-none text-sm text-dark-blue px-2 font-poppinsMedium"
           >
             <option
               value="desc"
-              className="capitalize text-sm text-white bg-darkBlue"
+              className="capitalize text-sm text-white bg-dark-blue"
             >
               desc
             </option>
             <option
               value="asc"
-              className="capitalize text-sm text-white bg-darkBlue"
+              className="capitalize text-sm text-white bg-dark-blue"
             >
               asc
             </option>
@@ -54,13 +54,13 @@ export const TableHolder = ({
           <select
             onChange={changeSort}
             value={sort}
-            className="capitalize bg-transparent border-none text-sm text-darkBlue px-2 font-poppinsMedium"
+            className="capitalize bg-transparent border-none text-sm text-dark-blue px-2 font-poppinsMedium"
           >
             {data.map((i) => (
               <option
                 key={i}
                 value={i}
-                className="capitalize text-white text-sm bg-darkBlue"
+                className="capitalize text-white text-sm bg-dark-blue"
               >
                 {i}
               </option>

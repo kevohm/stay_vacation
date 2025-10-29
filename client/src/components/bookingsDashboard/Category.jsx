@@ -38,7 +38,7 @@ export const Category = ({
       </div>
 
       <div
-        className="update-category flex items-center justify-center bg-[#01315B] w-5 h-full rounded-sm cursor-pointer"
+        className="update-category flex items-center justify-center bg-[#01315B] w-5 h-full rounded-xs cursor-pointer"
         onClick={() => setUpdate({ status: true, data: name, id: _id })}
         title="update"
       >

@@ -4,7 +4,7 @@ import { HeaderEmail } from "../smaller/header/HeaderEmail";
 export const Email = () => {
   return (
     <div
-      className="bg-white absolute top-0 left-1/2 py-8 space-y-9 w-full max-w-[300px] sm:max-w-[450px] md:max-w-[650px] border-darkBlue border border-solid rounded-lg flex flex-col items-center z-50"
+      className="bg-white absolute top-0 left-1/2 py-8 space-y-9 w-full max-w-[300px] sm:max-w-[450px] md:max-w-[650px] border-dark-blue border border-solid rounded-lg flex flex-col items-center z-50"
       style={{ transform: "translate(-50%, -50%)" }}
     >
       <HeaderEmail text="subscribe for updates" />

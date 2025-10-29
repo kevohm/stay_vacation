@@ -8,7 +8,7 @@ const Terms = () => {
         style={{
           fontFamily: "montserratSemi",
         }}
-        className="text-base text-darkBlue"
+        className="text-base text-dark-blue"
       >
         Terms and Conditions
       </header>

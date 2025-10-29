@@ -6,7 +6,7 @@
 //   > div {
 //     ${tw`w-full max-w-none sm:max-w-[440px]`}
 //     .choice-btn{
-//       ${tw`py-2.5 px-5 cursor-pointer  border-none bg-darkBlue text-white rounded-lg`}
+//       ${tw`py-2.5 px-5 cursor-pointer  border-none bg-dark-blue text-white rounded-lg`}
 //     }
 //     textarea, input, select {
 //       font-family: poppinsMedium;
@@ -64,7 +64,7 @@
 //   .submit {
 //     ${tw`flex items-center justify-end`}
 //     input {
-//       ${tw`cursor-pointer bg-green border-none text-darkBlue w-max hover:bg-[rgba(113, 242, 139, .9)]`}
+//       ${tw`cursor-pointer bg-green border-none text-dark-blue w-max hover:bg-[rgba(113, 242, 139, .9)]`}
 //     }
 //   }
 //   .event-viewer{

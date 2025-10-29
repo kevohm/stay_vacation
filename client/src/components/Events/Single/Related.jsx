@@ -17,7 +17,7 @@ const Related = () => {
     return (
       <div className="w-full flex flex-col space-y-5">
         <p
-          className="text-lg text-darkBlue"
+          className="text-lg text-dark-blue"
           style={{ fontFamily: "montserratMedium" }}
         >
           Related Posts
@@ -30,7 +30,7 @@ const Related = () => {
   return (
     <div className="w-full flex flex-col space-y-5">
       <p
-        className="text-lg text-darkBlue"
+        className="text-lg text-dark-blue"
         style={{ fontFamily: "montserratMedium" }}
       >
         Related Posts

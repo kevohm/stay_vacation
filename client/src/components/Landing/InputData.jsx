@@ -41,7 +41,7 @@ const InputData = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="z-10 w-[calc(100% - 16px)] sm:w-full max-w-[450px] md:max-w-[550px] lg:max-w-[700px] absolute top-0 left-1/2 flex flex-col items-start space-y-3 sm:space-y-5 bg-white rounded-lg text-darkBlue py-5 px-4 sm:px-6 md:px-12 -translate-x-1/2 -translate-y-1/2 shadow-[0_4px_16px_rgba(138,154,234,0.25)]"
+      className="z-10 w-[calc(100% - 16px)] sm:w-full max-w-[450px] md:max-w-[550px] lg:max-w-[700px] absolute top-0 left-1/2 flex flex-col items-start space-y-3 sm:space-y-5 bg-white rounded-lg text-dark-blue py-5 px-4 sm:px-6 md:px-12 -translate-x-1/2 -translate-y-1/2 shadow-[0_4px_16px_rgba(138,154,234,0.25)]"
     >
       <header>
         <p className="text-lg sm:text-xl font-poppinsMedium">

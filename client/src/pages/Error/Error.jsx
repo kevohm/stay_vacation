@@ -6,7 +6,7 @@ const Error = () => {
     <section className="w-full min-h-screen bg-white flex flex-col items-center justify-start pt-12 space-y-10">
       <img className="w-full max-w-[600px]" src={error} alt="error" />
       <p
-        className="text-darkBlue hover:underline font-PoppinsSemi"
+        className="text-dark-blue hover:underline font-PoppinsSemi"
         style={{
           fontFamily: "PoppinsSemi",
         }}
@@ -14,7 +14,7 @@ const Error = () => {
         Opps! page does not exist{" "}
         <Link
           to="/"
-          className="text-darkBlue hover:underline"
+          className="text-dark-blue hover:underline"
           style={{
             fontFamily: "PoppinsSemi",
           }}

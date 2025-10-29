@@ -402,10 +402,10 @@ export const UpdateForm = () => {
 //     ${tw`flex flex-row justify-between items-center py-1`}
 //     p {
 //       font-family: poppinsMedium;
-//       ${tw`text-darkBlue text-base`}
+//       ${tw`text-dark-blue text-base`}
 //     }
 //     .icon {
-//       ${tw`text-darkBlue text-base`}
+//       ${tw`text-dark-blue text-base`}
 //     }
 //   }
 //   .submit {
@@ -416,7 +416,7 @@ export const UpdateForm = () => {
 //       ::placeholder {
 //         ${tw`text-sm text-[rgba(1, 49, 91, .5)]`}
 //       }
-//       ${tw`cursor-pointer bg-green border-none text-darkBlue w-full hover:bg-[rgba(113, 242, 139, .9)]`}
+//       ${tw`cursor-pointer bg-green border-none text-dark-blue w-full hover:bg-[rgba(113, 242, 139, .9)]`}
 //     }
 //   }
 //   .update-message {

@@ -43,18 +43,18 @@ const UpdatePayment = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="relative w-full bg-white max-w-[300px] md:max-w-md space-y-5 p-5 rounded-lg shadow-sm border border-gray-200"
+      className="relative w-full bg-white max-w-[300px] md:max-w-md space-y-5 p-5 rounded-lg shadow-xs border border-gray-200"
     >
       {/* Header */}
       <div className="flex flex-row justify-between items-center py-1">
         <p
-          className="text-darkBlue text-base"
+          className="text-dark-blue text-base"
           style={{ fontFamily: "poppinsMedium" }}
         >
           Update
         </p>
         <FaTimes
-          className="text-darkBlue text-base cursor-pointer"
+          className="text-dark-blue text-base cursor-pointer"
           onClick={() =>
             toggleUpdate("payment", {
               state: "",
@@ -69,7 +69,7 @@ const UpdatePayment = () => {
           name="state"
           value={data.state}
           onChange={handleChange}
-          className="w-full text-sm py-2.5 px-5 rounded-lg border border-solid border-[rgba(1,49,91,0.5)] text-[rgba(1,49,91,0.7)] focus:outline-none"
+          className="w-full text-sm py-2.5 px-5 rounded-lg border border-solid border-[rgba(1,49,91,0.5)] text-[rgba(1,49,91,0.7)] focus:outline-hidden"
           style={{ fontFamily: "poppinsMedium" }}
         >
           <option value="" disabled>
@@ -86,7 +86,7 @@ const UpdatePayment = () => {
           name="category"
           value={data.category}
           onChange={handleChange}
-          className="w-full text-sm py-2.5 px-5 rounded-lg border border-solid border-[rgba(1,49,91,0.5)] text-[rgba(1,49,91,0.7)] focus:outline-none"
+          className="w-full text-sm py-2.5 px-5 rounded-lg border border-solid border-[rgba(1,49,91,0.5)] text-[rgba(1,49,91,0.7)] focus:outline-hidden"
           style={{ fontFamily: "poppinsMedium" }}
         >
           <option value="" disabled>

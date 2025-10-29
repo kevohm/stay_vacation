@@ -19,7 +19,7 @@ export const Review = ({ text, author, num }) => {
       </h1>
 
       <p
-        className="w-full max-w-[340px] sm:max-w-max sm:w-[80%] text-center text-darkBlue"
+        className="w-full max-w-[340px] sm:max-w-max sm:w-[80%] text-center text-dark-blue"
         style={{
           fontFamily: "poppins",
         }}
@@ -28,7 +28,7 @@ export const Review = ({ text, author, num }) => {
       </p>
 
       <p
-        className="w-auto text-darkBlue"
+        className="w-auto text-dark-blue"
         style={{
           fontFamily: "poppinsSemi",
         }}

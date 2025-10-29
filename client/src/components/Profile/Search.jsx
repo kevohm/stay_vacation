@@ -18,7 +18,7 @@ const Search = () => {
     <div className="h-full order-1 md:order-2 p-5 flex flex-col">
       <div className="bg-white rounded-lg w-full shadow-[0px_2px_6px_rgba(1,49,91,0.25)]">
         <header
-          className="text-base capitalize text-darkBlue pb-2.5"
+          className="text-base capitalize text-dark-blue pb-2.5"
           style={{ fontFamily: "montserratSemi" }}
         >
           Search For Tours

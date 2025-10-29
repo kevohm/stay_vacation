@@ -150,14 +150,14 @@ const CreateForm = () => {
       <div className="w-full flex flex-row items-center justify-between">
         <Link
           to="/admin/additional"
-          className="capitalize cursor-pointer text-white bg-darkBlue text-sm border-none rounded-lg px-2.5 py-2"
+          className="capitalize cursor-pointer text-white bg-dark-blue text-sm border-none rounded-lg px-2.5 py-2"
           style={{ fontFamily: "poppins" }}
         >
           change event
         </Link>
         <button
           type="submit"
-          className="capitalize cursor-pointer bg-green text-darkBlue text-sm border-none rounded-lg px-2.5 py-2"
+          className="capitalize cursor-pointer bg-green text-dark-blue text-sm border-none rounded-lg px-2.5 py-2"
           style={{ fontFamily: "poppins" }}
         >
           add poster

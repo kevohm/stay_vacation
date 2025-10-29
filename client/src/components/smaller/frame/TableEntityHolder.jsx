@@ -19,7 +19,7 @@ export const TableEntityHolder = ({
   const isUpdating = state[`${typeDataB}_startUpdate`]?.start;
 
   return (
-    <div className="relative bg-white flex flex-col items-start space-y-5 p-5 rounded-lg shadow-sm">
+    <div className="relative bg-white flex flex-col items-start space-y-5 p-5 rounded-lg shadow-xs">
       {/* Loading/Updating Overlay */}
       {isUpdating && (
         <div className="flex items-start sm:items-center justify-center absolute left-0 top-0 bg-[rgba(0,0,0,0.2)] w-full h-full z-20 rounded-lg">
@@ -47,7 +47,7 @@ export const TableEntityHolder = ({
           <select
             onChange={(e) => changeArrange(e)}
             value={arrange}
-            className="capitalize text-sm text-darkBlue bg-transparent border rounded px-2 py-1 focus:outline-none"
+            className="capitalize text-sm text-dark-blue bg-transparent border rounded-sm px-2 py-1 focus:outline-hidden"
           >
             <option value="desc">desc</option>
             <option value="asc">asc</option>
@@ -56,7 +56,7 @@ export const TableEntityHolder = ({
           <select
             onChange={(e) => changeSort(e)}
             value={sort}
-            className="capitalize text-sm text-darkBlue bg-transparent border rounded px-2 py-1 focus:outline-none"
+            className="capitalize text-sm text-dark-blue bg-transparent border rounded-sm px-2 py-1 focus:outline-hidden"
           >
             {data.map((i) => (
               <option key={i} value={i} className="capitalize text-black">

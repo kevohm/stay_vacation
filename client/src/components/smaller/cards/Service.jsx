@@ -10,9 +10,9 @@ export const Service = ({ img, title, text, color, bg }) => {
         {img}
       </div>
 
-      <p className="text-darkBlue font-poppinsSemi">{title}</p>
+      <p className="text-dark-blue font-poppinsSemi">{title}</p>
 
-      <p className="text-darkBlue text-center text-base">{text}</p>
+      <p className="text-dark-blue text-center text-base">{text}</p>
     </div>
   );
 };

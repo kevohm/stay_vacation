@@ -133,7 +133,7 @@ const PaymentForm = ({ changeOpen, changeOpenUsers }) => {
         <input
           type="submit"
           value="Create"
-          className="cursor-pointer bg-green border-none text-darkBlue w-max hover:bg-[rgba(113,242,139,.9)] py-2 px-5 rounded-lg"
+          className="cursor-pointer bg-green border-none text-dark-blue w-max hover:bg-[rgba(113,242,139,.9)] py-2 px-5 rounded-lg"
         />
       </div>
 
@@ -172,7 +172,7 @@ const PaymentForm = ({ changeOpen, changeOpenUsers }) => {
             defaultSingleData("events");
             changeOpen();
           }}
-          className="py-2.5 px-5 cursor-pointer border-none bg-darkBlue text-white rounded-lg"
+          className="py-2.5 px-5 cursor-pointer border-none bg-dark-blue text-white rounded-lg"
           style={{ fontFamily: "poppinsMedium" }}
         >
           Change Event
@@ -206,7 +206,7 @@ const PaymentForm = ({ changeOpen, changeOpenUsers }) => {
             defaultSingleData("users");
             changeOpenUsers();
           }}
-          className="py-2.5 px-5 cursor-pointer border-none bg-darkBlue text-white rounded-lg"
+          className="py-2.5 px-5 cursor-pointer border-none bg-dark-blue text-white rounded-lg"
           style={{ fontFamily: "poppinsMedium" }}
         >
           Change User

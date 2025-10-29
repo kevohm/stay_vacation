@@ -41,8 +41,8 @@ const Search = ({ handleRefresh, filter }) => {
       <div className="flex items-center justify-evenly w-full">
         <button
           type="button"
-          className={`cursor-pointer p-2 px-2.5 rounded-lg border border-lightBlue text-lightBlue ${
-            filterData.expired && "bg-lightBlue text-white"
+          className={`cursor-pointer p-2 px-2.5 rounded-lg border border-light-blue text-light-blue ${
+            filterData.expired && "bg-light-blue text-white"
           }`}
           onClick={() => changeExpired(true)}
         >
@@ -50,8 +50,8 @@ const Search = ({ handleRefresh, filter }) => {
         </button>
         <button
           type="button"
-          className={`cursor-pointer p-2 px-2.5 rounded-lg border border-lightBlue text-lightBlue ${
-            !filterData.expired && "bg-lightBlue text-white"
+          className={`cursor-pointer p-2 px-2.5 rounded-lg border border-light-blue text-light-blue ${
+            !filterData.expired && "bg-light-blue text-white"
           }`}
           onClick={() => changeExpired(false)}
         >
@@ -61,7 +61,7 @@ const Search = ({ handleRefresh, filter }) => {
 
       {/* Search */}
       <div className="flex flex-col space-y-4">
-        <label className="text-darkBlue font-semibold capitalize">Search</label>
+        <label className="text-dark-blue font-semibold capitalize">Search</label>
         <div className="flex w-full space-x-0">
           <input
             type="text"
@@ -81,7 +81,7 @@ const Search = ({ handleRefresh, filter }) => {
 
       {/* Price slider */}
       <div className="flex flex-col space-y-4">
-        <label className="text-darkBlue font-semibold capitalize">Price</label>
+        <label className="text-dark-blue font-semibold capitalize">Price</label>
         <div className="flex flex-col space-y-2">
           <RangeSlider
             min={0}
@@ -102,7 +102,7 @@ const Search = ({ handleRefresh, filter }) => {
 
       {/* Date */}
       <div className="flex flex-col space-y-4">
-        <label className="text-darkBlue font-semibold capitalize">Date</label>
+        <label className="text-dark-blue font-semibold capitalize">Date</label>
         <input
           type="date"
           name="validity"
@@ -115,7 +115,7 @@ const Search = ({ handleRefresh, filter }) => {
       </div>
 
       {/* Info */}
-      <div className="flex space-x-2 items-start text-lightBlue text-sm">
+      <div className="flex space-x-2 items-start text-light-blue text-sm">
         <FaInfoCircle />
         {filterData.expired ? (
           <p className="text-xs">

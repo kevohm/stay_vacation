@@ -16,7 +16,7 @@
 //          ${tw`cursor-pointer`}
 //       }
 //       .delete {
-//         ${tw`text-darkBlue text-sm`}
+//         ${tw`text-dark-blue text-sm`}
 //       }
 //       .edit {
 //         ${tw`text-orange text-sm`}

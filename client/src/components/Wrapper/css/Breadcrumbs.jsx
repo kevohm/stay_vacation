@@ -17,16 +17,16 @@
 //   ::-webkit-scrollbar-thumb {
 //   }
 //   a {
-//     ${tw`min-w-fit text-lightBlue`}
+//     ${tw`min-w-fit text-light-blue`}
 //   }
 
 //   .home:after,
 //   a:after {
 //     content: ">";
-//     ${tw`mx-2 md:mx-4 text-darkBlue`}
+//     ${tw`mx-2 md:mx-4 text-dark-blue`}
 //   }
 //   a:last-child {
-//     ${tw`text-darkBlue`}
+//     ${tw`text-dark-blue`}
 //     pointer-events: none;
 //     cursor: default;
 //     text-decoration: none;
@@ -37,7 +37,7 @@
 //   .home {
 //     ${tw`flex items-start space-x-2 my-auto`}
 //     a {
-//       ${tw`text-lightBlue`}
+//       ${tw`text-light-blue`}
 //       pointer-events:auto;
 //       cursor: pointer;
 //     }

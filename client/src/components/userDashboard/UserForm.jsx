@@ -110,7 +110,7 @@ export const UserForm = () => {
         <input
           type="submit"
           value="Create"
-          className="cursor-pointer bg-green border-none text-darkBlue w-max hover:bg-[rgba(113,242,139,.9)] py-2.5 px-5 rounded-lg"
+          className="cursor-pointer bg-green border-none text-dark-blue w-max hover:bg-[rgba(113,242,139,.9)] py-2.5 px-5 rounded-lg"
         />
       </div>
     </form>

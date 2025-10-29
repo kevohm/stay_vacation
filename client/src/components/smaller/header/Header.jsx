@@ -6,7 +6,7 @@ export const Header = ({text}) => {
     <div className="flex flex-col items-center space-y-[30px]">
       <img src={header} alt="header" className="h-7 w-24" />
       <p
-        className="text-darkBlue uppercase text-xl"
+        className="text-dark-blue uppercase text-xl"
         style={{
           fontFamily: "poppinsSemi",
         }}

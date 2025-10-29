@@ -7,7 +7,7 @@ export const NoData = ({ img, text }) => {
       style={{ fontFamily: "poppinsSemi, sans-serif" }}
     >
       <img src={img} alt="no events" className="w-full max-w-[250px] mx-auto" />
-      <p className="w-full max-w-[250px] text-center text-sm text-darkBlue">
+      <p className="w-full max-w-[250px] text-center text-sm text-dark-blue">
         {text}
       </p>
     </div>

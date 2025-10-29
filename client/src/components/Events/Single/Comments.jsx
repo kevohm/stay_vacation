@@ -126,7 +126,7 @@ const Comments = () => {
             </div>
           </form>
         ) : (
-          <div className="w-full max-w-[600px] text-sm bg-[#8A9AEA] p-2.5 rounded text-white">
+          <div className="w-full max-w-[600px] text-sm bg-[#8A9AEA] p-2.5 rounded-sm text-white">
             <p>Please login to comment on event</p>
           </div>
         )}

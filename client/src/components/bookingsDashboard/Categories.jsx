@@ -81,22 +81,22 @@
 //   return (
 //     <div className="relative w-full flex flex-wrap">
 //       {update.status && (
-//         <div className="absolute top-0 left-0 z-40 bg-white w-full h-[140px] rounded-lg border border-darkBlue p-3 flex flex-col space-y-2 items-center">
+//         <div className="absolute top-0 left-0 z-40 bg-white w-full h-[140px] rounded-lg border border-dark-blue p-3 flex flex-col space-y-2 items-center">
 //           <div className="flex items-center justify-end w-full py-2">
 //             <FaTimes
-//               className="text-sm text-darkBlue cursor-pointer"
+//               className="text-sm text-dark-blue cursor-pointer"
 //               onClick={() => setUpdate({ ...update, status: false })}
 //             />
 //           </div>
 //           <input
 //             type="text"
-//             className="p-2 text-xs border rounded"
+//             className="p-2 text-xs border rounded-sm"
 //             placeholder="Type here"
 //             value={update.data}
 //             onChange={changeUpdate}
 //           />
 //           <button
-//             className="p-2 bg-green text-darkBlue w-full rounded-lg"
+//             className="p-2 bg-green text-dark-blue w-full rounded-lg"
 //             onClick={submitUpdate}
 //           >
 //             Update
@@ -119,7 +119,7 @@
 //       <div className="flex items-center space-x-2 mt-2 mr-2">
 //         <input
 //           type="text"
-//           className="w-[100px] py-2 px-2.5 text-sm border rounded"
+//           className="w-[100px] py-2 px-2.5 text-sm border rounded-sm"
 //           placeholder="Type here"
 //           value={newCategory}
 //           onChange={changeCurrent}
@@ -148,11 +148,11 @@
 // const Main = styled.div`
 //   ${tw`relative w-full flex flex-wrap`}
 //   .update-popup {
-//     ${tw`bg-white flex flex-col space-y-2 items-center top-0 left-0 w-full h-[140px] rounded-lg absolute z-40 p-3 border border-darkBlue border-solid`}
+//     ${tw`bg-white flex flex-col space-y-2 items-center top-0 left-0 w-full h-[140px] rounded-lg absolute z-40 p-3 border border-dark-blue border-solid`}
 //     >div {
 //       ${tw`w-full flex items-center py-2 justify-end`}
 //       .icon {
-//         ${tw`text-sm text-darkBlue`}
+//         ${tw`text-sm text-dark-blue`}
 //       }
 //     }
 //     > input {
@@ -162,7 +162,7 @@
 //       }
 //     }
 //     button {
-//       ${tw`p-2 w-full rounded-lg bg-green text-darkBlue border-none cursor-pointer`}
+//       ${tw`p-2 w-full rounded-lg bg-green text-dark-blue border-none cursor-pointer`}
 //     }
 //   }
 //   .add {
@@ -292,22 +292,22 @@ export const Categories = ({ value, setValue, changeErr, id = "1" }) => {
     <div className="relative w-full flex flex-wrap">
       {/* UPDATE POPUP */}
       {update.status && (
-        <div className="absolute top-0 left-0 z-40 bg-white w-full h-[140px] rounded-lg border border-darkBlue p-3 flex flex-col space-y-2 items-center shadow-md">
+        <div className="absolute top-0 left-0 z-40 bg-white w-full h-[140px] rounded-lg border border-dark-blue p-3 flex flex-col space-y-2 items-center shadow-md">
           <div className="flex items-center justify-end w-full py-2">
             <FaTimes
-              className="text-sm text-darkBlue cursor-pointer"
+              className="text-sm text-dark-blue cursor-pointer"
               onClick={() => setUpdate({ ...update, status: false })}
             />
           </div>
           <input
             type="text"
-            className="p-2 text-xs border rounded w-full"
+            className="p-2 text-xs border rounded-sm w-full"
             placeholder="Type here"
             value={update.data}
             onChange={changeUpdate}
           />
           <button
-            className="p-2 bg-green text-darkBlue w-full rounded-lg"
+            className="p-2 bg-green text-dark-blue w-full rounded-lg"
             onClick={submitUpdate}
           >
             Update
@@ -332,7 +332,7 @@ export const Categories = ({ value, setValue, changeErr, id = "1" }) => {
       <div className="flex items-center space-x-2 mt-2 mr-2">
         <input
           type="text"
-          className="w-[100px] py-2 px-2.5 text-sm border rounded"
+          className="w-[100px] py-2 px-2.5 text-sm border rounded-sm"
           placeholder="Type here"
           value={newCategory}
           onChange={changeCurrent}

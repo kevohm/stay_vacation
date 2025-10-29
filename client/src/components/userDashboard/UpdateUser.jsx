@@ -37,13 +37,13 @@ const UpdateUser = () => {
       {/* Header */}
       <div className="flex justify-between items-center py-1">
         <p
-          className="text-base text-darkBlue"
+          className="text-base text-dark-blue"
           style={{ fontFamily: "poppinsMedium" }}
         >
           Update
         </p>
         <FaTimes
-          className="text-darkBlue text-base cursor-pointer"
+          className="text-dark-blue text-base cursor-pointer"
           onClick={() =>
             toggleUpdate("user", {
               email: "",
@@ -62,7 +62,7 @@ const UpdateUser = () => {
           value={body.username}
           name="username"
           onChange={handleChange}
-          className="w-full text-sm py-2.5 px-5 rounded-lg border border-solid text-[rgba(1,49,91,.7)] border-[rgba(1,49,91,.5)] outline-none"
+          className="w-full text-sm py-2.5 px-5 rounded-lg border border-solid text-[rgba(1,49,91,.7)] border-[rgba(1,49,91,.5)] outline-hidden"
           style={{ fontFamily: "poppinsMedium" }}
         />
       </div>
@@ -75,7 +75,7 @@ const UpdateUser = () => {
           value={body.email}
           name="email"
           onChange={handleChange}
-          className="w-full text-sm py-2.5 px-5 rounded-lg border border-solid text-[rgba(1,49,91,.7)] border-[rgba(1,49,91,.5)] outline-none"
+          className="w-full text-sm py-2.5 px-5 rounded-lg border border-solid text-[rgba(1,49,91,.7)] border-[rgba(1,49,91,.5)] outline-hidden"
           style={{ fontFamily: "poppinsMedium" }}
         />
       </div>
@@ -88,7 +88,7 @@ const UpdateUser = () => {
           value={body.phone_number}
           name="phone_number"
           onChange={handleChange}
-          className="w-full text-sm py-2.5 px-5 rounded-lg border border-solid text-[rgba(1,49,91,.7)] border-[rgba(1,49,91,.5)] outline-none"
+          className="w-full text-sm py-2.5 px-5 rounded-lg border border-solid text-[rgba(1,49,91,.7)] border-[rgba(1,49,91,.5)] outline-hidden"
           style={{ fontFamily: "poppinsMedium" }}
         />
       </div>
@@ -98,7 +98,7 @@ const UpdateUser = () => {
         <input
           type="submit"
           value="update"
-          className="cursor-pointer bg-green border-none text-darkBlue rounded-lg px-4 py-2 font-medium hover:bg-[rgba(113,242,139,.9)]"
+          className="cursor-pointer bg-green border-none text-dark-blue rounded-lg px-4 py-2 font-medium hover:bg-[rgba(113,242,139,.9)]"
         />
       </div>
     </form>

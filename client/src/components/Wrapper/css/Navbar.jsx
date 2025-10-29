@@ -10,7 +10,7 @@
 //       ${tw`w-auto md:w-full h-full`}
 //     }
 //     .dropdown {
-//       ${tw`w-[50px] h-full text-3xl flex items-center justify-center text-darkBlue md:hidden`}
+//       ${tw`w-[50px] h-full text-3xl flex items-center justify-center text-dark-blue md:hidden`}
 //       .bars, .times{
 //         ${tw`text-xl`}
 //       }

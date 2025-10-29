@@ -6,7 +6,7 @@ export const HeaderEmail = ({ text }) => {
     <header className="flex flex-col items-center space-y-[30px]" style={{}}>
       <img src={header} alt="header" className="h-5 w-14" style={{}} />
       <p
-        className="text-darkBlue uppercase text-base"
+        className="text-dark-blue uppercase text-base"
         style={{ fontFamily: "poppinsSemi" }}
       >
         {text}

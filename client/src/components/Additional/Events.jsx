@@ -71,7 +71,7 @@ const Events = () => {
           <div className="w-full py-5 flex items-center justify-center">
             <button
               onClick={handleMore}
-              className="px-2.5 py-2 border border-lightBlue text-lightBlue bg-white text-sm rounded transition ease-in-out hover:bg-lightBlue hover:text-white cursor-pointer"
+              className="px-2.5 py-2 border border-light-blue text-light-blue bg-white text-sm rounded-sm transition ease-in-out hover:bg-light-blue hover:text-white cursor-pointer"
             >
               load more
             </button>

@@ -7,8 +7,8 @@ const NavBar = () => {
 
   const getActiveClasses = ({ isActive }) =>
     isActive
-      ? `${baseClasses} bg-[rgba(138,154,234,0.2)] text-darkBlue`
-      : `${baseClasses} text-darkBlue/80 hover:text-darkBlue`;
+      ? `${baseClasses} bg-[rgba(138,154,234,0.2)] text-dark-blue`
+      : `${baseClasses} text-dark-blue/80 hover:text-dark-blue`;
 
   return (
     <div className="w-full h-max overflow-x-scroll overflow-y-auto">

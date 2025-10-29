@@ -43,7 +43,7 @@ const SingleEvent = ({ grid, event }) => {
         }`}
       >
         <div className="w-full flex items-center justify-between pr-5">
-          <header className="capitalize text-darkBlue font-[montserratSemi]">
+          <header className="capitalize text-dark-blue font-[montserratSemi]">
             {event.name}
           </header>
           <Link

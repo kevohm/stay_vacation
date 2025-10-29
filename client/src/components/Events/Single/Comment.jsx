@@ -44,13 +44,13 @@ const Comment = ({ user, description, _id, fetchComments, handleData }) => {
       {yours && (
         <div className="w-full flex items-center justify-between">
           <button
-            className="cursor-pointer p-1 px-3 bg-orange text-white rounded"
+            className="cursor-pointer p-1 px-3 bg-orange text-white rounded-sm"
             onClick={handleDelete}
           >
             Delete
           </button>
           <button
-            className="cursor-pointer p-1 px-3 bg-darkBlue text-white rounded"
+            className="cursor-pointer p-1 px-3 bg-dark-blue text-white rounded-sm"
             onClick={() => handleData(description, _id)}
           >
             Edit

@@ -52,15 +52,15 @@ const Search = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-white shadow-md rounded-lg p-10 lg:p-12 flex flex-col space-y-6 w-full min-h-[38rem]"
+      className="bg-white shadow-md rounded-lg p-10 lg:p-12 flex flex-col space-y-6 w-full min-h-152"
     >
       {/* Classification */}
       <div className="flex items-center justify-evenly w-full">
         <button
           type="button"
           onClick={() => changeExpired(true)}
-          className={`cursor-pointer p-2 px-3 rounded-lg border border-lightBlue ${
-            filterData.expired ? "bg-lightBlue text-white" : "text-lightBlue"
+          className={`cursor-pointer p-2 px-3 rounded-lg border border-light-blue ${
+            filterData.expired ? "bg-light-blue text-white" : "text-light-blue"
           }`}
         >
           Upcoming
@@ -69,8 +69,8 @@ const Search = () => {
         <button
           type="button"
           onClick={() => changeExpired(false)}
-          className={`cursor-pointer p-2 px-3 rounded-lg border border-lightBlue ${
-            !filterData.expired ? "bg-lightBlue text-white" : "text-lightBlue"
+          className={`cursor-pointer p-2 px-3 rounded-lg border border-light-blue ${
+            !filterData.expired ? "bg-light-blue text-white" : "text-light-blue"
           }`}
         >
           Past Events
@@ -79,7 +79,7 @@ const Search = () => {
 
       {/* Search */}
       <div className="flex flex-col space-y-3">
-        <label className="text-darkBlue font-semibold">Search</label>
+        <label className="text-dark-blue font-semibold">Search</label>
         <div className="flex space-x-0 w-full">
           <input
             type="text"
@@ -87,7 +87,7 @@ const Search = () => {
             placeholder="keywords"
             value={filterData.search}
             onChange={handleChange}
-            className="w-full px-3 py-2 text-darkBlue border border-lightBlue/40 rounded-l-lg focus:outline-orange"
+            className="w-full px-3 py-2 text-dark-blue border border-light-blue/40 rounded-l-lg focus:outline-orange"
           />
           <input
             type="submit"
@@ -99,17 +99,17 @@ const Search = () => {
 
       {/* Price */}
       <div className="flex flex-col space-y-3">
-        <label className="text-darkBlue font-semibold">Price</label>
+        <label className="text-dark-blue font-semibold">Price</label>
         <div className="flex flex-col space-y-2">
           <RangeSlider
-            className="slider bg-lightBlue/30 h-[2px]"
+            className="slider bg-light-blue/30 h-[2px]"
             min={0}
             max={900000}
             step={5000}
             value={[filterData.price.min, filterData.price.max]}
             onInput={handlePrice}
           />
-          <div className="flex justify-between text-sm text-darkBlue/70">
+          <div className="flex justify-between text-sm text-dark-blue/70">
             <span>Ksh. {Number(filterData.price.min).toLocaleString()}</span>
             <span>Ksh. {Number(filterData.price.max).toLocaleString()}</span>
           </div>
@@ -121,7 +121,7 @@ const Search = () => {
 
       {/* Date */}
       <div className="flex flex-col space-y-3">
-        <label className="text-darkBlue font-semibold">Date</label>
+        <label className="text-dark-blue font-semibold">Date</label>
         <div className="w-full">
           <input
             type="date"
@@ -130,13 +130,13 @@ const Search = () => {
             max={filterData.expired ? "" : minDate}
             value={filterData.validity}
             onChange={handleChange}
-            className="w-full px-3 py-2 text-darkBlue border border-lightBlue/40 rounded-lg focus:outline-orange"
+            className="w-full px-3 py-2 text-dark-blue border border-light-blue/40 rounded-lg focus:outline-orange"
           />
         </div>
       </div>
 
       {/* Info */}
-      <div className="flex items-start space-x-2 text-lightBlue text-sm">
+      <div className="flex items-start space-x-2 text-light-blue text-sm">
         <FaInfoCircle />
         <p className="text-xs">
           {filterData.expired

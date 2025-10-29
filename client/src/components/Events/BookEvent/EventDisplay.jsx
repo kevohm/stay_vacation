@@ -49,17 +49,17 @@ const EventDisplay = () => {
       <div className="w-full flex flex-col space-y-2.5 h-full px-5">
         <div className="md:px-0 py-2.5">
           <header
-            className="text-darkBlue text-base mb-2.5 flex items-center w-full justify-start"
+            className="text-dark-blue text-base mb-2.5 flex items-center w-full justify-start"
             style={{ fontFamily: "montserratSemi" }}
           >
             <p
-              className="text-darkBlue text-base capitalize w-auto"
+              className="text-dark-blue text-base capitalize w-auto"
               style={{ fontFamily: "montserratSemi" }}
             >
               {book_event.data.name}
             </p>
             <p
-              className="text-darkBlue text-base capitalize w-auto"
+              className="text-dark-blue text-base capitalize w-auto"
               style={{ fontFamily: "montserratSemi" }}
             >
               {`, ${book_event.data.city}`}
@@ -74,7 +74,7 @@ const EventDisplay = () => {
         </div>
         <div className="md:px-0 py-2.5">
           <header
-            className="text-darkBlue text-base mb-2.5 flex items-center w-full justify-start"
+            className="text-dark-blue text-base mb-2.5 flex items-center w-full justify-start"
             style={{ fontFamily: "montserratSemi" }}
           >
             Price
@@ -94,11 +94,11 @@ const EventDisplay = () => {
           </ul>
         </div>
         <div className="space-y-0 flex flex-row items-center space-x-2 md:px-0 py-2.5">
-          <FaInfoCircle className="text-lightBlue text-xs w-max" />
-          <p className="w-full text-lightBlue text-xs">
+          <FaInfoCircle className="text-light-blue text-xs w-max" />
+          <p className="w-full text-light-blue text-xs">
             For more information, contact us at{" "}
             <span
-              className="text-darkBlue text-xs"
+              className="text-dark-blue text-xs"
               style={{ fontFamily: "montserratSemi" }}
             >
               +254704591173

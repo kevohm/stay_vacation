@@ -56,9 +56,9 @@ const UpdateRecord = () => {
     >
       {/* Header */}
       <div className="flex flex-row justify-between items-center py-1">
-        <p className="font-medium text-darkBlue text-base">Update</p>
+        <p className="font-medium text-dark-blue text-base">Update</p>
         <FaTimes
-          className="text-darkBlue text-base cursor-pointer"
+          className="text-dark-blue text-base cursor-pointer"
           onClick={() =>
             toggleUpdate("report", {
               description: "",
@@ -79,7 +79,7 @@ const UpdateRecord = () => {
           value={data.description}
           name="description"
           onChange={handleChange}
-          className="w-full text-sm py-2.5 px-5 rounded-lg border border-[rgba(1,49,91,0.5)] text-[rgba(1,49,91,0.7)] outline-none resize-vertical font-medium placeholder:text-[rgba(1,49,91,0.5)]"
+          className="w-full text-sm py-2.5 px-5 rounded-lg border border-[rgba(1,49,91,0.5)] text-[rgba(1,49,91,0.7)] outline-hidden resize-vertical font-medium placeholder:text-[rgba(1,49,91,0.5)]"
         />
       </div>
 
@@ -89,7 +89,7 @@ const UpdateRecord = () => {
           value={data.state}
           name="state"
           onChange={handleChange}
-          className="w-full text-sm py-2.5 px-5 rounded-lg border border-[rgba(1,49,91,0.5)] text-[rgba(1,49,91,0.7)] font-medium outline-none"
+          className="w-full text-sm py-2.5 px-5 rounded-lg border border-[rgba(1,49,91,0.5)] text-[rgba(1,49,91,0.7)] font-medium outline-hidden"
         >
           <option value="" disabled>
             Choose How The Event Was
@@ -104,7 +104,7 @@ const UpdateRecord = () => {
         <input
           type="submit"
           value="Update"
-          className="cursor-pointer w-full md:w-auto bg-green text-darkBlue border-none font-medium text-sm py-2.5 px-5 rounded-lg hover:bg-[rgba(113,242,139,0.9)]"
+          className="cursor-pointer w-full md:w-auto bg-green text-dark-blue border-none font-medium text-sm py-2.5 px-5 rounded-lg hover:bg-[rgba(113,242,139,0.9)]"
         />
       </div>
     </form>

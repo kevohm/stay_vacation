@@ -23,16 +23,16 @@ export const StatsHolder = ({
           <select
             onChange={(e) => changeType(e)}
             value={type}
-            className="capitalize border-none bg-transparent text-darkBlue px-2 outline-none cursor-pointer"
+            className="capitalize border-none bg-transparent text-dark-blue px-2 outline-hidden cursor-pointer"
             style={{ fontFamily: "poppinsMedium, sans-serif" }}
           >
-            <option value="day" className="capitalize bg-darkBlue text-white">
+            <option value="day" className="capitalize bg-dark-blue text-white">
               day
             </option>
-            <option value="week" className="capitalize bg-darkBlue text-white">
+            <option value="week" className="capitalize bg-dark-blue text-white">
               week
             </option>
-            <option value="month" className="capitalize bg-darkBlue text-white">
+            <option value="month" className="capitalize bg-dark-blue text-white">
               month
             </option>
           </select>

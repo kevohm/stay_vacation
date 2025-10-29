@@ -6,10 +6,10 @@
 //   ${tw`flex justify-between items-center py-1`}
 //   p {
 //     font-family: poppinsMedium;
-//     ${tw`text-darkBlue text-base`}
+//     ${tw`text-dark-blue text-base`}
 //   }
 //   .icon {
-//     ${tw`text-darkBlue text-base`}
+//     ${tw`text-dark-blue text-base`}
 //   }
 // }
 // > div {
@@ -25,7 +25,7 @@
 // .submit {
 //   ${tw`flex items-center justify-end`}
 //   input {
-//     ${tw`cursor-pointer bg-green border-none text-darkBlue hover:bg-[rgba(113, 242, 139, .9)]`}
+//     ${tw`cursor-pointer bg-green border-none text-dark-blue hover:bg-[rgba(113, 242, 139, .9)]`}
 //   }
 // }
 // `;

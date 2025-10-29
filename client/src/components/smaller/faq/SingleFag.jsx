@@ -82,7 +82,7 @@
 //       }}
 //     >
 //       {/* Header */}
-//       <h2 className="text-xl uppercase font-semibold text-darkBlue">
+//       <h2 className="text-xl uppercase font-semibold text-dark-blue">
 //         {login ? "Log In" : "Sign Up"}
 //       </h2>
 
@@ -101,7 +101,7 @@
 //           name="email"
 //           value={data.email}
 //           onChange={changeData}
-//           className="w-full py-2 px-4 text-sm rounded-lg border border-lightBlue text-gray-800 outline-none focus:border-darkBlue"
+//           className="w-full py-2 px-4 text-sm rounded-lg border border-light-blue text-gray-800 outline-hidden focus:border-dark-blue"
 //           style={{ fontFamily: "poppinsSemi" }}
 //         />
 //         {!login && (
@@ -112,7 +112,7 @@
 //               name="username"
 //               value={data.username}
 //               onChange={changeData}
-//               className="w-full py-2 px-4 text-sm rounded-lg border border-lightBlue text-gray-800 outline-none focus:border-darkBlue"
+//               className="w-full py-2 px-4 text-sm rounded-lg border border-light-blue text-gray-800 outline-hidden focus:border-dark-blue"
 //               style={{ fontFamily: "poppinsSemi" }}
 //             />
 //             <input
@@ -121,7 +121,7 @@
 //               name="phone_number"
 //               value={data.phone_number}
 //               onChange={changeData}
-//               className="w-full py-2 px-4 text-sm rounded-lg border border-lightBlue text-gray-800 outline-none focus:border-darkBlue"
+//               className="w-full py-2 px-4 text-sm rounded-lg border border-light-blue text-gray-800 outline-hidden focus:border-dark-blue"
 //               style={{ fontFamily: "poppinsSemi" }}
 //             />
 //           </>
@@ -132,7 +132,7 @@
 //           name="password"
 //           value={data.password}
 //           onChange={changeData}
-//           className="w-full py-2 px-4 text-sm rounded-lg border border-lightBlue text-gray-800 outline-none focus:border-darkBlue"
+//           className="w-full py-2 px-4 text-sm rounded-lg border border-light-blue text-gray-800 outline-hidden focus:border-dark-blue"
 //           style={{ fontFamily: "poppinsSemi" }}
 //         />
 //         {!login && (
@@ -142,7 +142,7 @@
 //             name="confirm"
 //             value={data.confirm}
 //             onChange={changeData}
-//             className="w-full py-2 px-4 text-sm rounded-lg border border-lightBlue text-gray-800 outline-none focus:border-darkBlue"
+//             className="w-full py-2 px-4 text-sm rounded-lg border border-light-blue text-gray-800 outline-hidden focus:border-dark-blue"
 //             style={{ fontFamily: "poppinsSemi" }}
 //           />
 //         )}
@@ -152,7 +152,7 @@
 //       <input
 //         type="submit"
 //         value={login ? "Login" : "Sign Up"}
-//         className="w-full text-sm py-2 bg-darkBlue text-white rounded-lg cursor-pointer hover:bg-indigo-700 transition-colors"
+//         className="w-full text-sm py-2 bg-dark-blue text-white rounded-lg cursor-pointer hover:bg-indigo-700 transition-colors"
 //         style={{ fontFamily: "poppinsSemi" }}
 //       />
 
@@ -163,7 +163,7 @@
 //             Don’t have an account?{" "}
 //             <Link
 //               to="/register"
-//               className="text-darkBlue font-medium underline-offset-2 hover:underline"
+//               className="text-dark-blue font-medium underline-offset-2 hover:underline"
 //               style={{ fontFamily: "poppinsMedium" }}
 //             >
 //               Sign up
@@ -174,7 +174,7 @@
 //             Already have an account?{" "}
 //             <Link
 //               to="/register/login"
-//               className="text-darkBlue font-medium underline-offset-2 hover:underline"
+//               className="text-dark-blue font-medium underline-offset-2 hover:underline"
 //               style={{ fontFamily: "poppinsMedium" }}
 //             >
 //               Login
@@ -197,13 +197,13 @@ export const SingleFag = ({ text, info, index }) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="p-5 py-3 w-full max-w-[800px] border border-darkBlue rounded-lg space-y-5 transition ease-in-out">
+    <div className="p-5 py-3 w-full max-w-[800px] border border-dark-blue rounded-lg space-y-5 transition ease-in-out">
       <div className="flex items-center justify-between space-x-5">
         <div className="flex items-center space-x-5">
           <div className="w-[36px] h-[36px] bg-orange rounded-lg flex items-center justify-center text-white">
             {index}
           </div>
-          <p className="text-darkBlue text-lg">{text}</p>
+          <p className="text-dark-blue text-lg">{text}</p>
         </div>
 
         <div
@@ -214,7 +214,7 @@ export const SingleFag = ({ text, info, index }) => {
         </div>
       </div>
 
-      {open && <p className="text-darkBlue text-base">{info}</p>}
+      {open && <p className="text-dark-blue text-base">{info}</p>}
     </div>
   );
 };

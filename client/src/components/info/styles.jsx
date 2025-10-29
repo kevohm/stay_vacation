@@ -6,7 +6,7 @@
 // ${tw`w-full p-5 flex flex-col space-y-5`}
 // >header{
 //     font-family:montserratSemi;
-//     ${tw`text-base text-darkBlue`}
+//     ${tw`text-base text-dark-blue`}
 // }
 // .about{
 //     ${tw`w-full text-[rgba(0,0,0,.7)] text-sm`}

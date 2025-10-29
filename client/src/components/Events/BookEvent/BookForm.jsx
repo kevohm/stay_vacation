@@ -61,7 +61,7 @@ const BookForm = () => {
   if (book_event.loading) {
     return (
       <div className="bg-white p-5 rounded-lg shadow-md">
-        <header className="mb-4 font-semibold text-darkBlue">
+        <header className="mb-4 font-semibold text-dark-blue">
           User details
         </header>
         <Loader />
@@ -78,7 +78,7 @@ const BookForm = () => {
       onSubmit={handleSubmit}
       className="bg-white p-5 rounded-lg shadow-md w-full"
     >
-      <header className="text-darkBlue font-semibold mb-5">User details</header>
+      <header className="text-dark-blue font-semibold mb-5">User details</header>
 
       {stages.err.show && (
         <div className="mb-3 text-red-500">
@@ -141,7 +141,7 @@ const BookForm = () => {
         <input
           type="submit"
           value="Next"
-          className="bg-green text-darkBlue py-2 px-4 rounded-lg cursor-pointer"
+          className="bg-green text-dark-blue py-2 px-4 rounded-lg cursor-pointer"
         />
       </div>
     </form>
@@ -151,12 +151,12 @@ const BookForm = () => {
 // ✅ Reusable input component
 const InputField = ({ label, ...props }) => (
   <div className="flex flex-col gap-1">
-    <label className="capitalize text-darkBlue text-sm font-semibold">
+    <label className="capitalize text-dark-blue text-sm font-semibold">
       {label}
     </label>
     <input
       {...props}
-      className="w-full px-3 py-2 border border-lightBlue/40 rounded-lg text-gray-700 text-sm focus:outline-orange"
+      className="w-full px-3 py-2 border border-light-blue/40 rounded-lg text-gray-700 text-sm focus:outline-orange"
     />
   </div>
 );

@@ -18,7 +18,7 @@ const Footer = () => {
       )}
 
       {/* Bottom section */}
-      <div className="relative w-full flex flex-col justify-end bg-darkBlue space-y-16 sm:space-y-28 min-h-[495px] pt-0 sm:pt-24">
+      <div className="relative w-full flex flex-col justify-end bg-dark-blue space-y-16 sm:space-y-28 min-h-[495px] pt-0 sm:pt-24">
         {location.pathname === "/" && <Email />}
 
         {/* Links + Contact */}
