@@ -11,6 +11,8 @@ const client = axios.create({
   withCredentials: true,
 });
 
+export const adminRole = import.meta.env.VITE_ADMIN 
+export const memberRole = import.meta.env.VITE_MEMBER;
 const AppContext = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
 //--------------------------AUTHENTICATION----------------------------------------------------------------------
@@ -39,8 +41,10 @@ const AppContext = ({ children }) => {
       const { data } = await client.get(`users/user`);
       const {id, role} = data.user
       setupUser(id,role)
+      return {id,role}
     } catch (error) {
       console.log(error) 
+      return null
     }
   }
   const logout = async () => {

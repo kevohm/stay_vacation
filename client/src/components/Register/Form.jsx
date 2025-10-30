@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FormError } from "../smaller/error/FormError";
-import { useGlobal } from "../../context/AppContext";
+import { adminRole, useGlobal } from "../../context/AppContext";
 
 const body = {
   email: "",
@@ -18,29 +18,27 @@ const Form = () => {
   const login = pathname === "/register/login";
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (login) {
       const { email, password } = data;
-      handleUser({ email, password }, "login")
-        .then(() => {
-          getUser();
+      try {
+        await handleUser({ email, password }, "login");
+        changeErr({
+          msg: "You are logged in. Redirecting...",
+          state: "success",
+          show: true,
+        });
+        setTimeout(() => navigate(-1), 3000);
+      } catch (error) {
+        if (error.response && error.response.data) {
           changeErr({
-            msg: "You are logged in. Redirecting...",
-            state: "success",
+            msg: error.response.data.msg,
+            state: "",
             show: true,
           });
-          setTimeout(() => navigate(-1), 3000);
-        })
-        .catch((error) => {
-          if (error.response && error.response.data) {
-            changeErr({
-              msg: error.response.data.msg,
-              state: "",
-              show: true,
-            });
-          }
-        });
+        }
+      }
     } else {
       const { email, password, username, phone_number } = data;
       handleUser({ email, password, username, phone_number }, "register")
@@ -73,6 +71,27 @@ const Form = () => {
     setData({ ...data, [name]: value });
   };
 
+  const handleLoginDemo = async ({ email, password }) => {
+    try {
+      await handleUser({ email, password }, "login");
+      const resp = await getUser();
+      const path = resp?.role === adminRole ? "/admin" : "/events";
+      changeErr({
+        msg: "You are logged in. Redirecting...",
+        state: "success",
+        show: true,
+      });
+      setTimeout(() => navigate(path), 3000);
+    } catch (error) {
+      if (error.response && error.response.data) {
+        changeErr({
+          msg: error.response.data.msg,
+          state: "",
+          show: true,
+        });
+      }
+    }
+  };
   return (
     <form
       onSubmit={handleSubmit}
@@ -152,7 +171,7 @@ const Form = () => {
       </div>
 
       {/* Submit */}
-      <div className="w-full flex justify-center items-center">
+      <div className="w-full flex justify-center items-center gap-2.5">
         <input
           type="submit"
           value={login ? "login" : "sign up"}
@@ -160,6 +179,38 @@ const Form = () => {
           style={{ fontFamily: "poppinsSemi" }}
         />
       </div>
+      {login && (
+        <div className="w-full flex flex-wrap items-center gap-2.5">
+          <>
+            <button
+              type="button"
+              onClick={() =>
+                handleLoginDemo({
+                  email: "admin@gmail.com",
+                  password: "",
+                })
+              }
+              className="w-full text-sm px-3 py-2 border border-dark-blue text-dark-blue rounded-lg cursor-pointer"
+              style={{ fontFamily: "poppinsSemi" }}
+            >
+              Demo as admin
+            </button>
+            <button
+              type="button"
+              onClick={() =>
+                handleLoginDemo({
+                  email: "member@gmail.com",
+                  password: "",
+                })
+              }
+              className="w-full text-sm px-3 py-2 border border-dark-blue text-dark-blue rounded-lg cursor-pointer"
+              style={{ fontFamily: "poppinsSemi" }}
+            >
+              Demo as member
+            </button>
+          </>
+        </div>
+      )}
 
       {/* Text */}
       <div className="text-center">
