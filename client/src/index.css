@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @theme {
   --color-orange: #ffa402;
@@ -29,79 +29,82 @@
 /* topography */
 
 @font-face {
-  font-family:montserrat;
-  src: url('./assets/fonts/static/Montserrat-Regular.ttf');
+  font-family: montserrat;
+  src: url("./assets/fonts/static/Montserrat-Regular.ttf");
 }
 @font-face {
-  font-family:montserratMedium;
-  src: url('./assets/fonts/static/Montserrat-Medium.ttf');
+  font-family: montserratMedium;
+  src: url("./assets/fonts/static/Montserrat-Medium.ttf");
 }
 @font-face {
-  font-family:montserratSemi;
-  src: url('./assets/fonts/static/Montserrat-SemiBold.ttf');
+  font-family: montserratSemi;
+  src: url("./assets/fonts/static/Montserrat-SemiBold.ttf");
 }
 @font-face {
-  font-family:montserratBold;
-  src: url('./assets/fonts/static/Montserrat-Bold.ttf');
+  font-family: montserratBold;
+  src: url("./assets/fonts/static/Montserrat-Bold.ttf");
 }
 @font-face {
-  font-family:poppins;
-  src: url('./assets/fonts/Poppins-Regular.ttf');
+  font-family: poppins;
+  src: url("./assets/fonts/Poppins-Regular.ttf");
 }
 @font-face {
-  font-family:poppinsMedium;
-  src: url('./assets/fonts/Poppins-Medium.ttf');
+  font-family: poppinsMedium;
+  src: url("./assets/fonts/Poppins-Medium.ttf");
 }
 @font-face {
-  font-family:poppinsSemi;
-  src: url('./assets/fonts/Poppins-SemiBold.ttf');
+  font-family: poppinsSemi;
+  src: url("./assets/fonts/Poppins-SemiBold.ttf");
 }
 @font-face {
-  font-family:poppinsBold;
-  src: url('./assets/fonts/Poppins-Bold.ttf');
+  font-family: poppinsBold;
+  src: url("./assets/fonts/Poppins-Bold.ttf");
 }
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  outline:none;
+* {
+  box-sizing: border-box;
+  outline: none;
 }
-a{
+a {
   text-decoration: none;
-  color:#01315B;
+  color: #01315b;
 }
-html, body{
-  font-family:poppins;
-  width:100vw;
-height:100vh;
-display:flex;
-    flex-direction:column;
-    align-items: center;
-    justify-items: center;
+html,
+body {
+  font-family: poppins;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
 }
-#root{
-    width:100%;
-    height:100%;
-    background: rgba(138, 154, 234, 1);
-    overflow-y:hidden;
+#root {
+  width: 100%;
+  height: 100%;
+  background: rgba(138, 154, 234, 1);
+  overflow-y: hidden;
 }
 @media (max-width: 500px) {
-    html, body {
-      font-size: 10px;
-    }
+  html,
+  body {
+    font-size: 10px;
   }
+}
 @media (max-width: 768px) {
-    html, body {
-      font-size: 12px;
-    }
+  html,
+  body {
+    font-size: 12px;
   }
+}
 @media (min-width: 768px) {
-    html, body {
-      font-size: 13px;
-    }
+  html,
+  body {
+    font-size: 13px;
   }
+}
 @media (min-width: 1024px) {
-    html, body {
-      font-size: 16px;
-    }
+  html,
+  body {
+    font-size: 16px;
   }
+}
