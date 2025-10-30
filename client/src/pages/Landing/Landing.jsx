@@ -3,8 +3,7 @@ import {EventContext} from "../../components/Events/context/EventContext"
 import {Slider, Services, Popular, Faq, Reviews, Events} from "../../components/Landing/index"
 const Landing = () => {
   return (
-    <EventContext>
-      <section className="flex flex-col items-center h-full">
+      <section className="flex flex-col items-center h-auto">
         <Slider />
         <Services />
         <Popular />
@@ -12,7 +11,6 @@ const Landing = () => {
         <Reviews />
         <Events />
       </section>
-    </EventContext>
   );
 }
 

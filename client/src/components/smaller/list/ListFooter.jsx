@@ -21,7 +21,7 @@ export const ListFooter = ({ data, header }) => {
           return (
             <Link to="/profile" key="profile" className="w-full text-white">
               <li
-                className="w-full capitalize hover:underline"
+                className="w-full capitalize hover:underline text-white"
                 style={{ transition: "all 0.2s ease-in-out" }}
               >
                 profile
@@ -33,7 +33,7 @@ export const ListFooter = ({ data, header }) => {
         return (
           <Link to={item.url} key={item.text} className="w-full text-white">
             <li
-              className="w-full capitalize hover:underline"
+              className="w-full capitalize hover:underline text-white"
               style={{ transition: "all 0.2s ease-in-out" }}
             >
               {item.text}

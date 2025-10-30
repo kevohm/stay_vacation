@@ -29,7 +29,7 @@ const Wrapper = () => {
       }}
     >
       {/* Floating Images */}
-      <img
+      {/* <img
         src={plane}
         alt="plane"
         style={{
@@ -63,21 +63,22 @@ const Wrapper = () => {
           display: "none",
         }}
         className="animations 2xl:block"
-      />
+      /> */}
 
       {/* Main content container */}
       <section
-        style={{
-          height: "100%",
-          width: "100%",
-          position: "relative",
-          background: "white",
-          maxWidth: "1440px",
-          maxHeight: "100vh",
-          overflowY: "auto",
-          overflowX: "auto",
-          paddingBottom: "30px",
-        }}
+      className="w-full h-screen relative overflow-y-scroll bg-white"
+        // style={{
+        //   height: "100%",
+        //   width: "100%",
+        //   position: "relative",
+        //   background: "white",
+        //   maxWidth: "1440px",
+        //   maxHeight: "100vh",
+        //   overflowY: "auto",
+        //   overflowX: "auto",
+        //   paddingBottom: "30px",
+        // }}
       >
         <GlobalError {...MemberError} close={setDefaultGlobal} />
         <Navbar />
