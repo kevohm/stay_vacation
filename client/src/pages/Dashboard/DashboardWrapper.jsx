@@ -12,7 +12,11 @@ const DashboardWrapper = () => {
       <Navbar />
       <div className="body w-full h-full flex">
         <Sidebar />
-        <section className="inner-body w-full sm:w-[calc(100% - 160px)] md:w-[calc(100% - 200px)] h-full bg-[rgba(255, 164, 2, .1)] pr-5">
+        <section className="inner-body overflow-y-scroll w-full sm:w-[calc(100%-6rem)] md:w-[calc(100%-200px)] h-full bg-[rgba(255,164,2,.1)] pr-5"
+        style={{
+          height:"calc(100vh - 6rem)"
+        }}
+        >
           <Outlet />
         </section>
       </div>

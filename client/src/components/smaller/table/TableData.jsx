@@ -31,19 +31,17 @@ export const TableData = ({type, handleUpdate, handleDelete}) => {
           <td>{moment(new Date(createdAt)).format("ddd, MMM Do YYYY")}</td>
           <td>{moment(new Date(updatedAt)).format("ddd, MMM Do YYYY")}</td>
           <td>
-            {role === import.meta.env.VITE_ADMIN_DEFAULT
-              ? "Admin"
-              : "Member"}
+            {role === import.meta.env.VITE_ADMIN_DEFAULT ? "Admin" : "Member"}
           </td>
           <td>
-            <div className="edit">
+            <div className="flex space-x-5">
               <FaEdit
-                className="edit"
+                className="cursor-pointer text-dark-blue text-sm"
                 title="edit"
                 onClick={() => handleUpdate(i)}
               />
               <ImBin
-                className="delete"
+                className="cursor-pointer text-orange text-sm;"
                 title="delete"
                 onClick={() => handleDelete(_id)}
               />
@@ -69,32 +67,50 @@ export const TableData = ({type, handleUpdate, handleDelete}) => {
               {count < 10 ? "0" : ""}
               {count}
             </td>
-            <td><img src={image[0]} alt={name}/></td>
+            <td>
+              <img src={image[0]} alt={name} />
+            </td>
             <td>{name}</td>
-            <td ><p className="desc">{description}</p></td>
-            <td><ul>{category.map((i,index)=><li key={index}>{i.name}</li>)}</ul></td>
-            <td><ul>{price_choices.map((i)=><li key={i._id}>{i.price} per {i.category}</li>)}</ul></td>
-            <td><ul>{Amenities.map((i,index)=><li key={index}>{i}</li>)}</ul></td>
+            <td>
+              <p className="desc">{description}</p>
+            </td>
+            <td>
+              <ul>
+                {category.map((i, index) => (
+                  <li key={index}>{i.name}</li>
+                ))}
+              </ul>
+            </td>
+            <td>
+              <ul>
+                {price_choices.map((i) => (
+                  <li key={i._id}>
+                    {i.price} per {i.category}
+                  </li>
+                ))}
+              </ul>
+            </td>
+            <td>
+              <ul>
+                {Amenities.map((i, index) => (
+                  <li key={index}>{i}</li>
+                ))}
+              </ul>
+            </td>
             <td>{city}</td>
             <td>{country}</td>
             <td>{moment(new Date(validity)).format("ddd, MMM Do YYYY")}</td>
+            <td>{moment(new Date(createdAt)).format("ddd, MMM Do YYYY")}</td>
+            <td>{moment(new Date(updatedAt)).format("ddd, MMM Do YYYY")}</td>
             <td>
-              {moment(new Date(createdAt)).format("ddd, MMM Do YYYY")}
-            </td>
-            <td>
-              {moment(new Date(updatedAt)).format("ddd, MMM Do YYYY")}
-            </td>
-            <td>
-              <div className="edit">
+              <div className="flex space-x-5">
                 <FaEdit
-                  className="edit"
+                  className="cursor-pointer text-dark-blue text-sm"
                   title="edit"
-                  onClick={() =>
-                    handleUpdate(i)
-                  }
+                  onClick={() => handleUpdate(i)}
                 />
                 <ImBin
-                  className="delete"
+                  className="cursor-pointer text-orange text-sm;"
                   title="delete"
                   onClick={() => handleDelete(_id)}
                 />
@@ -162,26 +178,20 @@ export const TableData = ({type, handleUpdate, handleDelete}) => {
             <td>{i.event.country}</td>
             <td>{`${currency}. ${Number(amount).toLocaleString()}`}</td>
             <td>{category}</td>
-            <StateCheck state={state} id={i._id}/>
+            <StateCheck state={state} id={i._id} />
             <td>{i.user.username}</td>
             <td>{i.user.phone_number}</td>
+            <td>{moment(new Date(createdAt)).format("ddd, MMM Do YYYY")}</td>
+            <td>{moment(new Date(updatedAt)).format("ddd, MMM Do YYYY")}</td>
             <td>
-              {moment(new Date(createdAt)).format("ddd, MMM Do YYYY")}
-            </td>
-            <td>
-              {moment(new Date(updatedAt)).format("ddd, MMM Do YYYY")}
-            </td>
-            <td>
-              <div className="edit">
+              <div className="flex space-x-5">
                 <FaEdit
-                  className="edit"
+                  className="cursor-pointer text-dark-blue text-sm"
                   title="edit"
-                  onClick={() =>
-                    handleUpdate(i)
-                  }
+                  onClick={() => handleUpdate(i)}
                 />
                 <ImBin
-                  className="delete"
+                  className="cursor-pointer text-orange text-sm;"
                   title="delete"
                   onClick={() => handleDelete(_id)}
                 />

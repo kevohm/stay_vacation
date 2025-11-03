@@ -179,8 +179,8 @@ const CreateForm = ({ handleScroll }) => {
 
       {/* File input */}
       <div className="relative flex items-center">
-        <label className="relative flex items-center">
-          <span className="absolute h-full text-center text-sm flex items-center px-5 pr-3 text-[rgba(1,49,91,.6)] bg-[rgba(1,49,91,.1)] rounded-l-lg font-medium">
+        <label className="relative w-full flex items-center border border-[rgba(1,49,91,.1)] rounded-lg ">
+          <span className="absolute h-full text-center text-sm flex items-center px-5 pr-3  text-[rgba(1,49,91,.6)] bg-[rgba(1,49,91,.1)] rounded-l-lg font-medium">
             Choose Files
           </span>
           <input
@@ -189,7 +189,7 @@ const CreateForm = ({ handleScroll }) => {
             accept="image/*"
             multiple
             onChange={handleImage}
-            className="bg-white cursor-pointer"
+            className="pl-40 h-full rounded-lg py-3  z-10 cursor-pointer"
           />
         </label>
       </div>

@@ -1,0 +1,119 @@
+@reference "../../../../index.css";
+
+thead,
+tbody > tr {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+tbody > tr .width {
+  @apply max-w-[300px];
+}
+
+tbody > tr .edit {
+  @apply flex space-x-5;
+}
+
+tbody > tr .edit .delete,
+tbody > tr .edit .edit {
+  @apply cursor-pointer;
+}
+
+tbody > tr .edit .delete {
+  @apply text-dark-blue text-sm;
+}
+
+tbody > tr .edit .edit {
+  @apply text-orange text-sm;
+}
+
+tbody > tr:nth-child(even) {
+  @apply bg-[rgba(0,0,0,.02)];
+}
+
+tbody tr td,
+tfoot tr td {
+  @apply p-5 text-start text-[rgba(0,0,0,.4)];
+}
+
+tbody tr td img,
+tfoot tr td img {
+  @apply h-12 w-20 object-fill rounded-lg;
+}
+
+tbody tr td ul,
+tfoot tr td ul {
+  @apply space-y-1 list-none max-h-[50px] overflow-y-scroll;
+}
+
+tbody tr td .control,
+tfoot tr td .control {
+  @apply w-max flex cursor-pointer px-2.5 py-1 items-center space-x-2.5 rounded-lg text-[rgba(0,0,0,.5)] border border-solid border-[rgba(0,0,0,.15)];
+}
+
+tbody tr td .control p,
+tfoot tr td .control p {
+  @apply text-[rgba(0,0,0,.5)] text-sm;
+}
+
+tbody tr td .control .icon,
+tfoot tr td .control .icon {
+  @apply text-[rgba(0,0,0,.5)] text-sm;
+}
+
+tbody tr td .desc,
+tfoot tr td .desc {
+  @apply max-w-[300px] max-h-[60px] text-start overflow-y-scroll;
+}
+
+tbody tr .status,
+tfoot tr .status {
+  @apply flex items-center;
+}
+
+tbody tr .status .pending,
+tbody tr .status .paid,
+tbody tr .status .failed,
+tfoot tr .status .pending,
+tfoot tr .status .paid,
+tfoot tr .status .failed {
+  @apply w-[80px] p-1 px-2 border-solid bg-white border text-sm rounded-full;
+}
+
+tbody tr .status .pending,
+tfoot tr .status .pending {
+  @apply text-orange border-orange;
+}
+
+tbody tr .status .paid,
+tfoot tr .status .paid {
+  @apply border-green text-green;
+}
+
+tbody tr .status .failed,
+tfoot tr .status .failed {
+  @apply border-red-400 text-red-400;
+}
+
+tbody tr .status .icon,
+tfoot tr .status .icon {
+  @apply animate-spin;
+}
+
+tbody tr .page > div,
+tfoot tr .page > div {
+  @apply w-[150px] flex items-center justify-center space-x-2 mx-auto;
+}
+
+tbody tr .page > div #input,
+tfoot tr .page > div #input {
+  @apply w-8 text-sm text-[rgba(0,0,0,.5)] text-center p-1 rounded-lg border border-solid border-[rgba(0,0,0,.15)];
+}
+
+thead tr {
+  @apply bg-[rgba(0,0,0,.02)];
+}
+
+thead tr th {
+  font-family: poppinsMedium;
+  @apply capitalize p-5 text-start text-[rgba(0,0,0,.5)];
+}

@@ -24,7 +24,7 @@ export const Category = ({
     >
       <div id="inputPreview" className="flex items-center justify-start">
         <input
-          className="css-checkbox"
+          className="css-checkbox mr-2"
           name="cssCheckbox"
           id={`index${id}${index}`}
           type="checkbox"
@@ -38,7 +38,7 @@ export const Category = ({
       </div>
 
       <div
-        className="update-category flex items-center justify-center bg-[#01315B] w-5 h-full rounded-xs cursor-pointer"
+        className="update-category flex items-center justify-center bg-[#01315B] w-6 h-full rounded-sm cursor-pointer"
         onClick={() => setUpdate({ status: true, data: name, id: _id })}
         title="update"
       >

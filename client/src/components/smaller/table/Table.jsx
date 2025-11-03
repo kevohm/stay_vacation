@@ -3,6 +3,7 @@ import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { useGlobal } from "../../../context/AppContext";
 import { TableData } from "./TableData";
 import { Loader } from "../load/Loader";
+import "./css/table.module.css"
 
 export const Table = ({ handleChange, type, typeData, headings }) => {
   const {
