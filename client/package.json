@@ -61,5 +61,8 @@
     "twin": {
       "preset": "styled-components"
     }
+  },
+  "engines": {
+    "node": "22.x"
   }
 }
