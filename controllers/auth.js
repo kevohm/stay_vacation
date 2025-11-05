@@ -26,6 +26,7 @@ const login = async (req, res) => {
     body: { email, password },
   } = req;
   const isDemo = email == "admin@gmail.com" || email == "member@gmail.com";
+
   if ((!email || !password) && !isDemo) {
     throw new BadRequest("Please provide password and email");
   }
