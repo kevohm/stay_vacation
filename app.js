@@ -50,6 +50,7 @@ const corOpt = {
     "https://stay-vacation.netlify.app",
     "https://stay-vacations.tyrantx.me",
     "https://stay-vacation.vercel.app",
+    "https://stayvacation.kibet.top"
   ],
   credentials: true,
 };
