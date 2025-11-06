@@ -3,9 +3,6 @@ import { Outlet } from "react-router-dom";
 import { Breadcrumbs, Navbar, Footer } from "../../components/Wrapper/index";
 import { GlobalError } from "../../components/smaller/error/GlobalError";
 import { useEvent } from "../../components/Events/context/EventContext";
-import plane from "../../assets/img/plane.gif";
-import happy from "../../assets/img/happy.gif";
-import love from "../../assets/img/love.gif";
 import back from "../../assets/img/back.jpg";
 
 const Wrapper = () => {

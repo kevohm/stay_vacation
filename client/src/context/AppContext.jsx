@@ -641,7 +641,8 @@ const createPayment = async (id, userId,category,currency)=>{
         createPoster,
         setOtherErrors,
         deletePoster,
-        checkPayments
+        checkPayments,
+        client
       }}
     >
       {children}

@@ -1,5 +1,6 @@
 import React from "react";
 import { useGlobal } from "../../../context/AppContext";
+import useLogout from "../../../features/user/useLogout";
 
 export const BtnLogout = ({
   text = "logout",
@@ -7,7 +8,8 @@ export const BtnLogout = ({
   bg = "white",
   hover = "rgba(1, 49, 91, .8)",
 }) => {
-  const { logout } = useGlobal();
+  // const { logout } = useGlobal();
+  const { isError, isLoading, logout } = useLogout();
 
   return (
     <button
@@ -21,7 +23,7 @@ export const BtnLogout = ({
       onMouseEnter={(e) => (e.target.style.color = hover)}
       onMouseLeave={(e) => (e.target.style.color = color)}
     >
-      {text}
+      {isLoading ? "Logging out..." : text}
     </button>
   );
 };

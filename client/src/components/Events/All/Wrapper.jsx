@@ -4,6 +4,7 @@ import Search from './Search'
 import Recent from './Recent'
 import {useEvent} from "../context/EventContext"
 import { getCookie } from '../../../context/utils'
+import useGetEvent from '../../../features/event/useGetEvent'
 
 const Wrapper = () => {
   const {events,sortBy,filter,getAll,setFilter,setSort } = useEvent()
@@ -17,7 +18,19 @@ const Wrapper = () => {
       expired: getCookie("expired") === "true" ||  true
     }
   );
-
+  const { data } = useGetEvent({
+    page,
+    limit: 6,
+    sort: sortBy.sort,
+    arrange: sortBy.arrange,
+    min,
+    max,
+    category,
+    search,
+    validity,
+    date,
+  });
+  console.log("DATA: ", data)
   const changePage = (value)=>{
     setPage(Number(value))
   }
