@@ -7,7 +7,13 @@ import { useEvent } from "../context/EventContext";
 import noevents from "../../../assets/svg/noevents.svg";
 import "./events.css"; // 👈 for small custom CSS parts
 
-const Events = ({ loading, eventsData, page, changePage, handleCategory }) => {
+const Events = ({
+  loading,
+  eventsData,
+  page,
+  changePage,
+  handleCategory,
+}) => {
   const { sortBy, events } = useEvent();
   const section = useRef();
   const [filter, setFilter] = useState(sortBy);

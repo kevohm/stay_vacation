@@ -39,7 +39,7 @@ const UserDetails = () => {
   }
 
   return (
-    <div className="h-full order-2 md:order-1 p-5 flex flex-col space-y-5 row-span-2">
+    <div className="h-full bg-white rounded-lg shadow-sm w-full order-2 md:order-1 p-5 flex flex-col space-y-5 row-span-2">
       {/* Header section */}
       <div className="w-full flex justify-between items-center">
         <header
@@ -102,12 +102,12 @@ const UserDetails = () => {
       <div className="flex text-light-blue text-xs justify-start space-x-2 items-center">
         <FaInfoCircle />
         <p
-          className="text-light-blue rounded-lg border-none"
+          className="text-light-blue rounded-lg text-sm border-none"
           style={{ fontFamily: "poppins" }}
         >
           <Link
             to="/info/contact"
-            className="text-sm hover:underline"
+            className=" text-sm hover:underline"
             style={{ fontFamily: "poppins" }}
           >
             Contact Us

@@ -366,7 +366,8 @@ const EventContext = ({ children }) => {
         fetchEvent,
         undislikeEvent,
         unlikeEvent,
-        checkPayment 
+        checkPayment,
+        dispatch,
       }}
     >
       {children}

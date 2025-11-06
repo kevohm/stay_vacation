@@ -15,8 +15,8 @@ const Search = () => {
   };
 
   return (
-    <div className="h-full order-1 md:order-2 p-5 flex flex-col">
-      <div className="bg-white rounded-lg w-full shadow-[0px_2px_6px_rgba(1,49,91,0.25)]">
+    <div className="h-full bg-white rounded-lg w-full order-1 md:order-2 p-5 flex flex-col shadow-sm">
+      <div className="bg-white w-full ">
         <header
           className="text-base capitalize text-dark-blue pb-2.5"
           style={{ fontFamily: "montserratSemi" }}

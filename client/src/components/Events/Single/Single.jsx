@@ -1,193 +1,224 @@
-import React, { useEffect } from "react";
-import { useEvent } from "../context/EventContext";
+import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import moment from "moment";
 import { Loader } from "../../smaller/load/Loader";
 import { BsCheck2Circle } from "react-icons/bs";
-import { FaInfoCircle } from "react-icons/fa";
+import { FaInfoCircle, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import err from "../../../assets/svg/error.svg";
 import dot from "../../../assets/svg/dot.svg";
 import Likes from "./Likes";
+import { useQuery } from "@tanstack/react-query";
+import { useGlobal } from "../../../context/AppContext";
 
-const Single = () => {
-  const { currentEvent, getSingle } = useEvent();
+
+
+
+const Single = ({data, isError}) => {
   const { name } = useParams();
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  useEffect(() => {
-    getSingle(name);
-  }, [name]);
 
-  if (currentEvent.loading) {
-    return (
-      <div className="w-full flex flex-col items-center justify-center bg-white rounded-lg py-12 space-y-10">
-        <Loader color="#8A9AEA" />
-      </div>
+  const isExpired =
+    data && new Date(data.validity) - new Date() - 24 * 60 * 60 * 1000 < 0;
+
+  const nextImage = () => {
+    if (!data?.image) return;
+    setCurrentIndex((prev) => (prev + 1) % data.image.length);
+  };
+
+  const prevImage = () => {
+    if (!data?.image) return;
+    setCurrentIndex(
+      (prev) => (prev - 1 + data.image.length) % data.image.length
     );
-  }
+  };
 
-  if (!currentEvent.id) {
+
+
+  // Error or Not Found
+  if (isError || !data)
     return (
-      <div className="w-full flex flex-col items-center justify-center bg-white rounded-lg py-12 space-y-10">
-        <img src={err} alt="error" className="w-full max-w-[400px]" />
+      <div className="flex flex-col items-center justify-center bg-white rounded-lg py-12 shadow-sm space-y-6">
+        <img src={err} alt="error" className="w-full max-w-[320px]" />
         <p className="text-gray-700 text-lg font-medium">
-          Opps! Event does not exist.
+          Oops! {isError ? "An error occurred." : "Event not found."}
         </p>
       </div>
     );
-  }
 
   return (
     <div
-      className="w-full bg-white rounded-lg p-2.5 flex flex-col items-center md:items-start space-y-5 md:grid md:grid-cols-[48%_52%] md:gap-2.5"
-      style={{
-        boxShadow: "0px 2px 6px 0px rgba(1, 49, 91, 0.25)",
-      }}
+      className="w-full bg-white rounded-2xl flex flex-col items-center p-4 md:p-6 space-y-6 shadow-md"
+      style={{ boxShadow: "0px 2px 6px 0px rgba(1, 49, 91, 0.1)" }}
     >
-      {/* Images */}
-      <div
-        className="w-full max-w-[620px] grid gap-2.5"
-        style={{
-          gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
-        }}
-      >
-        {currentEvent.data.image.map((item, index) => {
-          const key = `${currentEvent.data.name}-${index}`;
-          return (
-            <img
-              key={key}
-              src={item}
-              alt={key}
-              className="w-full h-[150px] md:h-[200px] rounded-lg object-cover"
-            />
-          );
-        })}
+      {/* Image Carousel */}
+      <div className="relative w-full h-[260px] md:h-[400px] overflow-hidden rounded-xl group shadow-sm">
+        <img
+          src={data.image[currentIndex]}
+          alt={`${data.name}-${currentIndex}`}
+          className="w-full h-full object-cover transition-transform duration-500 rounded-xl"
+        />
+
+        {/* Left/Right Arrows */}
+        {data.image.length > 1 && (
+          <>
+            <button
+              onClick={prevImage}
+              className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full p-2 transition"
+            >
+              <FaChevronLeft size={18} />
+            </button>
+            <button
+              onClick={nextImage}
+              className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full p-2 transition"
+            >
+              <FaChevronRight size={18} />
+            </button>
+          </>
+        )}
+
+        {/* Image Indicators */}
+        {data.image.length > 1 && (
+          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex space-x-1.5">
+            {data.image.map((_, index) => (
+              <div
+                key={index}
+                onClick={() => setCurrentIndex(index)}
+                className={`w-2.5 h-2.5 rounded-full cursor-pointer transition-all ${
+                  currentIndex === index ? "bg-[#ea580c]" : "bg-gray-200"
+                }`}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
-      {/* Info Section */}
-      <div className="w-full max-w-[720px] pl-5 pr-6 flex flex-col space-y-10">
+      {/* Event Info */}
+      <div className="w-full flex flex-col space-y-6 text-dark-blue">
         {/* Title & Description */}
-        <div className="flex flex-col space-y-2">
-          <header
-            className="flex items-center text-lg text-dark-blue"
+        <div>
+          <h2
+            className="text-2xl font-semibold capitalize mb-1"
             style={{ fontFamily: "montserratSemi" }}
           >
-            <p className="text-lg capitalize text-dark-blue">
-              {currentEvent.data.name}
-            </p>
-            <p className="text-lg capitalize text-dark-blue">{`, ${currentEvent.data.city}`}</p>
-          </header>
-          <p className="text-sm" style={{ fontFamily: "montserratMedium" }}>
-            {currentEvent.data.description}
+            {data.name}, {data.city}
+          </h2>
+          <p
+            className="text-gray-600 text-sm leading-relaxed"
+            style={{ fontFamily: "montserratMedium" }}
+          >
+            {data.description}
           </p>
         </div>
 
         {/* Price Section */}
-        <div className="flex flex-col space-y-2">
-          <header
-            className="text-lg text-dark-blue"
+        <div>
+          <h3
+            className="text-lg font-semibold mb-2"
             style={{ fontFamily: "montserratSemi" }}
           >
             Price
-          </header>
-          <div className="flex items-start pl-1">
-            <ul className="list-none space-y-1">
-              {currentEvent.data.price_choices.map((item, index) => (
-                <li key={index} className="flex items-center space-x-4">
-                  <img src={dot} alt={index} className="w-3 h-3" />
-                  <p
-                    className="text-sm"
-                    style={{ fontFamily: "montserratMedium" }}
-                  >
-                    ksh. {item.price.toLocaleString("en-US")} per{" "}
-                    {item.category}
-                  </p>
-                </li>
-              ))}
-            </ul>
-          </div>
+          </h3>
+          <ul className="space-y-2">
+            {data.price_choices.map((item, i) => (
+              <li key={i} className="flex items-center space-x-2">
+                <img src={dot} alt="dot" className="w-3 h-3" />
+                <p
+                  className="text-sm"
+                  style={{ fontFamily: "montserratMedium" }}
+                >
+                  Ksh. {item.price.toLocaleString("en-US")} per {item.category}
+                </p>
+              </li>
+            ))}
+          </ul>
         </div>
 
         {/* Amenities */}
-        <div className="flex flex-col space-y-2">
-          <header
-            className="text-lg text-dark-blue"
+        <div>
+          <h3
+            className="text-lg font-semibold mb-2"
             style={{ fontFamily: "montserratSemi" }}
           >
             Amenities
-          </header>
-          {currentEvent.data.Amenities.map((item, index) => (
-            <div key={index} className="flex items-center space-x-4 pl-1">
-              <BsCheck2Circle className="text-orange text-sm" />
-              <p className="text-sm" style={{ fontFamily: "montserratMedium" }}>
-                {item}
-              </p>
-            </div>
-          ))}
+          </h3>
+          <ul className="space-y-2 pl-1">
+            {data.Amenities.map((item, i) => (
+              <li key={i} className="flex items-center space-x-3">
+                <BsCheck2Circle className="text-[#ea580c]" />
+                <p
+                  className="text-sm text-gray-700"
+                  style={{ fontFamily: "montserratMedium" }}
+                >
+                  {item}
+                </p>
+              </li>
+            ))}
+          </ul>
         </div>
 
         {/* Category */}
-        <div className="flex flex-col space-y-2">
-          <header
-            className="text-lg text-dark-blue"
+        <div>
+          <h3
+            className="text-lg font-semibold mb-2"
             style={{ fontFamily: "montserratSemi" }}
           >
             Category
-          </header>
-          <div
-            className="w-full grid gap-5"
-            style={{
-              gridTemplateColumns: "repeat(auto-fill, minmax(70px, 1fr))",
-            }}
-          >
-            {currentEvent.data.category.map((item, index) => (
-              <div
-                key={index}
-                className="w-max rounded-xl border border-dark-blue text-dark-blue p-2 px-2.5 text-sm"
+          </h3>
+          <div className="flex flex-wrap gap-2">
+            {data.category.map((cat, i) => (
+              <span
+                key={i}
+                className="border border-dark-blue text-dark-blue rounded-full px-3 py-1 text-xs font-medium"
               >
-                <p>{item.name}</p>
-              </div>
+                {cat.name}
+              </span>
             ))}
           </div>
         </div>
 
         {/* Likes */}
-        <Likes eventId={currentEvent.data._id} />
+        <Likes eventId={data._id} />
 
         {/* Expiry */}
-        <div className="flex flex-col space-y-2">
-          <header
-            className="text-lg text-dark-blue"
+        <div>
+          <h3
+            className="text-lg font-semibold mb-1"
             style={{ fontFamily: "montserratSemi" }}
           >
-            Expires at
-          </header>
-          <p className="text-sm" style={{ fontFamily: "montserratMedium" }}>
-            {moment(currentEvent.data.validity).format("dddd, MMMM DD YYYY")}
+            Expires At
+          </h3>
+          <p
+            className="text-sm text-gray-700"
+            style={{ fontFamily: "montserratMedium" }}
+          >
+            {moment(data.validity).format("dddd, MMMM DD YYYY")}
           </p>
         </div>
 
-        {/* Submit Section */}
-        <div className="py-10 flex flex-col md:flex-row items-start justify-between space-y-5 md:space-y-0">
-          <div className="flex flex-row items-center space-x-2 text-light-blue text-sm">
-            <FaInfoCircle className="text-light-blue text-sm w-max" />
-            <p className="w-full">
-              You can only book an event 24hrs before it expires{" "}
-              <Link to="/info/contact" className="text-light-blue underline">
-                contact Us
+        {/* Footer */}
+        <div className="border-t border-gray-200 pt-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div className="flex items-center space-x-2 text-light-blue text-sm">
+            <FaInfoCircle className="text-light-blue" />
+            <p className="max-w-md">
+              You can only book an event 24hrs before it expires.{" "}
+              <Link
+                to="/info/contact"
+                className="underline hover:text-[#ea580c] transition"
+              >
+                Contact Us
               </Link>
             </p>
           </div>
 
-          {!currentEvent.isExpired && (
-            <div className="flex items-center justify-end w-full">
-              <Link
-                to={`/events/${name}/book`}
-                className="p-2.5 py-2 rounded-lg bg-green text-sm text-dark-blue border-none"
-                style={{ fontFamily: "montserratMedium" }}
-              >
-                Book now
-              </Link>
-            </div>
+          {!isExpired && (
+            <Link
+              to={`/events/${name}/book`}
+              className="bg-[#ea580c] text-white px-5 py-2 rounded-lg text-sm font-medium hover:bg-[#d94f08] transition"
+              style={{ fontFamily: "montserratMedium" }}
+            >
+              Book Now
+            </Link>
           )}
         </div>
       </div>

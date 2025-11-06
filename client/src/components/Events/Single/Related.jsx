@@ -5,15 +5,8 @@ import { useEvent } from "../context/EventContext";
 import { FaArrowRight } from "react-icons/fa";
 import Event from "./Event";
 
-const Related = () => {
-  const { related, getRelated } = useEvent();
-  const { name } = useParams();
-
-  useEffect(() => {
-    getRelated(name);
-  }, [name]);
-
-  if (related.loading) {
+const Related = ({ related, isRelatedError }) => {
+  if (isRelatedError) {
     return (
       <div className="w-full flex flex-col space-y-5">
         <p
@@ -22,7 +15,7 @@ const Related = () => {
         >
           Related Posts
         </p>
-        <Loader color="#8A9AEA" />
+        <p>Oops! Error occurred</p>
       </div>
     );
   }
@@ -41,7 +34,7 @@ const Related = () => {
           gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
         }}
       >
-        {related.data.map((item) => (
+        {related?.map((item) => (
           <Event key={item.name} {...item} />
         ))}
 

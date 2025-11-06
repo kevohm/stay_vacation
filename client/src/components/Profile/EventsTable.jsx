@@ -36,7 +36,7 @@ const EventsTable = () => {
   }, [page.current]);
 
   return (
-    <div className="h-max order-3 md:order-4 p-5">
+    <div className="h-max w-full bg-white rounded-lg shadow-sm order-3 md:order-4 p-5">
       {/* Header */}
       <div className="flex items-center justify-between w-full">
         <header

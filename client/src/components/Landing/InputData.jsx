@@ -32,10 +32,18 @@ const InputData = () => {
       search: body.city,
       category: "",
       price: { min: body.min, max: body.max },
-      validity: body.date,
-      expired: false,
+      // validity: body.date,
+      // expired: false,
     });
-    navigate("/events");
+    const queryParams = new URLSearchParams({
+      search: body.city,
+      date: body.date,
+      min: body.min,
+      max: body.max,
+    }).toString();
+
+    // Navigate to /events with query string
+    navigate(`/events?${queryParams}`);
   };
 
   return (

@@ -48,6 +48,7 @@ const createEvent = async (req, res) => {
       "please provide city, country, image, name, price_choices, image, createdAt and description"
     );
   }
+ 
   checkValidity({
     Category: category,
     Image: image,
@@ -88,6 +89,7 @@ const getEvents = async (req, res) => {
   const sortData = {
     [sort || "createdAt"]: arrange || "desc",
   };
+  // console.log(category)
   const currentPage = Number(page) || 1
   const currentLimit = Number(limit) || 5;
   const skip = (currentPage - 1) * currentLimit;
@@ -109,18 +111,18 @@ const getEvents = async (req, res) => {
     const price = { $gte: Number(price_start), $lte: Number(price_end) };
     filter["price_choices.price"] = price
   }
-  if(expiry){
-    const valid = (validity === "lte")?{$lte:expiry}:{$gte:expiry}
-    filter['validity'] = valid
-  }
-  if(date){
-    filter['validity'] = {$gte:date}
-  }
-  if(expiry && date){
-    const valid = (validity === "lte")?{$lte:expiry}:{$gte:expiry}
-    const actual = (validity === "lte")?{$gte:date}:{$lte:date}
-    filter['validity'] = {...valid,...actual}
-  }
+  // if(expiry){
+  //   const valid = (validity === "lte")?{$lte:expiry}:{$gte:expiry}
+  //   filter['validity'] = valid
+  // }
+  // if(date){
+  //   filter['validity'] = {$gte:date}
+  // }
+  // if(expiry && date){
+  //   const valid = (validity === "lte")?{$lte:expiry}:{$gte:expiry}
+  //   const actual = (validity === "lte")?{$gte:date}:{$lte:date}
+  //   filter['validity'] = {...valid,...actual}
+  // }
   if(name){
     filter['name'] = name
   }

@@ -17,7 +17,7 @@ const SingleEvent = ({ grid, event }) => {
       to={`${event.name}`}
       className={`w-full rounded-lg bg-white flex ${
         grid
-          ? "flex-col max-w-none md:max-w-[415px]"
+          ? "flex-col max-w-none"
           : "h-[150px] sm:h-[200px] items-start space-x-2 md:space-x-5"
       }`}
       style={{ boxShadow: cardShadow }}

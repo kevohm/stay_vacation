@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import useFetch from "../../hooks/useFetch";
 import { useGlobal } from "../../context/AppContext";
-import { actions } from "../../context/appActions";
+import { actions } from "../../components/Events/context/EventActions";
+import { useEvent } from "../../components/Events/context/EventContext";
 
 const useGetEvent = ({
   page = 1,
@@ -25,10 +26,9 @@ const useGetEvent = ({
     "updated at": "updatedAt",
   };
 
-  const { dispatch } = useGlobal();
-  const { data, isLoading, isError, error } = useFetch({
-    path: `event/all`,
-    filters: {
+  const { dispatch } = useEvent()
+  const filters = useMemo(
+    () => ({
       page,
       limit,
       sort: mapSort[sort],
@@ -38,8 +38,13 @@ const useGetEvent = ({
       min,
       max,
       category,
-      search
-    },
+      search,
+    }),
+    [page, limit, sort, arrange, validity, expiry, min, max, category, search]
+  );
+  const { data, isLoading, isError, error } = useFetch({
+    path: `event/all`,
+    filters
   });
   useEffect(() => {
     if (data && !isLoading && !isError) {
@@ -48,8 +53,8 @@ const useGetEvent = ({
         type: actions.GET_EVENTS,
         payload: {
           data: events,
-          pages: pages.pages,
-          currentPage: pages.currentPage,
+          pages: pages?.pages ,
+          currentPage: pages?.currentPage ,
         },
       });
     }

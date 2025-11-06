@@ -10,13 +10,15 @@ const Recent = () => {
     getRecent()
   },[])
   if(recent.loading){
-    return <div className='h-max order-4 md:order-3 row-span-2 p-5'>
-    <header className='header'>Recent posts</header>
-    <Loader/>
-  </div>
+    return (
+      <div className="h-max  w-full shadow-sm bg-white order-4 md:order-3 row-span-2 p-5">
+        <header className="header">Recent posts</header>
+        <Loader />
+      </div>
+    );
   }
   return (
-    <div className="h-max order-4 md:order-3 row-span-2 p-5">
+    <div className="h-max rounded-lg shadow-sm bg-white order-4 md:order-3 row-span-2 p-5">
       <header className="header">Recent posts</header>
       <div className="flex flex-col space-y-5">
         {recent.data.map((item) => (

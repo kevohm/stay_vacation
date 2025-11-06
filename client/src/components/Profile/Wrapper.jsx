@@ -14,7 +14,7 @@ const Wrapper = () => {
     return <Navigate to="/events"/>
   }
   return (
-    <div className="w-full flex flex-col space-y-5 md:space-y-0 md:grid md:justify-items-start md:grid-cols-[55%, 45%] md:grid-rows-[7rem, 11rem ,1fr] md:gap-5">
+    <div className="w-full flex flex-col space-y-5 md:space-y-0 md:grid md:justify-items-start md:grid-cols-[55%_45%] md:grid-rows-[7rem_11rem_1fr] md:gap-5">
       <Search />
       <UserDetails />
       <EventsTable />

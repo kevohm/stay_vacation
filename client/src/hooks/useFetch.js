@@ -1,55 +1,50 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useGlobal } from "../context/AppContext";
-import axios from "axios";
-import { useState } from "react";
 
-/**
- * Custom hook for performing a mutation request using Axios.
- *
- * @param {Object} params - Mutation parameters.
- * @param {"get"} params.method - The HTTP method to use.
- * @param {string} [params.path="users/user"] - The API endpoint path.
- * @param {Object} [params.filters] - Query parameters or filters for the request.
- * @param {Object} [params.options] - Additional Axios request options.
- *
- * @returns {{
- *   data: any,
- *   error: any,
- *   isError: boolean,
- *   isLoading: boolean
- * }} Mutation result state.
- */
-
-const useFetch = ({ path = `users/user`, filters, options }) => {
+const useFetch = ({ path, filters, options, staleTime = 0 }) => {
   const { client } = useGlobal();
+
+  const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState(null);
-  const [data, setData] = useState(null);
 
-  const fetcher = async () => {
-    setIsLoading(true);
-    setIsError(false);
+  const cacheRef = useRef(new Map()); // cache per queryKey
+  const timerRef = useRef(null);
+
+  const queryKey = JSON.stringify({ path, filters });
+
+  const fetcher = async (force = false) => {
+    const cached = cacheRef.current.get(queryKey);
+    const now = Date.now();
+
+    // 🕒 Use cached data if it's still fresh
+    if (!force && cached && now - cached.timestamp < staleTime) {
+      setData(cached.data);
+      return;
+    }
+
     try {
-      const { data } = await client.get?.(path, {
-        ...options,
-        params: filters,
-      });
+      setIsLoading(true);
+      setIsError(false);
+      const { data } = await client.get(path, { ...options, params: filters });
       setData(data);
-    } catch (error) {
-      setError(error);
+      cacheRef.current.set(queryKey, { data, timestamp: now });
+    } catch (err) {
       setIsError(true);
+      setError(err);
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Stringify filters to compare by value instead of reference
-  useEffect(() => {
-    fetcher();
-  }, [path, JSON.stringify(filters)]); // 👈 triggers only if filters actually change
+  // ✅ Fetch when path or filters change
+  // useEffect(() => {
+  //   if (path) fetcher();
+  //   return () => clearTimeout(timerRef.current);
+  // }, [queryKey]);
 
-  return { data, error, isError, isLoading, refetch: fetcher };
+  return { data, isLoading, isError, error, refetch: () => fetcher(true) };
 };
 
 export default useFetch;
